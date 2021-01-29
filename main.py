@@ -8,11 +8,11 @@ from notification.core import NotifierBase
 from notification.pushover import PONotifier
 from utility.core import (
     MonitoredContent,
+    cache_mc,
     get_cached_mc,
     get_config,
     get_pushover_creds,
     loop_task,
-    cache_mc,
 )
 
 logging.basicConfig(level=logging.INFO)
