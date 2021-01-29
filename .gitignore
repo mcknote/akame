@@ -1,6 +1,7 @@
 # Local cache
 .DS_Store
 .vscode/
+cache/*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
