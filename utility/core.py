@@ -1,7 +1,6 @@
 import json
 import logging
 import os
-import re
 import sys
 from datetime import datetime
 from time import sleep
@@ -76,18 +75,21 @@ class MonitoredContent:
             content={self.content})"
 
 
-def compare_mc_with_cache(monitored_content: MonitoredContent) -> int:
+def get_cached_mc() -> Union[MonitoredContent, None]:
     # only store the latest cache
     path_cache = os.path.join(sys.path[0], "cache", "monitored_content")
 
     if not os.path.exists(path_cache):
         logger.info("Caching the MC for the first run")
-        status_code = -1
+        mc_0: Union[MonitoredContent, None] = None
     else:
         logger.info("Comparing the MCs")
-        monitored_content_0 = load(path_cache)
-        is_unchanged = monitored_content_0.content == monitored_content.content
-        status_code = 0 if is_unchanged else 1
+        mc_0 = load(path_cache)
 
-    dump(monitored_content, path_cache)
-    return status_code
+    return mc_0
+
+
+def cache_mc(mc: MonitoredContent) -> None:
+    # only store the latest cache
+    path_cache = os.path.join(sys.path[0], "cache", "monitored_content")
+    dump(mc, path_cache)
