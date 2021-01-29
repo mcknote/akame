@@ -1,12 +1,11 @@
 import json
 import logging
 import os
+import pickle
 import sys
 from datetime import datetime
 from time import sleep
 from typing import Any, Callable, Dict, Tuple, Union
-
-from joblib import dump, load
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -83,7 +82,8 @@ def get_cached_mc() -> Union[MonitoredContent, None]:
         mc_0: Union[MonitoredContent, None] = None
     else:
         logger.info("Comparing the MCs")
-        mc_0 = load(path_cache)
+        with open(path_cache, "rb") as f:
+            mc_0 = pickle.load(f)
 
     return mc_0
 
@@ -91,4 +91,5 @@ def get_cached_mc() -> Union[MonitoredContent, None]:
 def cache_mc(mc: MonitoredContent) -> None:
     # only store the latest cache
     path_cache = os.path.join(sys.path[0], "cache", "monitored_content")
-    dump(mc, path_cache)
+    with open(path_cache, "wb") as f:
+        pickle.dump(mc, f)
