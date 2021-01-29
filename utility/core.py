@@ -7,7 +7,6 @@ from time import sleep
 from typing import Any, Callable, Dict, Tuple, Union
 
 from joblib import dump, load
-from numpy import Inf
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
