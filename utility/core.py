@@ -5,7 +5,7 @@ import re
 import sys
 from datetime import datetime
 from time import sleep
-from typing import Any, Dict, Tuple, Union
+from typing import Any, Callable, Dict, Tuple, Union
 
 from joblib import dump, load
 from numpy import Inf
@@ -33,7 +33,16 @@ def get_pushover_creds() -> Tuple[str, str]:
     return (os.environ["PUSHOVER_TOKEN"], os.environ["PUSHOVER_USERKEY"])
 
 
-def loop_task(*ignore, seconds: int, max_rounds: int):
+def loop_task(*ignore, seconds: int, max_rounds: int) -> Callable:
+    """Function that decorates function with looping
+
+    Args:
+        seconds (int): interval in seconds
+        max_rounds (int): maximum rounds to run
+
+    Returns:
+        Callable: decorated function
+    """
     logger.info(f"Looping the task every {seconds} seconds until {max_rounds} rounds")
 
     def decorator(function):
@@ -54,8 +63,8 @@ class MonitoredContent:
     """Class that structures monitored content
 
     Args:
-            content (Union[Any, None], optional):
-                Any monitored content. Defaults to None.
+        content (Union[Any, None], optional):
+            Any monitored content. Defaults to None.
     """
 
     def __init__(self, content: Union[Any, None] = None):
