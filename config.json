@@ -1,7 +1,7 @@
 {
-    "task_name": "PCHome_PS5",
-    "target_url": "https://24h.pchome.com.tw/prod/DGBJIU-A900B0KX8",
-    "exset_id": "PCHOME_24H",
+    "task_name": "Akame Reservation",
+    "target_url": "https://inline.app/api/booking-capacities?companyId=-LzoDiSgrwoz1PHLtibz%3Ainline-live-1&branchId=-LzoDjNruO8RBsVIMQ9W",
+    "exset_id": "BASIC",
     "loop_seconds": 30,
     "loop_max_rounds": 86400
 }
