@@ -51,12 +51,20 @@ def loop_task(*ignore, seconds: int, max_rounds: int):
 
 
 class MonitoredContent:
+    """Class that structures monitored content
+
+    Args:
+            content (Union[Any, None], optional):
+                Any monitored content. Defaults to None.
+    """
+
     def __init__(self, content: Union[Any, None] = None):
         self.content = content
         self.timestamp = datetime.now()
 
     def __repr__(self) -> str:
-        return f"MonitoredContent(timestamp={self.timestamp}, content={self.content})"
+        return f"MonitoredContent(timestamp={self.timestamp.__repr__()}, \
+            content={self.content})"
 
 
 def compare_mc_with_cache(monitored_content: MonitoredContent) -> int:
