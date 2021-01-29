@@ -17,10 +17,13 @@ class ComparerBase:
         self.compare_content()
 
         if self.comparison_result is None:
+            logger.info("No cached content")
             status_code = -1
         elif not self.comparison_result:
+            logger.info("Nothing changed")
             status_code = 0
         else:
+            logger.info("Changes detected")
             status_code = 1
 
         return status_code
