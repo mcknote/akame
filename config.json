@@ -1,0 +1,7 @@
+{
+    "task_name": "PCHome_PS5",
+    "target_url": "https://24h.pchome.com.tw/prod/DGBJIU-A900B0KX8",
+    "exset_id": "PCHOME_24H",
+    "loop_seconds": 60,
+    "loop_max_rounds": 43200
+}
