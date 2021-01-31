@@ -88,7 +88,7 @@ def run_task(
     Args:
         task_name (str): Name of the task
         target_url (str): Target URL to monitor
-        exset_name (str): Name of the extractor set from `extraction.sets`
+        exset_name (str): Name of the extraction set from `extraction.sets`
         loop_seconds (int): Interval in seconds between all rounds
         loop_max_rounds (int): Maximum number of rounds to monitor
         notify_creds (Dict[str, Any]): Credential for notification programs

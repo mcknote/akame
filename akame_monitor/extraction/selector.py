@@ -14,12 +14,12 @@ def get_url_and_content_extractors(exset_name: str) -> ExtractorSet:
     """Function that returns the URL and content extractors
 
     Args:
-        exset_name (str): Name of the extractor set
+        exset_name (str): Name of the extraction set
 
     Returns:
         ExtractorSet: Tuple with URL and content extractors
     """
-    logger.info(f"Loading extractor set: '{exset_name}'")
+    logger.info(f"Loading extraction set: '{exset_name}'")
     package_name = "akame_monitor.extraction.sets"
     attrname_url = "URLExtractor"
     attrname_con = "ContentExtractor"
