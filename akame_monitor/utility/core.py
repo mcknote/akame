@@ -27,9 +27,9 @@ def loop_task(*ignore, seconds: int, max_rounds: int) -> Callable:
         def wrapper(*args, **kwargs):
             round = 0
             while round < max_rounds:
+                start_time = time.time()
                 round += 1
                 logger.info(f"Going round {round}")
-                start_time = time.time()
                 function(*args, **kwargs)
                 used_interval = (time.time() - start_time) % seconds
                 time.sleep(seconds - used_interval)
