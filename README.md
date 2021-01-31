@@ -28,13 +28,13 @@ git clone https://github.com/mcknote/AkameMonitor.git
 
 Follow these steps to use Akame Monitor:
 
-1. Edit `AkameMonitor/config.json` with the monitoring task information
+1. Edit `akame_monitor/config.json` with the monitoring task information
    - `task_name`: The name of this monitoring task; this will appear in the console logs and notification programs.
    - `target_url`: The URL to be monitored, e.g. an API endpoint or a webpage.
    - `exset_id`: The ID of Extractor Set, which handles both the URL and content extraction. Default to `BASIC`. See [Extractor Sets Available](##extractor-sets-available) for more details.
    - `loop_seconds`: The interval in seconds between all monitoring rounds. Default to 30 seconds.
    - `loop_max_rounds`: The maximum number of rounds to monitor. Default to 86400 rounds (so with 30 seceonds, this would make a one-month monitoring task).
-2. Run `AkameMonitor/main.py` while keeping the process alive throughout the monitoring cycle
+2. Run `akame_monitor/main.py` while keeping the process alive throughout the monitoring cycle
 
 ## Extractor Sets Available
 
