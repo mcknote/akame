@@ -39,4 +39,4 @@ Follow these steps to use Akame Monitor:
 
 | ID | Description | URL Base | Content Extractor |
 | --- | --- | --- | --- |
-| `BASIC` | The basic extractor set that fetches content directly from only the URL given. In technical terms, this would almost equate to a direct `request.get(target_url)` call. | `core.URLBase` | `basic.BasicExtractor` |
+| `BASIC` | The basic extractor set that fetches content directly from only the URL given. This set almost equates to a `request.get(target_url)` call. | `core.URLBase` | `basic.BasicExtractor` |
