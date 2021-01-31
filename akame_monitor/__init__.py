@@ -78,7 +78,7 @@ class Monitor:
 def run_task(
     task_name: str,
     target_url: str,
-    exset_id: str,
+    exset_name: str,
     loop_seconds: int,
     loop_max_rounds: int,
     notify_creds: Dict[str, Any],
@@ -88,16 +88,16 @@ def run_task(
     Args:
         task_name (str): Name of the task
         target_url (str): Target URL to monitor
-        exset_id (str): ID of extractor set defined in extraction.selector
+        exset_name (str): Name of the extractor set from `extraction.sets`
         loop_seconds (int): Interval in seconds between all rounds
         loop_max_rounds (int): Maximum number of rounds to monitor
         notify_creds (Dict[str, Any]): Credential for notification programs
     """
     logger.info(f"Initializing the monitoring task: '{task_name}'")
 
-    url_extractor, content_extractor = get_url_and_content_extractors(exset_id)
+    url_extractor, content_extractor = get_url_and_content_extractors(exset_name)
 
-    # initiate url_extractor, extractor, and notifier
+    # initiate url_extractor, content_extractor, notifier
     url_extractor = url_extractor(target_url=target_url)
     content_extractor = content_extractor(url_extractor=url_extractor)
     comparer = PushoverComparer(target_url=target_url)

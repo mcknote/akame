@@ -2,8 +2,8 @@ import logging
 import re
 
 import requests
+from akame_monitor.extraction.core import URLBase, URLExtractorType
 
-from .core import URLBase, URLExtractorType
 from .basic import ContentExtractor as BasicContentExtractor
 
 logging.basicConfig(level=logging.INFO)
