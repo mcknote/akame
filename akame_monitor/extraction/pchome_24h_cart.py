@@ -1,5 +1,6 @@
 import logging
 import re
+from typing import Type
 
 import requests
 
@@ -38,15 +39,17 @@ class URLExtractor(URLBase):
 
 
 class ContentExtractor(StaticExtractor):
-    def __init__(self, url_extractor: URLExtractor):
+    def __init__(self, url_extractor: Type[URLBase]):
         super().__init__(url_extractor)
 
     def load_request_headers(self):
         self.request_headers = {
             "authority": "ecapi.pchome.com.tw",
-            "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 11_1_0) \
-                AppleWebKit/537.36 (KHTML, like Gecko) \
-                    Chrome/88.0.4324.96 Safari/537.36",
+            "user-agent": (
+                "Mozilla/5.0 (Macintosh; Intel Mac OS X 11_1_0) "
+                "AppleWebKit/537.36 (KHTML, like Gecko) "
+                "Chrome/88.0.4324.96 Safari/537.36"
+            ),
             "accept": "*/*",
             "sec-fetch-site": "same-site",
             "sec-fetch-mode": "no-cors",

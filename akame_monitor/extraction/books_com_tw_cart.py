@@ -1,5 +1,6 @@
 import logging
 import re
+from typing import Type
 
 import requests
 
@@ -34,7 +35,7 @@ class URLExtractor(URLBase):
 
 
 class ContentExtractor(StaticExtractor):
-    def __init__(self, url_extractor: URLExtractor):
+    def __init__(self, url_extractor: Type[URLBase]):
         super().__init__(url_extractor)
 
     def load_request_headers(self):
@@ -42,8 +43,11 @@ class ContentExtractor(StaticExtractor):
             "Host": "www.books.com.tw",
             "Connection": "keep-alive",
             "Accept": "text/html, */*; q=0.01",
-            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 11_1_0) \
-                AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.96 Safari/537.36",
+            "User-Agent": (
+                "Mozilla/5.0 (Macintosh; Intel Mac OS X 11_1_0) "
+                "AppleWebKit/537.36 (KHTML, like Gecko) "
+                "Chrome/88.0.4324.96 Safari/537.36"
+            ),
             "X-Requested-With": "XMLHttpRequest",
             "Sec-Fetch-Site": "same-origin",
             "Sec-Fetch-Mode": "cors",
