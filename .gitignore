@@ -1,7 +1,7 @@
 # Local cache
 .DS_Store
 .vscode/
-akame_monitor/cache/monitored_content
+akame_monitor/cache/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
