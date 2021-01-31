@@ -78,9 +78,9 @@ class BasicComparer(ComparerBase):
         parts_changed_0: List[str],
         parts_changed_1: List[str],
     ) -> str:
+        format_unchanged = "<font>{part_unchanged}</font>"
         format_template = (
-            "<font>{part_unchanged}</font>"
-            '<font color="green">{part_changed_1}</font>'
+            format_unchanged + '<font color="green">{part_changed_1}</font>'
             '<font color="grey"><strike>{part_changed_0}</strike></font>'
         )
 
@@ -91,7 +91,7 @@ class BasicComparer(ComparerBase):
             for pu, pc0, pc1 in zip(
                 parts_unchanged[:-1], parts_changed_0, parts_changed_1
             )
-        ] + [parts_unchanged[-1]]
+        ] + [format_unchanged.format(part_unchanged=parts_unchanged[-1])]
 
         return "".join(formatted_strings)
 

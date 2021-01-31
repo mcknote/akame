@@ -83,6 +83,7 @@ def run_task(
         loop_max_rounds (int): Maximum number of rounds to monitor
         notify_creds (Dict[str, Any]): Credential for notification programs
     """
+    logger.info(f"Initializing the monitoring task: '{task_name}'")
 
     url_extractor, content_extractor = get_url_and_content_extractors(exset_id)
 
