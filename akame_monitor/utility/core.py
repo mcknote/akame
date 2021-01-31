@@ -1,9 +1,9 @@
-import json
 import logging
 import os
 import pickle
 import sys
 from datetime import datetime
+from shutil import rmtree
 from time import sleep
 from typing import Any, Callable, Union
 
@@ -50,16 +50,23 @@ class MonitoredContent:
         self.timestamp = datetime.now()
 
     def __repr__(self) -> str:
-        return f"MonitoredContent(timestamp={self.timestamp.__repr__()}, \
-            content={self.content})"
+        return (
+            f"MonitoredContent(timestamp={self.timestamp.__repr__()}, "
+            "content={self.content})"
+        )
 
 
-def get_cached_mc() -> Union[MonitoredContent, None]:
-    # only store the latest cache
-    path_cache = os.path.join(
-        sys.path[0], "akame_monitor", "cache", "monitored_content"
-    )
+path_cache_folder = os.path.join(sys.path[0], "akame_monitor", "cache")
+path_cache = os.path.join(path_cache_folder, "monitored_content")
 
+
+def reset_cached_folder(path_cache_folder: str = path_cache_folder) -> None:
+    if os.path.exists(path_cache_folder):
+        rmtree(path_cache_folder)
+    os.mkdir(path_cache_folder)
+
+
+def get_cached_mc(path_cache: str = path_cache) -> Union[MonitoredContent, None]:
     if not os.path.exists(path_cache):
         logger.info("Caching the MC for the first run")
         mc_0: Union[MonitoredContent, None] = None
@@ -71,10 +78,6 @@ def get_cached_mc() -> Union[MonitoredContent, None]:
     return mc_0
 
 
-def cache_mc(mc: MonitoredContent) -> None:
-    # only store the latest cache
-    path_cache = os.path.join(
-        sys.path[0], "akame_monitor", "cache", "monitored_content"
-    )
+def cache_mc(mc: MonitoredContent, path_cache: str = path_cache) -> None:
     with open(path_cache, "wb") as f:
         pickle.dump(mc, f)

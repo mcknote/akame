@@ -2,7 +2,7 @@ import logging
 from typing import Any, Dict
 
 from .comparison.basic import BasicComparer
-from .extraction.core import ExtractorBase, URLBase
+from .extraction.core import ExtractorBase
 from .extraction.selector import get_url_extractor
 from .notification.core import NotifierBase
 from .notification.pushover import PONotifier
@@ -11,6 +11,7 @@ from .utility.core import (
     cache_mc,
     get_cached_mc,
     loop_task,
+    reset_cached_folder,
 )
 
 logging.basicConfig(level=logging.INFO)
@@ -29,6 +30,7 @@ class Monitor:
         self.notifier = notifier
         self.loop_seconds = loop_seconds
         self.loop_max_rounds = loop_max_rounds
+        reset_cached_folder()
 
     def get_monitored_content(self) -> MonitoredContent:
         response = self.extractor.main()
@@ -42,7 +44,7 @@ class Monitor:
         comparer = BasicComparer(content_0=content_0, content_1=content_1)
         return comparer.main()
 
-    def main(self):
+    def main(self) -> None:
         def task():
             monitored_content = self.get_monitored_content()
             status_code = self.compare_mirrored_content(monitored_content)
@@ -61,7 +63,17 @@ def run_task(
     loop_seconds: int,
     loop_max_rounds: int,
     notify_creds: Dict[str, Any],
-):
+) -> None:
+    """Function that runs the monitoring task
+
+    Args:
+        task_name (str): Name of the task
+        target_url (str): Target URL to monitor
+        exset_id (str): ID of extractor set defined in extraction.selector
+        loop_seconds (int): Interval in seconds between all rounds
+        loop_max_rounds (int): Maximum number of rounds to monitor
+        notify_creds (Dict[str, Any]): Credential for notification programs
+    """
 
     url_base, extractor = get_url_extractor(exset_id)
 
