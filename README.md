@@ -52,7 +52,7 @@ Parameters for `akame_monitor.run_task`:
 
 - `task_name`: The name of this monitoring task; this will appear in the console logs and notification programs.
 - `target_url`: The URL to be monitored, e.g. an API endpoint or a webpage.
-- `exset_name`: The ID of Extractor Set, which handles both the URL and content extraction. Default to `basic`. See [Extractor Sets Available](##extractor-sets-available) for more details.
+- `exset_name`: The ID of Extractor Set, which handles both the URL and content extraction. Default to `basic`. See [Extractor Sets Available](#extractor-sets-available) for more details.
 - `loop_seconds`: The interval in seconds between all monitoring rounds. Default to `30` seconds.
 - `loop_max_rounds`: The maximum number of rounds to monitor. Default to `86400` rounds (so with 30 seceonds, this would make a one-month monitoring task).
 - `notify_creds`: The crentials to be used in the notifier, which is default to Pushover and requires two attributes: `token` and `user_key`.
