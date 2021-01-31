@@ -1,7 +1,7 @@
 import logging
 from typing import Any, Dict, List
 
-from .comparison.basic import BasicComparer
+from .comparison.pushover import PushoverComparer
 from .comparison.core import ComparerType
 from .extraction.core import ContentExtractorType
 from .extraction.selector import get_url_and_content_extractors
@@ -100,7 +100,7 @@ def run_task(
     # initiate url_extractor, extractor, and notifier
     url_extractor = url_extractor(target_url=target_url)
     content_extractor = content_extractor(url_extractor=url_extractor)
-    comparer = BasicComparer()
+    comparer = PushoverComparer(target_url=target_url)
     notifiers = [
         BasicNotifier(task_name),
         PushoverNotifier(task_name, notify_creds=notify_creds),
