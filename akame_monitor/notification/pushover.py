@@ -9,7 +9,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
-class PONotifier(NotifierBase):
+class Notifier(NotifierBase):
     def __init__(self, task_name: str, notify_creds: Dict[str, Any]) -> None:
         super().__init__(task_name)
         self.token = notify_creds["token"]

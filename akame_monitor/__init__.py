@@ -5,7 +5,7 @@ from .comparison.basic import BasicComparer
 from .extraction.core import ExtractorBase
 from .extraction.selector import get_url_and_content_extractors
 from .notification.core import NotifierBase
-from .notification.pushover import PONotifier
+from .notification.pushover import Notifier
 from .utility.core import (
     MonitoredContent,
     cache_mc,
@@ -80,7 +80,7 @@ def run_task(
     # initiate url_extractor, extractor, and notifier
     url_extractor = url_extractor(target_url=target_url)
     content_extractor = content_extractor(url_extractor=url_extractor)
-    notifier = PONotifier(task_name, notify_creds=notify_creds)
+    notifier = Notifier(task_name, notify_creds=notify_creds)
 
     monitor = Monitor(
         content_extractor=content_extractor,
