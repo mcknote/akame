@@ -1,4 +1,5 @@
 import logging
+from typing import Type
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -19,10 +20,10 @@ class ExtractorBase:
 
 
 class StaticExtractor(ExtractorBase):
-    def __init__(self, url_extractor):
+    def __init__(self, url_extractor: Type[URLBase]):
         super().__init__(url_extractor)
 
 
 class DynamicExtractor(ExtractorBase):
-    def __init__(self, url_extractor):
+    def __init__(self, url_extractor: Type[URLBase]):
         super().__init__(url_extractor)
