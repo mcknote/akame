@@ -13,6 +13,7 @@ extractor_catalog: Dict[str, str] = {
     "BASIC": "basic",
     "PCHOME_24H_CART": "pchome_24h_cart",
     "BOOKS_COM_TW_CART": "books_com_tw_cart",
+    "INLINE_APP": "inline_app",
 }
 
 

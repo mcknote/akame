@@ -17,8 +17,9 @@ class URLBase:
     """
 
     # for mypy checks
-    url_cart_api: str
     url_referrer: str
+    url_cart_api: str
+    url_api_endpoint: str
 
     def __init__(self, target_url: str) -> None:
         logger.info(f"Loading target url: '{target_url}'")
@@ -36,8 +37,7 @@ class ExtractorBase:
         self.url_extractor = url_extractor
 
     def main(self) -> Any:
-        """Function that extracts the target content
-        """
+        """Function that extracts the target content"""
         pass
 
 

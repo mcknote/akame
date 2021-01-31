@@ -14,7 +14,6 @@ class URLExtractor(URLBase):
         super().__init__(target_url)
 
         self.clean_up_target_url()
-        self.clean_up_target_url()
         self.load_url_referrer()
         self.load_url_cart_api()
 
