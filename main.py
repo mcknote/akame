@@ -2,6 +2,7 @@ from os import environ
 
 from akame_monitor import run_task
 
+# credentials specific to pushover
 pushover_creds = {
     "token": environ["PUSHOVER_TOKEN"],
     "user_key": environ["PUSHOVER_USERKEY"],
