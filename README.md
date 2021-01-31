@@ -34,7 +34,7 @@ Follow these steps to use Akame Monitor:
    - `exset_id`: The ID of Extractor Set, which handles both the URL and content extraction. Default to `BASIC`. See [Extractor Sets Available](##extractor-sets-available) for more details.
    - `loop_seconds`: The interval in seconds between all monitoring rounds. Default to 30 seconds.
    - `loop_max_rounds`: The maximum number of rounds to monitor. Default to 86400 rounds (so with 30 seceonds, this would make a one-month monitoring task).
-2. Run `AkameMonitor/main.py`
+2. Run `AkameMonitor/main.py` while keeping the process alive throughout the monitoring cycle
 
 ## Extractor Sets Available
 
