@@ -14,8 +14,8 @@ class URLExtractor(URLBase):
 
 
 class ContentExtractor(StaticExtractor):
-    def __init__(self, url_base: URLBase):
-        self.url_base = url_base
+    def __init__(self, url_extractor: URLExtractor):
+        self.url_extractor = url_extractor
 
     def load_request_headers(self):
         self.request_headers = {
@@ -26,7 +26,7 @@ class ContentExtractor(StaticExtractor):
         }
 
     def get_response(self) -> requests.Response:
-        return requests.get(self.url_base.target_url, headers=self.request_headers)
+        return requests.get(self.url_extractor.target_url, headers=self.request_headers)
 
     def main(self):
         self.load_request_headers()

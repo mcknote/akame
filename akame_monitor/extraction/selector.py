@@ -1,39 +1,25 @@
+import importlib
 import logging
-from typing import Any, Callable, Dict, Tuple
-
-from .core import ExtractorBase, URLBase
+from typing import Any, Dict, Tuple
 
 ExtractorSet = Tuple[Any, Any]
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-
-def get_url_extractor_basic() -> ExtractorSet:
-    from .basic import ContentExtractor, URLExtractor
-
-    return (URLExtractor, ContentExtractor)
-
-
-def get_url_extractor_pchome_24h() -> ExtractorSet:
-    from .pchome_24h_cart import ContentExtractor, URLExtractor
-
-    return (URLExtractor, ContentExtractor)
-
-
-def get_url_extractor_books_com_tw() -> ExtractorSet:
-    from .books_com_tw_cart import ContentExtractor, URLExtractor
-
-    return (URLExtractor, ContentExtractor)
-
-
-extractor_catalog: Dict[str, Callable] = {
-    "BASIC": get_url_extractor_basic,
-    "PCHOME_24H": get_url_extractor_pchome_24h,
-    "BOOKS_COM_TW": get_url_extractor_books_com_tw,
+extractor_catalog: Dict[str, str] = {
+    "BASIC": "basic",
+    "PCHOME_24H_CART": "pchome_24h_cart",
+    "BOOKS_COM_TW_CART": "books_com_tw_cart",
 }
 
 
-def get_url_extractor(exset_id: str) -> ExtractorSet:
+def get_url_and_content_extractors(exset_id: str) -> ExtractorSet:
     logger.info(f"Loading Extractor Set under ID: '{exset_id}'")
-    return extractor_catalog[exset_id]()
+    module_name = extractor_catalog[exset_id]
+
+    module = importlib.import_module(
+        name=f".{module_name}", package="akame_monitor.extraction"
+    )
+
+    return (getattr(module, "URLExtractor"), getattr(module, "ContentExtractor"))

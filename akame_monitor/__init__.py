@@ -3,7 +3,7 @@ from typing import Any, Dict
 
 from .comparison.basic import BasicComparer
 from .extraction.core import ExtractorBase
-from .extraction.selector import get_url_extractor
+from .extraction.selector import get_url_and_content_extractors
 from .notification.core import NotifierBase
 from .notification.pushover import PONotifier
 from .utility.core import (
@@ -21,19 +21,19 @@ logger = logging.getLogger(__name__)
 class Monitor:
     def __init__(
         self,
-        extractor: ExtractorBase,
+        content_extractor: ExtractorBase,
         notifier: NotifierBase,
         loop_seconds: int,
         loop_max_rounds: int,
     ):
-        self.extractor = extractor
+        self.content_extractor = content_extractor
         self.notifier = notifier
         self.loop_seconds = loop_seconds
         self.loop_max_rounds = loop_max_rounds
         reset_cached_folder()
 
     def get_monitored_content(self) -> MonitoredContent:
-        response = self.extractor.main()
+        response = self.content_extractor.main()
         return MonitoredContent(response.text)
 
     def compare_mirrored_content(self, mc_1: MonitoredContent) -> int:
@@ -75,15 +75,15 @@ def run_task(
         notify_creds (Dict[str, Any]): Credential for notification programs
     """
 
-    url_base, extractor = get_url_extractor(exset_id)
+    url_extractor, content_extractor = get_url_and_content_extractors(exset_id)
 
-    # initiate url_base, extractor, and notifier
-    url_base = url_base(target_url=target_url)
-    extractor = extractor(url_base=url_base)
+    # initiate url_extractor, extractor, and notifier
+    url_extractor = url_extractor(target_url=target_url)
+    content_extractor = content_extractor(url_extractor=url_extractor)
     notifier = PONotifier(task_name, notify_creds=notify_creds)
 
     monitor = Monitor(
-        extractor=extractor,
+        content_extractor=content_extractor,
         notifier=notifier,
         loop_seconds=loop_seconds,
         loop_max_rounds=loop_max_rounds,

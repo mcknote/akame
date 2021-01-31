@@ -11,18 +11,18 @@ class URLBase:
 
 
 class ExtractorBase:
-    def __init__(self, url_base: URLBase):
-        self.url_base = url_base
+    def __init__(self, url_extractor):
+        self.url_extractor = url_extractor
 
     def main(self):
         pass
 
 
 class StaticExtractor(ExtractorBase):
-    def __init__(self, url_base: URLBase):
-        super().__init__(url_base)
+    def __init__(self, url_extractor):
+        super().__init__(url_extractor)
 
 
 class DynamicExtractor(ExtractorBase):
-    def __init__(self, url_base: URLBase):
-        super().__init__(url_base)
+    def __init__(self, url_extractor):
+        super().__init__(url_extractor)

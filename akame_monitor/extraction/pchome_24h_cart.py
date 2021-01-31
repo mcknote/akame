@@ -38,8 +38,8 @@ class URLExtractor(URLBase):
 
 
 class ContentExtractor(StaticExtractor):
-    def __init__(self, url_base: URLExtractor):
-        super().__init__(url_base)
+    def __init__(self, url_extractor: URLExtractor):
+        super().__init__(url_extractor)
 
     def load_request_headers(self):
         self.request_headers = {
@@ -51,12 +51,14 @@ class ContentExtractor(StaticExtractor):
             "sec-fetch-site": "same-site",
             "sec-fetch-mode": "no-cors",
             "sec-fetch-dest": "script",
-            "referer": self.url_base.url_referrer,
+            "referer": self.url_extractor.url_referrer,
             "accept-language": "en,zh-TW;q=0.9,zh-CN;q=0.8,zh;q=0.7,ja;q=0.6",
         }
 
     def get_response(self) -> requests.Response:
-        return requests.get(self.url_base.url_cart_api, headers=self.request_headers)
+        return requests.get(
+            self.url_extractor.url_cart_api, headers=self.request_headers
+        )
 
     def main(self):
         self.load_request_headers()
