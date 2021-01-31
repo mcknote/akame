@@ -25,7 +25,7 @@ $ git clone https://github.com/mcknote/AkameMonitor.git
 
 ## Usage
 
-```python3
+```python
 from os import environ
 
 from akame_monitor import run_task
