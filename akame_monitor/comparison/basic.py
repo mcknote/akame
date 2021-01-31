@@ -31,12 +31,11 @@ class BasicComparer(ComparerBase):
         matched_end = [(getattr(match, x) + match.size) for match in matches]
 
         matched_positions = [
-            (start, end) for start, end in zip(matched_start, matched_end)
+            (start, end + 1) for start, end in zip(matched_start, matched_end)
         ]
 
         changed_positions = [
-            (end + 1, start - 1)
-            for end, start in zip(matched_end[:-1], matched_start[1:])
+            (end + 1, start) for end, start in zip(matched_end[:-1], matched_start[1:])
         ]
 
         return {"matched": matched_positions, "changed": changed_positions}

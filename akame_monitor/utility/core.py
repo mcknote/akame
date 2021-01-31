@@ -2,9 +2,9 @@ import logging
 import os
 import pickle
 import sys
+import time
 from datetime import datetime
 from shutil import rmtree
-from time import sleep
 from typing import Any, Callable, Union
 
 logging.basicConfig(level=logging.INFO)
@@ -29,8 +29,10 @@ def loop_task(*ignore, seconds: int, max_rounds: int) -> Callable:
             while round < max_rounds:
                 round += 1
                 logger.info(f"Going round {round}")
+                start_time = time.time()
                 function(*args, **kwargs)
-                sleep(seconds)
+                used_interval = (time.time() - start_time) % seconds
+                time.sleep(seconds - used_interval)
 
         return wrapper
 
