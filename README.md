@@ -28,7 +28,7 @@ git clone https://github.com/mcknote/AkameMonitor.git
 
 Follow these steps to use Akame Monitor:
 
-1. Modify `AkameMonitor/config.json`
+1. Edit `AkameMonitor/config.json`
    1. `task_name`: The name of this monitoring task; this will appear in the console logs and notification programs.
    2. `target_url`: The URL to be monitored, e.g. an API endpoint or a webpage.
    3. `exset_id`: The ID of Extractor Set, which handles both the URL and content extraction. Default to `BASIC`. See [Extractor Sets Available](##extractor-sets-available) for more details.
