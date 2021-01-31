@@ -3,10 +3,11 @@ import logging
 from typing import Any, Dict, Tuple, Type
 from .core import ContentExtractorType, URLExtractorType
 
-ExtractorSet = Tuple[URLExtractorType, ContentExtractorType]
-
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+
+# define types
+ExtractorSet = Tuple[URLExtractorType, ContentExtractorType]
 
 extractor_catalog: Dict[str, str] = {
     "BASIC": "basic",
@@ -16,6 +17,14 @@ extractor_catalog: Dict[str, str] = {
 
 
 def get_url_and_content_extractors(exset_id: str) -> ExtractorSet:
+    """Function that returns the URL and content extractors
+
+    Args:
+        exset_id (str): Extractor ID as defined in `extractor_catalog`
+
+    Returns:
+        ExtractorSet: Tuple with URL and content extractors
+    """
     logger.info(f"Loading Extractor Set under ID: '{exset_id}'")
     module_name = extractor_catalog[exset_id]
     package_name = "akame_monitor.extraction"

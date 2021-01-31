@@ -12,6 +12,14 @@ logger = logging.getLogger(__name__)
 
 
 class PushoverNotifier(NotifierBase):
+    """Class that handles notification through Pushover
+
+    Args:
+        task_name (str): Task name
+        notify_creds (Dict[str, Any]): Pushover credentials
+            Requires two keys: `token` and `user_key`
+    """
+
     def __init__(self, task_name: str, notify_creds: Dict[str, Any]) -> None:
         super().__init__(task_name)
         self.token = notify_creds["token"]

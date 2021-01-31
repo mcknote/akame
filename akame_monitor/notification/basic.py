@@ -9,6 +9,12 @@ logger = logging.getLogger(__name__)
 
 
 class BasicNotifier(NotifierBase):
+    """Class that handles notification through the console
+
+    Args:
+        task_name (str): Task name
+    """
+
     def __init__(self, task_name: str) -> None:
         super().__init__(task_name)
 

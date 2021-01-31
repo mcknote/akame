@@ -5,9 +5,9 @@ from .comparison.basic import BasicComparer
 from .comparison.core import ComparerType
 from .extraction.core import ContentExtractorType
 from .extraction.selector import get_url_and_content_extractors
+from .notification.basic import BasicNotifier
 from .notification.core import NotifierType
 from .notification.pushover import PushoverNotifier
-from .notification.basic import BasicNotifier
 from .utility.core import (
     MonitoredContent,
     cache_mc,
@@ -21,6 +21,16 @@ logger = logging.getLogger(__name__)
 
 
 class Monitor:
+    """Class that organizes the monitoring task
+
+    Args:
+        content_extractor (ContentExtractorType): Content extractor
+        comparer (ComparerType): Comparer
+        notifiers (List[NotifierType]): List of notifiers
+        loop_seconds (int): Interval in seconds between all rounds
+        loop_max_rounds (int): Maximum number of rounds to monitor
+    """
+
     def __init__(
         self,
         content_extractor: ContentExtractorType,

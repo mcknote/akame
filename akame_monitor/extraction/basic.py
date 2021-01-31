@@ -2,7 +2,7 @@ import logging
 
 import requests
 
-from .core import StaticExtractor, URLBase
+from .core import StaticExtractor, URLBase, URLExtractorType
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -14,14 +14,16 @@ class URLExtractor(URLBase):
 
 
 class ContentExtractor(StaticExtractor):
-    def __init__(self, url_extractor: URLExtractor) -> None:
+    def __init__(self, url_extractor: URLExtractorType) -> None:
         self.url_extractor = url_extractor
 
     def load_request_headers(self) -> None:
         self.request_headers = {
-            "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 11_1_0) \
-                AppleWebKit/537.36 (KHTML, like Gecko) \
-                    Chrome/88.0.4324.96 Safari/537.36",
+            "user-agent": (
+                "Mozilla/5.0 (Macintosh; Intel Mac OS X 11_1_0) "
+                "AppleWebKit/537.36 (KHTML, like Gecko) "
+                "Chrome/88.0.4324.96 Safari/537.36"
+            ),
             "accept": "*/*",
         }
 

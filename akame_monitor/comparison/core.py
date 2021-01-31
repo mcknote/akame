@@ -4,8 +4,14 @@ from typing import Any, TypeVar, Union
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+# define types
+ComparerType = TypeVar("ComparerType", bound="ComparerBase")
+
 
 class ComparerBase:
+    """Class that defines the base comparer
+    """
+
     def __init__(self) -> None:
         logging.info(f"Initializing comparer: {self.__class__.__name__}")
 
@@ -38,5 +44,3 @@ class ComparerBase:
         self.load_comparison_status()
         self.express_comparison_results()
 
-
-ComparerType = TypeVar("ComparerType", bound="ComparerBase")

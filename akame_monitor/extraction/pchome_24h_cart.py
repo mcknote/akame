@@ -12,8 +12,6 @@ logger = logging.getLogger(__name__)
 class URLExtractor(URLBase):
     def __init__(self, target_url: str):
         super().__init__(target_url)
-        self.url_referrer = None
-        self.url_cart_api = None
 
         self.clean_up_target_url()
         self.clean_up_target_url()

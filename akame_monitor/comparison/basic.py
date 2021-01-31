@@ -11,6 +11,10 @@ logger = logging.getLogger(__name__)
 
 
 class BasicComparer(ComparerBase):
+    """Class that handles basic string comparison
+    with MonitoredContent and difference marked in HTML
+    """
+
     def __init__(self) -> None:
         super().__init__()
         self.content_changes: str = ""
