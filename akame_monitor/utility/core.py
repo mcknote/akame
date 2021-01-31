@@ -1,5 +1,9 @@
+import logging
 from datetime import datetime
 from typing import Any, Union
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 
 class MonitoredContent:
@@ -13,9 +17,11 @@ class MonitoredContent:
     def __init__(self, content: Union[Any, None] = None):
         self.content = content
         self.timestamp = datetime.now()
+        logger.info(f"Initiated {self.__class__.__name__} at {self.timestamp}")
 
     def __repr__(self) -> str:
         return (
-            f"MonitoredContent(timestamp={self.timestamp.__repr__()}, "
-            "content={self.content})"
+            f"{self.__class__.__name__}"
+            f"(timestamp={self.timestamp.__repr__()}, "
+            f"content={self.content})"
         )
