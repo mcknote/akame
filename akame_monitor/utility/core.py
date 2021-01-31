@@ -56,7 +56,7 @@ class MonitoredContent:
         )
 
 
-path_cache_folder = os.path.join(sys.path[0], "akame_monitor", "cache")
+path_cache_folder = os.path.join(sys.path[0], "akame_monitor", ".akame_cache")
 path_cache = os.path.join(path_cache_folder, "monitored_content")
 
 
