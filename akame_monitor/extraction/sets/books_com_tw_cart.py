@@ -3,7 +3,11 @@ import re
 
 import requests
 
-from akame_monitor.extraction.core import StaticExtractor, URLBase, URLExtractorType
+from akame_monitor.extraction.core import (
+    StaticExtractor,
+    URLBase,
+    URLExtractorType,
+)
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -18,9 +22,11 @@ class URLExtractor(URLBase):
         self.load_url_cart_api()
 
     def clean_up_target_url(self):
-        pattern = "https://www.books.com.tw/products/([0-9a-zA-Z]+)"
+        pattern = r"https://www.books.com.tw/products/([0-9a-zA-Z]+)"
         self.product_id = re.match(pattern, self.target_url).group(1)
-        self.target_url = f"https://www.books.com.tw/products/{self.product_id}"
+        self.target_url = (
+            f"https://www.books.com.tw/products/{self.product_id}"
+        )
 
     def load_url_referrer(self):
         self.url_referrer = self.target_url

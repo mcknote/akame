@@ -39,7 +39,8 @@ class PushoverComparer(BasicComparer):
         ]
 
         changed_positions = [
-            (end + 1, start) for end, start in zip(matched_end[:-1], matched_start[1:])
+            (end + 1, start)
+            for end, start in zip(matched_end[:-1], matched_start[1:])
         ]
 
         return {"matched": matched_positions, "changed": changed_positions}
@@ -52,7 +53,9 @@ class PushoverComparer(BasicComparer):
             for x in ("a", "b")
         }
 
-    def get_parts_unchanged(self, a_matched: List[Tuple[int, int]]) -> List[str]:
+    def get_parts_unchanged(
+        self, a_matched: List[Tuple[int, int]]
+    ) -> List[str]:
         return [self.content_0[pos[0] : pos[1]] for pos in a_matched]
 
     def get_parts_changed_in_content_0(
@@ -104,7 +107,11 @@ class PushoverComparer(BasicComparer):
 
     def load_content_changes(self) -> None:
         if self.comparison_status == 1:
-            parts_unchanged, parts_changed_0, parts_changed_1 = self.get_diff_parts()
+            (
+                parts_unchanged,
+                parts_changed_0,
+                parts_changed_1,
+            ) = self.get_diff_parts()
             self.content_changes = self.convert_diff_parts_to_html(
                 parts_unchanged, parts_changed_0, parts_changed_1
             )
@@ -126,4 +133,6 @@ class PushoverComparer(BasicComparer):
             message_header = "<b>CHANGES DETECTED</b>"
             message_url = self.get_formatted_target_url()
             message_changes = self.content_changes
-            self.message = f"{message_header}\n{message_url}\n\n{message_changes}"
+            self.message = (
+                f"{message_header}\n{message_url}\n\n{message_changes}"
+            )

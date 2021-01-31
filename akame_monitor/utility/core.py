@@ -21,7 +21,10 @@ def loop_task(*ignore, seconds: int, max_rounds: int) -> Callable:
     Returns:
         Callable: decorated function
     """
-    logger.info(f"Looping the task every {seconds} seconds until {max_rounds} rounds")
+    logger.info(
+        f"Looping the task every {seconds} seconds "
+        f"until {max_rounds} rounds"
+    )
 
     def decorator(function) -> Callable:
         def wrapper(*args, **kwargs):
@@ -74,7 +77,9 @@ def reset_cached_folder(path_cache_folder: str = path_cache_folder) -> None:
     os.mkdir(path_cache_folder)
 
 
-def get_cached_mc(path_cache: str = path_cache) -> Union[MonitoredContent, None]:
+def get_cached_mc(
+    path_cache: str = path_cache,
+) -> Union[MonitoredContent, None]:
     """Function that returns the cached Monitored Content
 
     Args:

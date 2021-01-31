@@ -11,8 +11,7 @@ NotifierType = TypeVar("NotifierType", bound="NotifierBase")
 
 
 class NotifierBase:
-    """Class that defines the base notifier
-    """
+    """Class that defines the base notifier"""
 
     def __init__(self, task_name: str) -> None:
         logging.info(f"Initializing notifier: {self.__class__.__name__}")

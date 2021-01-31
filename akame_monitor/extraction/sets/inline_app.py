@@ -19,7 +19,9 @@ class URLExtractor(URLBase):
 
     def clean_up_target_url(self):
         pattern = (
-            r"https://inline.app/booking/(?P<company_id>.+)/(?P<branch_id>.+)[/\?]*"
+            r"https://inline.app/booking/"
+            r"(?P<company_id>.+)/"
+            r"(?P<branch_id>.+)[/\?]*"
         )
         matched = re.match(pattern, self.target_url)
         self.company_id = matched.group("company_id")

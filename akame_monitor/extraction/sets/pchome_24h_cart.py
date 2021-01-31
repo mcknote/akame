@@ -2,7 +2,11 @@ import logging
 import re
 
 import requests
-from akame_monitor.extraction.core import StaticExtractor, URLBase, URLExtractorType
+from akame_monitor.extraction.core import (
+    StaticExtractor,
+    URLBase,
+    URLExtractorType,
+)
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -17,7 +21,7 @@ class URLExtractor(URLBase):
         self.load_url_cart_api()
 
     def clean_up_target_url(self):
-        pattern = "https://24h.pchome.com.tw/prod/([^\\?]+)"
+        pattern = r"https://24h.pchome.com.tw/prod/([^\?]+)"
         self.product_id = re.match(pattern, self.target_url).group(1)
         self.target_url = f"https://24h.pchome.com.tw/prod/{self.product_id}"
 

@@ -4,7 +4,7 @@ from typing import Any, Dict, List
 from .comparison.pushover import PushoverComparer
 from .comparison.core import ComparerType
 from .extraction.core import ContentExtractorType
-from .extraction.selector import get_url_and_content_extractors
+from .extraction.selector import get_extraction_set
 from .notification.basic import BasicNotifier
 from .notification.core import NotifierType
 from .notification.pushover import PushoverNotifier
@@ -69,9 +69,9 @@ class Monitor:
             self.compare_mirrored_content(monitored_content)
             self.notify_comparison_results()
 
-        looper = loop_task(seconds=self.loop_seconds, max_rounds=self.loop_max_rounds)(
-            task
-        )
+        looper = loop_task(
+            seconds=self.loop_seconds, max_rounds=self.loop_max_rounds
+        )(task)
         looper()
 
 
@@ -95,7 +95,7 @@ def run_task(
     """
     logger.info(f"Initializing the monitoring task: '{task_name}'")
 
-    url_extractor, content_extractor = get_url_and_content_extractors(exset_name)
+    url_extractor, content_extractor = get_extraction_set(exset_name)
 
     # initiate url_extractor, content_extractor, notifier
     url_extractor = url_extractor(target_url=target_url)

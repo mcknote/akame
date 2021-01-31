@@ -2,7 +2,11 @@ import logging
 
 import requests
 
-from akame_monitor.extraction.core import StaticExtractor, URLBase, URLExtractorType
+from akame_monitor.extraction.core import (
+    StaticExtractor,
+    URLBase,
+    URLExtractorType,
+)
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -28,7 +32,9 @@ class ContentExtractor(StaticExtractor):
         }
 
     def get_response(self) -> requests.Response:
-        return requests.get(self.url_extractor.target_url, headers=self.request_headers)
+        return requests.get(
+            self.url_extractor.target_url, headers=self.request_headers
+        )
 
     def main(self) -> str:
         self.load_request_headers()
