@@ -1,10 +1,9 @@
 import logging
 import re
-from typing import Type
 
 import requests
 
-from .core import StaticExtractor, URLBase
+from .core import StaticExtractor, URLBase, URLExtractorType
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -35,7 +34,7 @@ class URLExtractor(URLBase):
 
 
 class ContentExtractor(StaticExtractor):
-    def __init__(self, url_extractor: Type[URLBase]):
+    def __init__(self, url_extractor: URLExtractorType):
         super().__init__(url_extractor)
 
     def load_request_headers(self):

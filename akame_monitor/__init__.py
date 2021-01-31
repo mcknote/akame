@@ -2,7 +2,7 @@ import logging
 from typing import Any, Dict
 
 from .comparison.basic import BasicComparer
-from .extraction.core import ExtractorBase
+from .extraction.core import ContentExtractorType
 from .extraction.selector import get_url_and_content_extractors
 from .notification.core import NotifierBase
 from .notification.pushover import Notifier
@@ -21,7 +21,7 @@ logger = logging.getLogger(__name__)
 class Monitor:
     def __init__(
         self,
-        content_extractor: ExtractorBase,
+        content_extractor: ContentExtractorType,
         notifier: NotifierBase,
         loop_seconds: int,
         loop_max_rounds: int,

@@ -1,8 +1,9 @@
 import importlib
 import logging
-from typing import Any, Dict, Tuple
+from typing import Any, Dict, Tuple, Type
+from .core import ContentExtractorType, URLExtractorType
 
-ExtractorSet = Tuple[Any, Any]
+ExtractorSet = Tuple[URLExtractorType, ContentExtractorType]
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
