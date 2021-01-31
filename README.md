@@ -61,6 +61,6 @@ Parameters for `run_task()`:
 
 ## Extractor Sets Available
 
-| ID | Description | URL Base | Content Extractor |
-| --- | --- | --- | --- |
-| `BASIC` | The basic extractor set that fetches content directly from only the URL given. This set almost equates to a `request.get(target_url)` call. | `core.URLBase` | `basic.BasicExtractor` |
+| ID | Description | Extractor module |
+| --- | --- | --- |
+| `BASIC` | The basic extractor set that almost equates to a `requests.get(target_url)` call. | `extraction.basic` |
