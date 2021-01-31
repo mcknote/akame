@@ -10,7 +10,7 @@ pushover_creds = {
 
 if __name__ == "__main__":
     run_task(
-        task_name="What Time Is It",
+        task_name="Is Time Changing in Taipei?",
         target_url=(r"http://worldtimeapi.org/api/timezone/Asia/Taipei"),
         exset_id="BASIC",
         loop_seconds=30,

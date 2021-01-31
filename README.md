@@ -36,17 +36,16 @@ pushover_creds = {
     "user_key": environ["PUSHOVER_USERKEY"],
 }
 
-run_task(
-    task_name="Is Time Changing in Taipei?",
-        target_url=(
-            r"http://worldtimeapi.org/api/timezone/Asia/Taipei"
-        ),
+if __name__ == "__main__":
+    run_task(
+        task_name="Is Time Changing in Taipei?",
+        target_url=(r"http://worldtimeapi.org/api/timezone/Asia/Taipei"),
         exset_id="BASIC",
         loop_seconds=30,
         loop_max_rounds=86400,
         notify_creds=pushover_creds,
     )
-)
+
 ```
 
 Parameters for `run_task()`:
