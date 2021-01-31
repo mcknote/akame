@@ -45,7 +45,7 @@ def loop_task(*ignore, seconds: int, max_rounds: int) -> Callable:
 
 
 class SingleMonitorTask:
-    """Class that organizes one monitoring task
+    """Class that organizes single monitoring task
 
     Args:
         content_extractor (ContentExtractorType): Content extractor
@@ -64,6 +64,7 @@ class SingleMonitorTask:
         loop_max_rounds: int,
     ) -> None:
 
+        logger.info("Initializing single monitor task")
         self.content_extractor = content_extractor
         self.comparer = comparer
         self.notifiers = notifiers
