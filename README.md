@@ -26,15 +26,37 @@ git clone https://github.com/mcknote/AkameMonitor.git
 
 ## Usage
 
-Follow these steps to use Akame Monitor:
+```python3 main.py
+from os import environ
 
-1. Edit `akame_monitor/config.json` with the monitoring task information
-   - `task_name`: The name of this monitoring task; this will appear in the console logs and notification programs.
-   - `target_url`: The URL to be monitored, e.g. an API endpoint or a webpage.
-   - `exset_id`: The ID of Extractor Set, which handles both the URL and content extraction. Default to `BASIC`. See [Extractor Sets Available](##extractor-sets-available) for more details.
-   - `loop_seconds`: The interval in seconds between all monitoring rounds. Default to 30 seconds.
-   - `loop_max_rounds`: The maximum number of rounds to monitor. Default to 86400 rounds (so with 30 seceonds, this would make a one-month monitoring task).
-2. Run `akame_monitor/main.py` while keeping the process alive throughout the monitoring cycle
+from akame_monitor import run_task
+
+pushover_creds = {
+    "token": environ["PUSHOVER_TOKEN"],
+    "user_key": environ["PUSHOVER_USERKEY"],
+}
+
+run_task(
+    task_name="What Time Is It",
+        target_url=(
+            r"http://www.whattimeisit.com/"
+        ),
+        exset_id="BASIC",
+        loop_seconds=30,
+        loop_max_rounds=86400,
+        notify_creds=pushover_creds,
+    )
+)
+```
+
+Parameters for `run_task()`:
+
+- `task_name`: The name of this monitoring task; this will appear in the console logs and notification programs.
+- `target_url`: The URL to be monitored, e.g. an API endpoint or a webpage.
+- `exset_id`: The ID of Extractor Set, which handles both the URL and content extraction. Default to `BASIC`. See [Extractor Sets Available](##extractor-sets-available) for more details.
+- `loop_seconds`: The interval in seconds between all monitoring rounds. Default to `30` seconds.
+- `loop_max_rounds`: The maximum number of rounds to monitor. Default to `86400` rounds (so with 30 seceonds, this would make a one-month monitoring task).
+- `notify_creds`: The crentials to be used in the notifier, which is default to Pushover and requires two attributes: `token` and `user_key`.
 
 ## Extractor Sets Available
 
