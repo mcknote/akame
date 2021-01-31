@@ -37,7 +37,7 @@ class ContentExtractor(StaticExtractor):
     def __init__(self, url_extractor: URLExtractorType):
         super().__init__(url_extractor)
 
-    def load_request_headers(self):
+    def load_request_headers(self) -> None:
         self.request_headers = {
             "Host": "www.books.com.tw",
             "Connection": "keep-alive",
@@ -61,7 +61,7 @@ class ContentExtractor(StaticExtractor):
             self.url_extractor.url_cart_api, headers=self.request_headers
         )
 
-    def main(self):
+    def main(self) -> str:
         self.load_request_headers()
         response = self.get_response()
-        return response
+        return response.text

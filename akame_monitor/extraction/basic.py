@@ -14,10 +14,10 @@ class URLExtractor(URLBase):
 
 
 class ContentExtractor(StaticExtractor):
-    def __init__(self, url_extractor: URLExtractor):
+    def __init__(self, url_extractor: URLExtractor) -> None:
         self.url_extractor = url_extractor
 
-    def load_request_headers(self):
+    def load_request_headers(self) -> None:
         self.request_headers = {
             "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 11_1_0) \
                 AppleWebKit/537.36 (KHTML, like Gecko) \
@@ -28,7 +28,7 @@ class ContentExtractor(StaticExtractor):
     def get_response(self) -> requests.Response:
         return requests.get(self.url_extractor.target_url, headers=self.request_headers)
 
-    def main(self):
+    def main(self) -> str:
         self.load_request_headers()
         response = self.get_response()
-        return response
+        return response.text

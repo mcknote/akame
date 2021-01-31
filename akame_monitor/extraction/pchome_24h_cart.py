@@ -62,7 +62,7 @@ class ContentExtractor(StaticExtractor):
             self.url_extractor.url_cart_api, headers=self.request_headers
         )
 
-    def main(self):
+    def main(self) -> str:
         self.load_request_headers()
         response = self.get_response()
-        return response
+        return response.text

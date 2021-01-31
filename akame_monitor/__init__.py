@@ -1,11 +1,13 @@
 import logging
-from typing import Any, Dict
+from typing import Any, Dict, List
 
 from .comparison.basic import BasicComparer
+from .comparison.core import ComparerType
 from .extraction.core import ContentExtractorType
 from .extraction.selector import get_url_and_content_extractors
-from .notification.core import NotifierBase
-from .notification.pushover import Notifier
+from .notification.core import NotifierType
+from .notification.pushover import PushoverNotifier
+from .notification.basic import BasicNotifier
 from .utility.core import (
     MonitoredContent,
     cache_mc,
@@ -22,33 +24,40 @@ class Monitor:
     def __init__(
         self,
         content_extractor: ContentExtractorType,
-        notifier: NotifierBase,
+        comparer: ComparerType,
+        notifiers: List[NotifierType],
         loop_seconds: int,
         loop_max_rounds: int,
     ) -> None:
+
         self.content_extractor = content_extractor
-        self.notifier = notifier
+        self.comparer = comparer
+        self.notifiers = notifiers
         self.loop_seconds = loop_seconds
         self.loop_max_rounds = loop_max_rounds
+
         reset_cached_folder()
 
     def get_monitored_content(self) -> MonitoredContent:
-        response = self.content_extractor.main()
-        return MonitoredContent(response.text)
+        content = self.content_extractor.main()
+        return MonitoredContent(content)
 
-    def compare_mirrored_content(self, mc_1: MonitoredContent) -> int:
+    def compare_mirrored_content(self, mc_1: MonitoredContent) -> None:
         mc_0 = get_cached_mc()
         cache_mc(mc_1)
         content_0 = mc_0.content if mc_0 else None
         content_1 = mc_1.content
-        comparer = BasicComparer(content_0=content_0, content_1=content_1)
-        return comparer.main()
+        self.comparer.main(content_0=content_0, content_1=content_1)
+
+    def notify_comparison_results(self) -> None:
+        for notifier in self.notifiers:
+            notifier.main(self.comparer)
 
     def main(self) -> None:
         def task():
             monitored_content = self.get_monitored_content()
-            status_code = self.compare_mirrored_content(monitored_content)
-            self.notifier.main(status_code)
+            self.compare_mirrored_content(monitored_content)
+            self.notify_comparison_results()
 
         looper = loop_task(seconds=self.loop_seconds, max_rounds=self.loop_max_rounds)(
             task
@@ -80,11 +89,16 @@ def run_task(
     # initiate url_extractor, extractor, and notifier
     url_extractor = url_extractor(target_url=target_url)
     content_extractor = content_extractor(url_extractor=url_extractor)
-    notifier = Notifier(task_name, notify_creds=notify_creds)
+    comparer = BasicComparer()
+    notifiers = [
+        BasicNotifier(task_name),
+        PushoverNotifier(task_name, notify_creds=notify_creds),
+    ]
 
     monitor = Monitor(
         content_extractor=content_extractor,
-        notifier=notifier,
+        comparer=comparer,
+        notifiers=notifiers,
         loop_seconds=loop_seconds,
         loop_max_rounds=loop_max_rounds,
     )

@@ -68,10 +68,10 @@ def reset_cached_folder(path_cache_folder: str = path_cache_folder) -> None:
 
 def get_cached_mc(path_cache: str = path_cache) -> Union[MonitoredContent, None]:
     if not os.path.exists(path_cache):
-        logger.info("Caching the MC for the first run")
+        logger.info("Caching Monitored Content for the first run")
         mc_0: Union[MonitoredContent, None] = None
     else:
-        logger.info("Comparing the MCs")
+        logger.info("Comparing the old and new Monitored Content")
         with open(path_cache, "rb") as f:
             mc_0 = pickle.load(f)
 

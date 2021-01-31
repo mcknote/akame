@@ -3,27 +3,30 @@ from http.client import HTTPSConnection
 from typing import Any, Dict
 from urllib.parse import urlencode
 
+from akame_monitor.comparison.core import ComparerType
+
 from .core import NotifierBase
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
-class Notifier(NotifierBase):
+class PushoverNotifier(NotifierBase):
     def __init__(self, task_name: str, notify_creds: Dict[str, Any]) -> None:
         super().__init__(task_name)
         self.token = notify_creds["token"]
         self.user_key = notify_creds["user_key"]
 
-    def send_notification(self) -> None:
-        logger.info("Sending out notification through PushOver")
+    def send_notification(self, message: str) -> None:
+        logger.info("Sending out notification through Pushover")
 
         conn = HTTPSConnection("api.pushover.net:443")
         headers = {
             "token": self.token,
             "user": self.user_key,
             "title": self.task_name,
-            "message": "monitored content has changed",
+            "message": message,
+            "html": 1,
         }
         conn.request(
             "POST",
@@ -33,8 +36,6 @@ class Notifier(NotifierBase):
         )
         conn.getresponse()
 
-    def main(self, status_code: int) -> None:
-        if status_code == 0:
-            pass
-        elif status_code == 1:
-            self.send_notification()
+    def main(self, comparer: ComparerType) -> None:
+        if comparer.status_code == 1:
+            self.send_notification(comparer.message)
