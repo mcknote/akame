@@ -1,9 +1,19 @@
+import logging
+
 import requests
 
-from .core import URLBase, StaticExtractor
+from .core import StaticExtractor, URLBase
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 
-class BasicExtractor(StaticExtractor):
+class URLExtractor(URLBase):
+    def __init__(self, target_url: str):
+        super().__init__(target_url)
+
+
+class ContentExtractor(StaticExtractor):
     def __init__(self, url_base: URLBase):
         self.url_base = url_base
 

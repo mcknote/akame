@@ -9,10 +9,14 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
-class BookComTwURL(URLBase):
+class URLExtractor(URLBase):
     def __init__(self, target_url: str):
         super().__init__(target_url)
+
         self.clean_up_target_url()
+        self.clean_up_target_url()
+        self.load_url_referrer()
+        self.load_url_cart_api()
 
     def clean_up_target_url(self):
         pattern = "https://www.books.com.tw/products/([0-9a-zA-Z]+)"
@@ -28,14 +32,9 @@ class BookComTwURL(URLBase):
             f"{self.product_id}/M201105_005_view"
         )
 
-    def main(self):
-        self.clean_up_target_url()
-        self.load_url_referrer()
-        self.load_url_cart_api()
 
-
-class BooksComTwCartExtractor(StaticExtractor):
-    def __init__(self, url_base: BookComTwURL):
+class ContentExtractor(StaticExtractor):
+    def __init__(self, url_base: URLExtractor):
         super().__init__(url_base)
 
     def load_request_headers(self):

@@ -9,9 +9,6 @@ class URLBase:
         logger.info(f"Loading target url: '{target_url}'")
         self.target_url = target_url
 
-    def main(self):
-        pass
-
 
 class ExtractorBase:
     def __init__(self, url_base: URLBase):

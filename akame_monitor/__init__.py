@@ -1,0 +1,79 @@
+import logging
+from typing import Any, Dict
+
+from .comparison.basic import BasicComparer
+from .extraction.core import ExtractorBase, URLBase
+from .extraction.selector import get_url_extractor
+from .notification.core import NotifierBase
+from .notification.pushover import PONotifier
+from .utility.core import (
+    MonitoredContent,
+    cache_mc,
+    get_cached_mc,
+    loop_task,
+)
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+
+class Monitor:
+    def __init__(
+        self,
+        extractor: ExtractorBase,
+        notifier: NotifierBase,
+        loop_seconds: int,
+        loop_max_rounds: int,
+    ):
+        self.extractor = extractor
+        self.notifier = notifier
+        self.loop_seconds = loop_seconds
+        self.loop_max_rounds = loop_max_rounds
+
+    def get_monitored_content(self) -> MonitoredContent:
+        response = self.extractor.main()
+        return MonitoredContent(response.text)
+
+    def compare_mirrored_content(self, mc_1: MonitoredContent) -> int:
+        mc_0 = get_cached_mc()
+        cache_mc(mc_1)
+        content_0 = mc_0.content if mc_0 else None
+        content_1 = mc_1.content
+        comparer = BasicComparer(content_0=content_0, content_1=content_1)
+        return comparer.main()
+
+    def main(self):
+        def task():
+            monitored_content = self.get_monitored_content()
+            status_code = self.compare_mirrored_content(monitored_content)
+            self.notifier.main(status_code)
+
+        looper = loop_task(seconds=self.loop_seconds, max_rounds=self.loop_max_rounds)(
+            task
+        )
+        looper()
+
+
+def run_task(
+    task_name: str,
+    target_url: str,
+    exset_id: str,
+    loop_seconds: int,
+    loop_max_rounds: int,
+    notify_creds: Dict[str, Any],
+):
+
+    url_base, extractor = get_url_extractor(exset_id)
+
+    # initiate url_base, extractor, and notifier
+    url_base = url_base(target_url=target_url)
+    extractor = extractor(url_base=url_base)
+    notifier = PONotifier(task_name, notify_creds=notify_creds)
+
+    monitor = Monitor(
+        extractor=extractor,
+        notifier=notifier,
+        loop_seconds=loop_seconds,
+        loop_max_rounds=loop_max_rounds,
+    )
+    monitor.main()

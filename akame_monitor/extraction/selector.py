@@ -10,21 +10,21 @@ logger = logging.getLogger(__name__)
 
 
 def get_url_extractor_basic() -> ExtractorSet:
-    from .basic import BasicExtractor
+    from .basic import ContentExtractor, URLExtractor
 
-    return (URLBase, BasicExtractor)
+    return (URLExtractor, ContentExtractor)
 
 
 def get_url_extractor_pchome_24h() -> ExtractorSet:
-    from .pchome_com_tw import PCHomeCartExtractor, PCHomeURL
+    from .pchome_24h_cart import ContentExtractor, URLExtractor
 
-    return (PCHomeURL, PCHomeCartExtractor)
+    return (URLExtractor, ContentExtractor)
 
 
 def get_url_extractor_books_com_tw() -> ExtractorSet:
-    from .books_com_tw import BookComTwURL, BooksComTwCartExtractor
+    from .books_com_tw_cart import ContentExtractor, URLExtractor
 
-    return (BookComTwURL, BooksComTwCartExtractor)
+    return (URLExtractor, ContentExtractor)
 
 
 extractor_catalog: Dict[str, Callable] = {

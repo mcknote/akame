@@ -1,6 +1,6 @@
 import logging
-
 from http.client import HTTPSConnection
+from typing import Any, Dict
 from urllib.parse import urlencode
 
 from .core import NotifierBase
@@ -10,10 +10,10 @@ logger = logging.getLogger(__name__)
 
 
 class PONotifier(NotifierBase):
-    def __init__(self, task_name: str, token: str, user_key: str) -> None:
+    def __init__(self, task_name: str, notify_creds: Dict[str, Any]) -> None:
         super().__init__(task_name)
-        self.token = token
-        self.user_key = user_key
+        self.token = notify_creds["token"]
+        self.user_key = notify_creds["user_key"]
 
     def send_notification(self):
         logger.info("Sending out notification through PushOver")

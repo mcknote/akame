@@ -9,10 +9,16 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
-class PCHomeURL(URLBase):
+class URLExtractor(URLBase):
     def __init__(self, target_url: str):
         super().__init__(target_url)
+        self.url_referrer = None
+        self.url_cart_api = None
+
         self.clean_up_target_url()
+        self.clean_up_target_url()
+        self.load_url_referrer()
+        self.load_url_cart_api()
 
     def clean_up_target_url(self):
         pattern = "https://24h.pchome.com.tw/prod/([^\\?]+)"
@@ -30,14 +36,9 @@ class PCHomeURL(URLBase):
             "&_callback=jsonp_button&1611904320?_callback=jsonp_button"
         )
 
-    def main(self):
-        self.clean_up_target_url()
-        self.load_url_referrer()
-        self.load_url_cart_api()
 
-
-class PCHomeCartExtractor(StaticExtractor):
-    def __init__(self, url_base: PCHomeURL):
+class ContentExtractor(StaticExtractor):
+    def __init__(self, url_base: URLExtractor):
         super().__init__(url_base)
 
     def load_request_headers(self):
@@ -50,7 +51,7 @@ class PCHomeCartExtractor(StaticExtractor):
             "sec-fetch-site": "same-site",
             "sec-fetch-mode": "no-cors",
             "sec-fetch-dest": "script",
-            "referer": self.url_base.target_url,
+            "referer": self.url_base.url_referrer,
             "accept-language": "en,zh-TW;q=0.9,zh-CN;q=0.8,zh;q=0.7,ja;q=0.6",
         }
 

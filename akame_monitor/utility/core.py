@@ -5,29 +5,10 @@ import pickle
 import sys
 from datetime import datetime
 from time import sleep
-from typing import Any, Callable, Dict, Tuple, Union
+from typing import Any, Callable, Union
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
-
-
-def get_config(filename: str = "config.json") -> Dict[str, Any]:
-    logger.info("Loading monitor configuration")
-    path_config = os.path.join(sys.path[0], filename)
-    with open(path_config, "r") as f:
-        config = json.load(f)
-
-    return config
-
-
-def get_pushsafer_key() -> str:
-    logger.info("Loading Pushsafer key")
-    return os.environ["PUSHSAFER_KEY"]
-
-
-def get_pushover_creds() -> Tuple[str, str]:
-    logger.info("Loading PushOver credentials")
-    return (os.environ["PUSHOVER_TOKEN"], os.environ["PUSHOVER_USERKEY"])
 
 
 def loop_task(*ignore, seconds: int, max_rounds: int) -> Callable:
@@ -75,7 +56,9 @@ class MonitoredContent:
 
 def get_cached_mc() -> Union[MonitoredContent, None]:
     # only store the latest cache
-    path_cache = os.path.join(sys.path[0], "cache", "monitored_content")
+    path_cache = os.path.join(
+        sys.path[0], "akame_monitor", "cache", "monitored_content"
+    )
 
     if not os.path.exists(path_cache):
         logger.info("Caching the MC for the first run")
@@ -90,6 +73,8 @@ def get_cached_mc() -> Union[MonitoredContent, None]:
 
 def cache_mc(mc: MonitoredContent) -> None:
     # only store the latest cache
-    path_cache = os.path.join(sys.path[0], "cache", "monitored_content")
+    path_cache = os.path.join(
+        sys.path[0], "akame_monitor", "cache", "monitored_content"
+    )
     with open(path_cache, "wb") as f:
         pickle.dump(mc, f)
