@@ -25,7 +25,7 @@ class Monitor:
         notifier: NotifierBase,
         loop_seconds: int,
         loop_max_rounds: int,
-    ):
+    ) -> None:
         self.content_extractor = content_extractor
         self.notifier = notifier
         self.loop_seconds = loop_seconds

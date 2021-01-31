@@ -15,7 +15,7 @@ class Notifier(NotifierBase):
         self.token = notify_creds["token"]
         self.user_key = notify_creds["user_key"]
 
-    def send_notification(self):
+    def send_notification(self) -> None:
         logger.info("Sending out notification through PushOver")
 
         conn = HTTPSConnection("api.pushover.net:443")
@@ -33,7 +33,7 @@ class Notifier(NotifierBase):
         )
         conn.getresponse()
 
-    def main(self, status_code: int):
+    def main(self, status_code: int) -> None:
         if status_code == 0:
             pass
         elif status_code == 1:

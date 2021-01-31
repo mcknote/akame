@@ -23,7 +23,7 @@ def loop_task(*ignore, seconds: int, max_rounds: int) -> Callable:
     """
     logger.info(f"Looping the task every {seconds} seconds until {max_rounds} rounds")
 
-    def decorator(function):
+    def decorator(function) -> Callable:
         def wrapper(*args, **kwargs):
             round = 0
             while round < max_rounds:

@@ -17,11 +17,10 @@ extractor_catalog: Dict[str, str] = {
 def get_url_and_content_extractors(exset_id: str) -> ExtractorSet:
     logger.info(f"Loading Extractor Set under ID: '{exset_id}'")
     module_name = extractor_catalog[exset_id]
+    package_name = "akame_monitor.extraction"
     attrname_url = "URLExtractor"
     attrname_con = "ContentExtractor"
 
-    module = importlib.import_module(
-        name=f".{module_name}", package="akame_monitor.extraction"
-    )
+    module = importlib.import_module(name=f".{module_name}", package=package_name)
 
     return (getattr(module, attrname_url), getattr(module, attrname_con))
