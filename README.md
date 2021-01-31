@@ -21,7 +21,7 @@ Akame Monitor can **monitor a web change every X seconds for Y rounds**. Specifi
 ```bash
 # switch to the folder to save the script
 # cd <target-download-folder>
-git clone https://github.com/mcknote/AkameMonitor.git
+$ git clone https://github.com/mcknote/AkameMonitor.git
 ```
 
 ## Usage
