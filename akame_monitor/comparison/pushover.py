@@ -1,10 +1,9 @@
 import logging
-from difflib import SequenceMatcher, Match
+from difflib import Match, SequenceMatcher
 from os import stat
+from typing import Dict, List, Tuple
 
 from .basic import BasicComparer
-
-from typing import List, Dict, Tuple
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)

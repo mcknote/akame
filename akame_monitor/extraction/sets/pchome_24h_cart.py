@@ -2,6 +2,7 @@ import logging
 import re
 
 import requests
+
 from akame_monitor.extraction.core import (
     StaticExtractor,
     URLBase,

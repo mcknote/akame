@@ -1,6 +1,7 @@
 import importlib
 import logging
-from typing import Dict, Tuple
+from typing import Tuple
+
 from .core import ContentExtractorType, URLExtractorType
 
 logging.basicConfig(level=logging.INFO)

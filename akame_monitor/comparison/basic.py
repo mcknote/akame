@@ -1,9 +1,8 @@
 import logging
 from os import stat
+from typing import Any, Union
 
 from .core import ComparerBase
-
-from typing import Any, Union
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
