@@ -1,6 +1,6 @@
 # Akame Monitor
 
-Akame Monitor is a collection of tools useful for web monitoring. It contains a couple of modules such as extraction, comparison, and notification and allows users to design their own units and construct the workflow flexibly.
+Akame Monitor is a collection of tools used in constantly monitoring web changes. It contains a couple of modules such as extraction, comparison, and notification and allows users to design their own units and construct the workflow flexibly.
 
 - [Akame Monitor](#akame-monitor)
   - [Use Cases](#use-cases)
@@ -10,11 +10,11 @@ Akame Monitor is a collection of tools useful for web monitoring. It contains a 
 
 ## Use Cases
 
-Some common tasks that Akame Monitor can handle are as follows:
+Akame Monitor can **monitor a web change every X seconds for Y rounds**. Specifically, some common tasks that Akame Monitor can handle are as follows:
 
 - Extraction: Fetching the response from an API endpoint using a specific request header
-- Comparison: Compare the latest API response with the previous version
-- Notification: If there is change between the responses, send out a notification through [Pullover](https://pushover.net/)
+- Comparison: Compare the latest API response against the previous version
+- Notification: Send out a notification through [Pullover](https://pushover.net/) if there are changes between the monitored content
 
 ## Installation
 
