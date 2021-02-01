@@ -3,6 +3,7 @@ from concurrent.futures import ThreadPoolExecutor
 from akame import init
 from examples import worldtime_api
 
+
 # https://stackoverflow.com/questions/7207309/how-to-run-functions-in-parallel
 def run_io_tasks_in_parallel(tasks):
     with ThreadPoolExecutor() as executor:
