@@ -1,6 +1,6 @@
 from akame import init
-from examples import worldtime_api
+from examples import worldtimeapi
 
 if __name__ == "__main__":
     init()
-    worldtime_api.main()
+    worldtimeapi.main()
