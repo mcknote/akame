@@ -2,7 +2,7 @@
 .DS_Store
 .vscode/
 .akame_cache/
-.example/
+examples/tmp_*
 .isort.cfg
 
 # Byte-compiled / optimized / DLL files
