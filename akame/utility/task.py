@@ -13,16 +13,35 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
+def check_loop_seconds(seconds: int) -> None:
+    """Function that checks loop seconds
+
+    Args:
+        seconds (int): Loop interval in seconds
+    """
+    min_seconds = 10
+    if seconds < min_seconds:
+        logger.warning(
+            "Consider increasing the interval "
+            f"to {min_seconds} seconds: "
+            "interval < 10 seconds might "
+            "not cover the execution time "
+            "and abuse the target website"
+        )
+
+
 def loop_task(*ignore, seconds: int, max_rounds: int) -> Callable:
     """Function that decorates the function with looping
 
     Args:
-        seconds (int): interval in seconds
-        max_rounds (int): maximum rounds to run
+        seconds (int): Interval in seconds
+        max_rounds (int): Maximum rounds to run
 
     Returns:
-        Callable: decorated function
+        Callable: Decorated function to be executed
     """
+    check_loop_seconds(seconds)
+
     logger.info(
         f"Looping the task every {seconds} seconds "
         f"until {max_rounds} rounds"
@@ -44,6 +63,7 @@ def loop_task(*ignore, seconds: int, max_rounds: int) -> Callable:
     return decorator
 
 
+# TODO: parameterize `cache_manager`
 class SingleMonitorTask:
     """Class that organizes single monitoring task
 
