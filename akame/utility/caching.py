@@ -2,6 +2,7 @@ import logging
 import os
 import pickle
 import sys
+from hashlib import sha1
 from shutil import rmtree
 from typing import Union
 
@@ -24,6 +25,19 @@ def reset_cached_folder(path_cache_folder: str = path_cache_folder) -> None:
     if os.path.exists(path_cache_folder):
         rmtree(path_cache_folder)
     os.mkdir(path_cache_folder)
+
+
+def get_task_hash(task_name: str) -> str:
+    """Function that gets the hashed task name
+
+    Args:
+        task_name (str): Name of the task
+
+    Returns:
+        str: Hashed task name
+    """
+    # using SHA-1 for noncryptographic purpose
+    return sha1(task_name.encode("utf-8")).hexdigest()
 
 
 def get_cached_mc(

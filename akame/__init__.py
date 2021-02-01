@@ -29,7 +29,7 @@ def run_task(
         loop_max_rounds (int): Maximum number of rounds to monitor
         notify_creds (Dict[str, Any]): Credential for notification programs
     """
-    logger.info(f"Initializing the monitoring task: '{task_name}'")
+    logger.info(f"Setting up the monitoring task: '{task_name}'")
 
     url_extractor, content_extractor = get_extraction_set(exset_name)
 
@@ -43,6 +43,7 @@ def run_task(
     ]
 
     monitor_task = SingleMonitorTask(
+        task_name=task_name,
         content_extractor=content_extractor,
         comparer=comparer,
         notifiers=notifiers,

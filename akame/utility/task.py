@@ -6,7 +6,12 @@ from akame.comparison.core import ComparerType
 from akame.extraction.core import ContentExtractorType
 from akame.notification.core import NotifierType
 
-from .caching import cache_mc, get_cached_mc, reset_cached_folder
+from .caching import (
+    cache_mc,
+    get_cached_mc,
+    reset_cached_folder,
+    get_task_hash,
+)
 from .core import MonitoredContent
 
 logging.basicConfig(level=logging.INFO)
@@ -48,6 +53,7 @@ class SingleMonitorTask:
     """Class that organizes single monitoring task
 
     Args:
+        task_name (str): Name of the task
         content_extractor (ContentExtractorType): Content extractor
         comparer (ComparerType): Comparer
         notifiers (List[NotifierType]): List of notifiers
@@ -57,6 +63,7 @@ class SingleMonitorTask:
 
     def __init__(
         self,
+        task_name: str,
         content_extractor: ContentExtractorType,
         comparer: ComparerType,
         notifiers: List[NotifierType],
@@ -64,7 +71,10 @@ class SingleMonitorTask:
         loop_max_rounds: int,
     ) -> None:
 
-        logger.info("Initializing single monitor task")
+        logger.info(f"Starting the monitoring task: '{task_name}'")
+
+        self.task_name = task_name
+        self.task_hash = get_task_hash(task_name)
         self.content_extractor = content_extractor
         self.comparer = comparer
         self.notifiers = notifiers
