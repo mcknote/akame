@@ -23,21 +23,32 @@ class StringDelta:
         self.load_all_delta_parts()
 
     def load_matches(self) -> None:
+        """Function that initiates SequenceMatcher and matches"""
         self.matcher = SequenceMatcher(None, self.a, self.b)
         self.matches = self.matcher.get_matching_blocks()
 
-    @staticmethod
     def get_content_positions_for_x(
-        matches: List[Match], x: str
+        self, x: str
     ) -> Dict[str, List[Tuple[int, int]]]:
-        matched_start = [getattr(match, x) for match in matches]
-        matched_end = [(getattr(match, x) + match.size) for match in matches]
+        """Function that gets the string postions from the matches
+
+        Args:
+            x (str): String to access, 'a' or 'b'
+
+        Returns:
+            Dict[str, List[Tuple[int, int]]]: Positions in under two parts,
+                `matched` and `changed`
+        """
+        matched_start = [getattr(match, x) for match in self.matches]
+        matched_end = [
+            (getattr(match, x) + match.size) for match in self.matches
+        ]
 
         matched_positions = [
-            (start, end + 1) for start, end in zip(matched_start, matched_end)
+            (start, end) for start, end in zip(matched_start, matched_end)
         ]
         changed_positions = [
-            (end + 1, start)
+            (end, start)
             for end, start in zip(matched_end[:-1], matched_start[1:])
         ]
 
@@ -45,8 +56,7 @@ class StringDelta:
 
     def load_content_positions(self) -> None:
         self.content_positions = {
-            x: self.get_content_positions_for_x(matches=self.matches, x=x)
-            for x in ("a", "b")
+            x: self.get_content_positions_for_x(x) for x in ("a", "b")
         }
 
     def load_all_delta_parts(self) -> None:
