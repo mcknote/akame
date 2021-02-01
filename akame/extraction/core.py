@@ -1,5 +1,5 @@
 import logging
-from typing import Any, TypeVar
+from typing import Any, Tuple, TypeVar
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -7,6 +7,7 @@ logger = logging.getLogger(__name__)
 # define types
 URLExtractorType = TypeVar("URLExtractorType", bound="URLBase")
 ContentExtractorType = TypeVar("ContentExtractorType", bound="ExtractorBase")
+ExtractionSet = Tuple[URLExtractorType, ContentExtractorType]
 
 
 class URLBase:

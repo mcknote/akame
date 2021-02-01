@@ -1,14 +1,10 @@
 import importlib
 import logging
-from typing import Tuple
 
-from .core import ContentExtractorType, URLExtractorType
+from .core import ExtractionSet
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
-
-# define types
-ExtractionSet = Tuple[URLExtractorType, ContentExtractorType]
 
 
 def get_extraction_set(exset_name: str) -> ExtractionSet:
