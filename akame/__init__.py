@@ -16,6 +16,7 @@ logger = logging.getLogger(__name__)
 
 def init() -> None:
     """Function that initaties akame dependencies"""
+    logger.info("Initiating akame dependencies")
     reset_cached_folder(reset_whole_folder=True)
 
 
