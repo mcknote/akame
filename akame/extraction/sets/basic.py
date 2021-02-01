@@ -2,11 +2,7 @@ import logging
 
 import requests
 
-from akame.extraction.core import (
-    StaticExtractor,
-    URLBase,
-    URLExtractorType,
-)
+from akame.extraction.core import StaticExtractor, URLBase, URLExtractorType
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
