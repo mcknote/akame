@@ -7,9 +7,7 @@ from akame.extraction.core import ContentExtractorType
 from akame.notification.core import NotifierType
 
 from .caching import (
-    cache_mc,
-    get_cached_mc,
-    reset_cached_folder,
+    TaskCacheManager,
     get_task_hash,
 )
 from .core import MonitoredContent
@@ -73,23 +71,23 @@ class SingleMonitorTask:
 
         logger.info(f"Starting the monitoring task: '{task_name}'")
 
-        self.task_name = task_name
-        self.task_hash = get_task_hash(task_name)
+        self.task_name = str(task_name)
+        self.task_hash = get_task_hash(self.task_name)
         self.content_extractor = content_extractor
         self.comparer = comparer
         self.notifiers = notifiers
         self.loop_seconds = loop_seconds
         self.loop_max_rounds = loop_max_rounds
 
-        reset_cached_folder()
+        self.cache_manager = TaskCacheManager(task_hash=self.task_hash)
 
     def get_monitored_content(self) -> MonitoredContent:
         content = self.content_extractor.main()
         return MonitoredContent(content)
 
-    def compare_mirrored_content(self, mc_1: MonitoredContent) -> None:
-        mc_0 = get_cached_mc()
-        cache_mc(mc_1)
+    def compare_monitored_content(self, mc_1: MonitoredContent) -> None:
+        mc_0 = self.cache_manager.get_newest_cache()
+        self.cache_manager.cache_task_mc(mc_1)
         content_0 = mc_0.content if mc_0 else None
         content_1 = mc_1.content
         self.comparer.main(content_0=content_0, content_1=content_1)
@@ -101,7 +99,7 @@ class SingleMonitorTask:
     def main(self) -> None:
         def task():
             monitored_content = self.get_monitored_content()
-            self.compare_mirrored_content(monitored_content)
+            self.compare_monitored_content(monitored_content)
             self.notify_comparison_results()
 
         looper = loop_task(
