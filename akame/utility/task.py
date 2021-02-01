@@ -6,10 +6,7 @@ from akame.comparison.core import ComparerType
 from akame.extraction.core import ContentExtractorType
 from akame.notification.core import NotifierType
 
-from .caching import (
-    TaskCacheManager,
-    get_task_hash,
-)
+from .caching import TaskCacheManager, get_task_hash
 from .core import MonitoredContent
 
 logging.basicConfig(level=logging.INFO)

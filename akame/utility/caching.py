@@ -1,8 +1,8 @@
 import logging
-from pathlib import Path
 import pickle
 import sys
 from hashlib import sha1
+from pathlib import Path
 from shutil import rmtree
 from typing import Union
 
@@ -144,7 +144,7 @@ class TaskCacheManager:
     Args:
         task_hash (str): Hashed task name
         n_versions (int, optional):
-            Number of cache versions to retain. Defaults to 1.
+            Number of cache versions to retain. Defaults to 3.
         path_cache_folder (Path, optional):
             Path to the cache folder. Defaults to path_cache_folder.
     """
@@ -152,7 +152,7 @@ class TaskCacheManager:
     def __init__(
         self,
         task_hash: str,
-        n_versions: int = 1,
+        n_versions: int = 3,
         path_cache_folder: Path = path_cache_folder,
     ) -> None:
         self.task_hash = task_hash
@@ -163,11 +163,13 @@ class TaskCacheManager:
         self.setup_cache_folder()
 
     def check_n_versions(self):
+        """Function that checks whether `n_version` is valid"""
         if self.n_versions < 1:
             logger.warning("Coercing `n_version` to 1: value < 1 was provided")
             self.n_versions = 1
 
     def setup_cache_folder(self) -> None:
+        """Function that sets up the task cache folder and configurations"""
         self.path_cache_folder_th = path_cache_folder / self.task_hash
         self.cache_extention = "akamecache"
         self.cache_oldest_version: int = 0
@@ -182,6 +184,7 @@ class TaskCacheManager:
         return self.path_cache_folder_th / filename
 
     def replace_older_caches(self) -> None:
+        """Function that replaces older caches with their new versions"""
         paths_cache = self.path_cache_folder_th.iterdir()
         existing_versions = sorted([int(path.stem) for path in paths_cache])
         version_migration = [
@@ -197,7 +200,11 @@ class TaskCacheManager:
                 path_old.rename(path_new)
 
     def cache_task_mc(self, mc: MonitoredContent) -> None:
+        """Function that rotates and caches monitored content
 
+        Args:
+            mc (MonitoredContent): MonitoredContent to cache
+        """
         if self.n_versions > 1:
             if check_is_folder_emtpy(self.path_cache_folder_th):
                 pass
@@ -207,5 +214,6 @@ class TaskCacheManager:
         cache_mc(mc, self.get_path_cache(self.cache_newest_version))
 
     def get_newest_cache(self) -> Union[MonitoredContent, None]:
+        """Function that gets the newest cache"""
         path_cache = self.get_path_cache(self.cache_newest_version)
         return get_cached_mc(path_cache)

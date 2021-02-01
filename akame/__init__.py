@@ -1,14 +1,22 @@
 import logging
 from typing import Any, Dict
 
+from akame.extraction.core import ContentExtractorType, URLExtractorType
+
 from .comparison.pushover import PushoverComparer
 from .extraction.selector import get_extraction_set
 from .notification.basic import BasicNotifier
 from .notification.pushover import PushoverNotifier
+from .utility.caching import reset_cached_folder
 from .utility.task import SingleMonitorTask
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+
+
+def init() -> None:
+    """Function that initaties akame dependencies"""
+    reset_cached_folder(reset_whole_folder=True)
 
 
 def run_task(
@@ -30,12 +38,11 @@ def run_task(
         notify_creds (Dict[str, Any]): Credential for notification programs
     """
     logger.info(f"Setting up the monitoring task: '{task_name}'")
-
-    url_extractor, content_extractor = get_extraction_set(exset_name)
+    URLExtractor, ContentExtractor = get_extraction_set(exset_name)
 
     # initiate url_extractor, content_extractor, notifier
-    url_extractor = url_extractor(target_url=target_url)
-    content_extractor = content_extractor(url_extractor=url_extractor)
+    url_extractor = URLExtractor(target_url=target_url)
+    content_extractor = ContentExtractor(url_extractor=url_extractor)
     comparer = PushoverComparer(target_url=target_url)
     notifiers = [
         BasicNotifier(task_name),
