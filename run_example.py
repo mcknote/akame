@@ -1,4 +1,4 @@
-from examples import tmp_pchome
+from examples import worldtime_api
 
 if __name__ == "__main__":
-    tmp_pchome.main()
+    worldtime_api.main()

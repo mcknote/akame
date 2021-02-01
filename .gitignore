@@ -2,8 +2,9 @@
 .DS_Store
 .vscode/
 .akame_cache/
-examples/tmp_*
+examples/_*
 .isort.cfg
+.run_*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
