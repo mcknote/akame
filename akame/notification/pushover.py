@@ -3,7 +3,7 @@ from http.client import HTTPSConnection
 from typing import Any, Dict
 from urllib.parse import urlencode
 
-from akame_monitor.comparison.core import ComparerType
+from akame.comparison.core import ComparerType
 
 from .core import NotifierBase
 

@@ -21,7 +21,7 @@ def get_extraction_set(exset_name: str) -> ExtractionSet:
         ExtractionSet: Tuple with URL and content extractors
     """
     logger.info(f"Loading extraction set: '{exset_name}'")
-    package_name = "akame_monitor.extraction.sets"
+    package_name = "akame.extraction.sets"
     attrname_url = "URLExtractor"
     attrname_con = "ContentExtractor"
 

@@ -2,9 +2,9 @@ import logging
 import time
 from typing import Callable, List
 
-from akame_monitor.comparison.core import ComparerType
-from akame_monitor.extraction.core import ContentExtractorType
-from akame_monitor.notification.core import NotifierType
+from akame.comparison.core import ComparerType
+from akame.extraction.core import ContentExtractorType
+from akame.notification.core import NotifierType
 
 from .caching import cache_mc, get_cached_mc, reset_cached_folder
 from .core import MonitoredContent

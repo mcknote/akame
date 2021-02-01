@@ -10,7 +10,7 @@ from .core import MonitoredContent
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-path_cache_folder = os.path.join(sys.path[0], "akame_monitor", ".akame_cache")
+path_cache_folder = os.path.join(sys.path[0], "akame", ".akame_cache")
 path_cache = os.path.join(path_cache_folder, "monitored_content")
 
 

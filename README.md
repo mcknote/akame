@@ -28,7 +28,7 @@ $ git clone https://github.com/mcknote/AkameMonitor.git
 ```python
 from os import environ
 
-from akame_monitor import run_task
+from akame import run_task
 
 # credentials specific to pushover
 pushover_creds = {
@@ -48,7 +48,7 @@ if __name__ == "__main__":
 
 ```
 
-Parameters for `akame_monitor.run_task`:
+Parameters for `akame.run_task`:
 
 - `task_name`: Name of the monitoring task; this will appear in the console logs and notification programs.
 - `target_url`: URL to be monitored, e.g. an API endpoint or a webpage.
@@ -59,7 +59,7 @@ Parameters for `akame_monitor.run_task`:
 
 ## Extraction Sets Available
 
-All available extraction sets are located under `akame_monitor.extraction.sets`.
+All available extraction sets are located under `akame.extraction.sets`.
 
 | Name | Description |
 | --- | --- |

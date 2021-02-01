@@ -1,6 +1,6 @@
 import logging
 
-from akame_monitor.comparison.core import ComparerType
+from akame.comparison.core import ComparerType
 
 from .core import NotifierBase
 

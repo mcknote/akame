@@ -1,6 +1,6 @@
 from os import environ
 
-from akame_monitor import run_task
+from akame import run_task
 
 # credentials specific to pushover
 pushover_creds = {
