@@ -147,6 +147,8 @@ class TaskCacheManager:
             Number of cache versions to retain. Defaults to 3.
         path_cache_folder (Path, optional):
             Path to the cache folder. Defaults to path_cache_folder.
+        reset_task_cache (bool, optional):
+            Whether to reset task cache upon initilization. Defaults to True.
     """
 
     def __init__(
@@ -154,11 +156,13 @@ class TaskCacheManager:
         task_hash: str,
         n_versions: int = 3,
         path_cache_folder: Path = path_cache_folder,
+        reset_task_cache: bool = True,
     ) -> None:
         self.task_hash = task_hash
         self.n_versions = int(n_versions)
         self.check_n_versions()
         self.path_cache_folder = path_cache_folder
+        self.reset_task_cache = reset_task_cache
 
         self.setup_cache_folder()
 
@@ -177,7 +181,8 @@ class TaskCacheManager:
             self.cache_oldest_version + self.n_versions - 1
         )
 
-        reset_folder(self.path_cache_folder_th)
+        if self.reset_task_cache:
+            reset_folder(self.path_cache_folder_th)
 
     def get_path_cache(self, version: int) -> Path:
         filename = str(version) + "." + self.cache_extention
