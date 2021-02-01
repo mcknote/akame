@@ -49,6 +49,10 @@ def main() -> None:
         notify_creds=pushover_creds,
     )
 
+
+if __name__ == "__main__":
+    main()
+
 ```
 
 Parameters for `akame.run_task`:

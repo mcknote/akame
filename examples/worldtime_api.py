@@ -18,3 +18,7 @@ def main() -> None:
         loop_max_rounds=86400,
         notify_creds=pushover_creds,
     )
+
+
+if __name__ == "__main__":
+    main()
