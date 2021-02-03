@@ -2,22 +2,22 @@ import logging
 import re
 
 import requests
-
-from akame.extraction.core import StaticExtractor, URLBase, URLExtractorType
+from typing import Type
+from akame.extraction.core import StaticExtractor, URLManagerBase
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
-class URLExtractor(URLBase):
+class URLManager(URLManagerBase):
     def __init__(self, target_url: str):
         super().__init__(target_url)
 
-        self.clean_up_target_url()
+        self.parse_target_url()
         self.load_url_referrer()
-        self.load_url_cart_api()
+        self.load_url_to_request()
 
-    def clean_up_target_url(self):
+    def parse_target_url(self):
         pattern = r"https://www.books.com.tw/products/([0-9a-zA-Z]+)"
         self.product_id = re.match(pattern, self.target_url).group(1)
         self.target_url = (
@@ -27,16 +27,18 @@ class URLExtractor(URLBase):
     def load_url_referrer(self):
         self.url_referrer = self.target_url
 
-    def load_url_cart_api(self):
-        self.url_cart_api = (
+    def load_url_to_request(self):
+        self.url_to_request = (
             "https://www.books.com.tw/product_show/getProdCartInfoAjax/"
             f"{self.product_id}/M201105_005_view"
         )
 
 
-class ContentExtractor(StaticExtractor):
-    def __init__(self, url_extractor: URLExtractorType):
-        super().__init__(url_extractor)
+class Extractor(StaticExtractor):
+    def __init__(
+        self, target_url: str, url_manager: Type[URLManagerBase] = URLManager
+    ) -> None:
+        super().__init__(target_url, url_manager)
 
     def load_request_headers(self) -> None:
         self.request_headers = {
@@ -52,14 +54,14 @@ class ContentExtractor(StaticExtractor):
             "Sec-Fetch-Site": "same-origin",
             "Sec-Fetch-Mode": "cors",
             "Sec-Fetch-Dest": "empty",
-            "Referer": self.url_extractor.target_url,
+            "Referer": self.urls.url_referrer,
             "Accept-Encoding": "gzip, deflate, br",
             "Accept-Language": "en,zh-TW;q=0.9,zh-CN;q=0.8,zh;q=0.7,ja;q=0.6",
         }
 
     def get_response(self) -> requests.Response:
         return requests.get(
-            self.url_extractor.url_cart_api, headers=self.request_headers
+            self.urls.url_to_request, headers=self.request_headers
         )
 
     def main(self) -> str:

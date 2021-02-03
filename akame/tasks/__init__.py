@@ -3,7 +3,7 @@ import time
 from typing import Callable, List
 
 from akame.comparison.core import ComparerType
-from akame.extraction.core import ContentExtractorType
+from akame.extraction.core import ExtractorType
 from akame.notification.core import NotifierType
 
 from akame.utility.caching import CacheManagerType
@@ -83,7 +83,7 @@ class SingleMonitorTask:
     def __init__(
         self,
         task_name: str,
-        content_extractor: ContentExtractorType,
+        content_extractor: ExtractorType,
         comparer: ComparerType,
         notifiers: List[NotifierType],
         cache_manager: CacheManagerType,
