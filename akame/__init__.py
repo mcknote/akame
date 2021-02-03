@@ -44,6 +44,8 @@ def monitor_in_console(
     notifiers = [
         BasicNotifier(task_name),
     ]
+
+    # initiate notifiers
     cache_manager = TaskCacheManager(task_name=task_name)
 
     monitor_task = SingleMonitorTask(

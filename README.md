@@ -6,6 +6,7 @@ Akame Monitor is a collection of tools to constantly monitor web changes. It con
   - [Use Cases](#use-cases)
   - [Installation](#installation)
   - [Usage](#usage)
+    - [Monitor in Console](#monitor-in-console)
 
 ## Use Cases
 
@@ -23,6 +24,8 @@ $ git clone https://github.com/mcknote/AkameMonitor.git
 ```
 
 ## Usage
+
+### Monitor in Console
 
 Example from `examples/check_time_in_taipei.py`.
 
