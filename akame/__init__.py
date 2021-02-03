@@ -7,7 +7,7 @@ from .comparison.basic import BasicComparer
 from .extraction import select_sets
 from .notification.basic import BasicNotifier
 from .utility.caching import reset_cached_folder, TaskCacheManager
-from .utility.task import SingleMonitorTask
+from .tasks import SingleMonitorTask
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
