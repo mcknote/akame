@@ -1,7 +1,7 @@
 from concurrent.futures import ThreadPoolExecutor
 
 from akame import init
-from examples import exchangeratesapi, worldtimeapi
+from examples import check_time_in_taipei, check_usd_exchange_rate
 
 
 # https://stackoverflow.com/questions/7207309/how-to-run-functions-in-parallel
@@ -16,7 +16,7 @@ def main():
     init()
     tasks = [
         getattr(example, "main")
-        for example in (worldtimeapi, exchangeratesapi)
+        for example in (check_time_in_taipei, check_usd_exchange_rate)
     ]
     run_io_tasks_in_parallel(tasks)
 

@@ -6,7 +6,6 @@ Akame Monitor is a collection of tools to constantly monitor web changes. It con
   - [Use Cases](#use-cases)
   - [Installation](#installation)
   - [Usage](#usage)
-  - [Extraction Sets Available](#extraction-sets-available)
 
 ## Use Cases
 
@@ -25,7 +24,7 @@ $ git clone https://github.com/mcknote/AkameMonitor.git
 
 ## Usage
 
-Example from `examples/worldtime_api.py`.
+Example from `examples/check_time_in_taipei.py`.
 
 ```python
 from akame import monitor_in_console
@@ -37,7 +36,6 @@ def main() -> None:
     monitor_in_console(
         task_name="Does Time Flow in Taipei?",
         target_url=(r"http://worldtimeapi.org/api/timezone/Asia/Taipei"),
-        exset_name="basic",
         loop_seconds=30,
         loop_max_rounds=86400,
     )
@@ -52,14 +50,5 @@ Parameters for `akame.run_basic_task`:
 
 - `task_name`: Name of the monitoring task; this will appear in the console logs and notification programs.
 - `target_url`: URL to be monitored, e.g. an API endpoint or a webpage.
-- `exset_name`: Name of the extraction set, which handles both the URL and content extraction. Default to `basic`. See [Extraction Sets Available](#extraction-sets-available) for more details.
 - `loop_seconds`: Interval in seconds between all monitoring rounds. Default to `30` seconds.
 - `loop_max_rounds`: Maximum number of rounds to monitor. Default to `86400` rounds (so with 30 seceonds, this would make a one-month monitoring task).
-
-## Extraction Sets Available
-
-All available extraction sets are located under `akame.extraction.sets`.
-
-| Name | Description |
-| --- | --- |
-| `basic` | The basic extraction set that almost equates to a `requests.get(target_url)` call. |

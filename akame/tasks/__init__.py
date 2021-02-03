@@ -5,7 +5,6 @@ from typing import Callable, List
 from akame.comparison.core import ComparerType
 from akame.extraction.core import ExtractorType
 from akame.notification.core import NotifierType
-
 from akame.utility.caching import CacheManagerType
 from akame.utility.core import MonitoredContent
 

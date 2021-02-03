@@ -1,8 +1,8 @@
 import logging
 import re
-
 from typing import Type
-from akame.extraction.core import URLManagerBase, ExtractorBase
+
+from akame.extraction.core import ExtractorBase, URLManagerBase
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)

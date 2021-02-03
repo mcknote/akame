@@ -1,6 +1,6 @@
 import logging
 
-from .basic import BasicComparer
+from . import BasicComparer
 from .formatter import StringDelta
 
 logging.basicConfig(level=logging.INFO)
