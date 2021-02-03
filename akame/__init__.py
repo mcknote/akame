@@ -19,7 +19,7 @@ def init() -> None:
     reset_cached_folder(reset_whole_folder=True)
 
 
-def run_basic_task(
+def monitor_in_console(
     task_name: str,
     target_url: str,
     exset_name: str,

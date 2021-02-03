@@ -80,12 +80,12 @@ class StringDelta:
         logger.info("Returning all delta parts in lists")
         return (self.parts_matched, self.parts_changed_a, self.parts_changed_b)
 
-    def get_delta_in_html(self) -> str:
+    def get_delta_in_pushover_html(self) -> str:
         logger.info("Formatting delta in HTML")
         template_matched = "<font>{part_matched}</font>"
         template_all = (
-            template_matched + '<font color="green">{part_changed_a}</font>'
-            '<font color="grey"><strike>{part_changed_b}</strike></font>'
+            template_matched + '<font color="green">{part_changed_b}</font>'
+            '<font color="grey"><strike>{part_changed_a}</strike></font>'
         )
 
         formatted_strings = [

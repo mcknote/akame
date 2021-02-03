@@ -28,14 +28,13 @@ $ git clone https://github.com/mcknote/AkameMonitor.git
 Example from `examples/worldtime_api.py`.
 
 ```python
-from os import environ
-
-from akame import run_basic_task
+from akame import monitor_in_console
 
 
 def main() -> None:
     """Function that runs the example"""
-    run_basic_task(
+
+    monitor_in_console(
         task_name="Does Time Flow in Taipei?",
         target_url=(r"http://worldtimeapi.org/api/timezone/Asia/Taipei"),
         exset_name="basic",

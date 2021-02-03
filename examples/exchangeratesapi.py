@@ -1,12 +1,10 @@
-from os import environ
-
-from akame import run_basic_task
+from akame import monitor_in_console
 
 
 def main() -> None:
     """Function that runs the example"""
 
-    run_basic_task(
+    monitor_in_console(
         task_name="USD based exchange rates",
         target_url=(r"https://api.exchangeratesapi.io/latest?base=USD"),
         exset_name="basic",

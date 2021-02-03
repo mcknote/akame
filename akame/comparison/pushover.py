@@ -21,7 +21,7 @@ class PushoverComparer(BasicComparer):
 
     def get_delta_in_html(self) -> str:
         finder = StringDelta(a=self.content_0, b=self.content_1)
-        return finder.get_delta_in_html()
+        return finder.get_delta_in_pushover_html()
 
     def get_target_url_in_html(self) -> str:
         return f'<a href="{self.target_url}">{self.target_url}</a>'
