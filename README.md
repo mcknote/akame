@@ -30,23 +30,17 @@ Example from `examples/worldtime_api.py`.
 ```python
 from os import environ
 
-from akame import run_task
+from akame import run_basic_task
 
 
 def main() -> None:
     """Function that runs the example"""
-    # credentials specific to pushover
-    pushover_creds = {
-        "token": environ["PUSHOVER_TOKEN"],
-        "user_key": environ["PUSHOVER_USERKEY"],
-    }
-    run_task(
+    run_basic_task(
         task_name="Does Time Flow in Taipei?",
         target_url=(r"http://worldtimeapi.org/api/timezone/Asia/Taipei"),
         exset_name="basic",
         loop_seconds=30,
         loop_max_rounds=86400,
-        notifier_creds=pushover_creds,
     )
 
 
@@ -55,14 +49,13 @@ if __name__ == "__main__":
 
 ```
 
-Parameters for `akame.run_task`:
+Parameters for `akame.run_basic_task`:
 
 - `task_name`: Name of the monitoring task; this will appear in the console logs and notification programs.
 - `target_url`: URL to be monitored, e.g. an API endpoint or a webpage.
 - `exset_name`: Name of the extraction set, which handles both the URL and content extraction. Default to `basic`. See [Extraction Sets Available](#extraction-sets-available) for more details.
 - `loop_seconds`: Interval in seconds between all monitoring rounds. Default to `30` seconds.
 - `loop_max_rounds`: Maximum number of rounds to monitor. Default to `86400` rounds (so with 30 seceonds, this would make a one-month monitoring task).
-- `notifier_creds`: Crentials to be used in the notifier, which is default to Pushover and requires two attributes: `token` and `user_key`.
 
 ## Extraction Sets Available
 

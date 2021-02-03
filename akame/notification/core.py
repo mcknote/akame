@@ -1,5 +1,5 @@
 import logging
-from typing import Any, Dict, List, TypeVar
+from typing import Any, Dict, List, TypeVar, Union
 
 from akame.comparison.core import ComparerType
 
@@ -13,10 +13,9 @@ NotifierType = TypeVar("NotifierType", bound="NotifierBase")
 class NotifierBase:
     """Class that defines the base notifier"""
 
-    def __init__(self, task_name: str, notifier_creds: Dict[str, Any]) -> None:
+    def __init__(self, task_name: str) -> None:
         logging.info(f"Initializing notifier: {self.__class__.__name__}")
         self.task_name = task_name
-        self.notifier_creds = notifier_creds
 
     def main(self, comparer: ComparerType) -> None:
         """Funtion that notifies based on comparer's info

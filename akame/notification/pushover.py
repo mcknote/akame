@@ -16,22 +16,24 @@ class PushoverNotifier(NotifierBase):
 
     Args:
         task_name (str): Task name
-        notifier_creds (Dict[str, Any]): Pushover credentials
-            Requires two keys: `token` and `user_key`
+        pushover_token (str): Pushover API token
+        pushover_user_key (str): Pushover user key
     """
 
-    def __init__(self, task_name: str, notifier_creds: Dict[str, Any]) -> None:
-        super().__init__(task_name, notifier_creds)
-        self.token = notifier_creds["token"]
-        self.user_key = notifier_creds["user_key"]
+    def __init__(
+        self, task_name: str, pushover_token: str, pushover_user_key: str
+    ) -> None:
+        super().__init__(task_name)
+        self.pushover_token = pushover_token
+        self.pushover_user_key = pushover_user_key
 
     def send_notification(self, message: str) -> None:
         logger.info("Sending out notification through Pushover")
 
         conn = HTTPSConnection("api.pushover.net:443")
         headers = {
-            "token": self.token,
-            "user": self.user_key,
+            "token": self.pushover_token,
+            "user": self.pushover_user_key,
             "title": self.task_name,
             "message": message,
             "html": 1,

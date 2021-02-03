@@ -3,10 +3,9 @@ from typing import Any, Dict
 
 from akame.extraction.core import ContentExtractorType, URLExtractorType
 
-from .comparison.pushover import PushoverComparer
-from .extraction.selector import get_extraction_set
+from .comparison.basic import BasicComparer
+from .extraction import select_sets
 from .notification.basic import BasicNotifier
-from .notification.pushover import PushoverNotifier
 from .utility.caching import reset_cached_folder
 from .utility.task import SingleMonitorTask
 
@@ -20,15 +19,15 @@ def init() -> None:
     reset_cached_folder(reset_whole_folder=True)
 
 
-def run_task(
+def run_basic_task(
     task_name: str,
     target_url: str,
     exset_name: str,
     loop_seconds: int,
     loop_max_rounds: int,
-    notifier_creds: Dict[str, Any],
 ) -> None:
-    """Function that runs the monitoring task
+    """Function that runs basic monitoring tasks
+    and shows results through console logs
 
     Args:
         task_name (str): Name of the task
@@ -36,18 +35,16 @@ def run_task(
         exset_name (str): Name of the extraction set from `extraction.sets`
         loop_seconds (int): Interval in seconds between all rounds
         loop_max_rounds (int): Maximum number of rounds to monitor
-        notifier_creds (Dict[str, Any]): Credential for notification programs
     """
     logger.info(f"Setting up the monitoring task: '{task_name}'")
-    URLExtractor, ContentExtractor = get_extraction_set(exset_name)
+    URLExtractor, ContentExtractor = select_sets(exset_name)
 
     # initiate url_extractor, content_extractor, notifier
     url_extractor = URLExtractor(target_url=target_url)
     content_extractor = ContentExtractor(url_extractor=url_extractor)
-    comparer = PushoverComparer(target_url=target_url)
+    comparer = BasicComparer()
     notifiers = [
         BasicNotifier(task_name),
-        PushoverNotifier(task_name, notifier_creds=notifier_creds),
     ]
 
     monitor_task = SingleMonitorTask(

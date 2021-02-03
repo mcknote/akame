@@ -19,15 +19,22 @@ class SendGridNotifier(NotifierBase):
 
     Args:
         task_name (str): Task name
-        notifier_creds (Dict[str, Any]): Pushover credentials
-            Requires two keys: `sendgrid_api_key`, `from_email`, `to_email`
+        sendgrid_api_key (str): SendGrid API key
+        from_email (str): Emails to be sent from
+        to_email (str): Emails to be sent to
     """
 
-    def __init__(self, task_name: str, notifier_creds: Dict[str, Any]) -> None:
-        super().__init__(task_name, notifier_creds)
-        self.sendgrid_api_key = notifier_creds["sendgrid_api_key"]
-        self.from_email = notifier_creds["from_email"]
-        self.to_email = notifier_creds["to_email"]
+    def __init__(
+        self,
+        task_name: str,
+        sendgrid_api_key: str,
+        from_email: str,
+        to_email: str,
+    ) -> None:
+        super().__init__(task_name)
+        self.sendgrid_api_key = sendgrid_api_key
+        self.from_email = from_email
+        self.to_email = to_email
 
     def send_notification(self, message: str) -> None:
         client = SendGridAPIClient(self.sendgrid_api_key)
