@@ -4,7 +4,7 @@ import sys
 from hashlib import sha1
 from pathlib import Path
 from shutil import rmtree
-from typing import Union
+from typing import TypeVar, Union
 
 from .core import MonitoredContent
 
@@ -12,6 +12,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 path_cache_folder = Path(sys.path[0]) / "akame" / ".akame_cache"
+CacheManagerType = TypeVar("CacheManagerType", bound="CacheManagerBase")
 
 
 def get_task_hash(task_name: str) -> str:
@@ -138,11 +139,21 @@ def cache_mc(mc: MonitoredContent, path_cache: Path) -> None:
         pickle.dump(mc, f)
 
 
-class TaskCacheManager:
+class CacheManagerBase:
+    """Class that defines the base cache manager"""
+
+    def cache_task_mc(self, mc: MonitoredContent) -> None:
+        pass
+
+    def get_newest_cache(self) -> Union[MonitoredContent, None]:
+        pass
+
+
+class TaskCacheManager(CacheManagerBase):
     """Class that handles caching for a monitoring task
 
     Args:
-        task_hash (str): Hashed task name
+        task_name (str): Name of the task
         n_versions (int, optional):
             Number of cache versions to retain. Defaults to 3.
         path_cache_folder (Path, optional):
@@ -153,12 +164,14 @@ class TaskCacheManager:
 
     def __init__(
         self,
-        task_hash: str,
+        task_name: str,
         n_versions: int = 3,
         path_cache_folder: Path = path_cache_folder,
         reset_task_cache: bool = True,
     ) -> None:
-        self.task_hash = task_hash
+        super().__init__()
+        self.task_name = task_name
+        self.task_hash = get_task_hash(task_name)
         self.n_versions = int(n_versions)
         self.check_n_versions()
         self.path_cache_folder = path_cache_folder

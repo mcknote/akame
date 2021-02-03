@@ -6,7 +6,7 @@ from akame.extraction.core import ContentExtractorType, URLExtractorType
 from .comparison.basic import BasicComparer
 from .extraction import select_sets
 from .notification.basic import BasicNotifier
-from .utility.caching import reset_cached_folder
+from .utility.caching import reset_cached_folder, TaskCacheManager
 from .utility.task import SingleMonitorTask
 
 logging.basicConfig(level=logging.INFO)
@@ -46,12 +46,14 @@ def monitor_in_console(
     notifiers = [
         BasicNotifier(task_name),
     ]
+    cache_manager = TaskCacheManager(task_name=task_name)
 
     monitor_task = SingleMonitorTask(
         task_name=task_name,
         content_extractor=content_extractor,
         comparer=comparer,
         notifiers=notifiers,
+        cache_manager=cache_manager,
         loop_seconds=loop_seconds,
         loop_max_rounds=loop_max_rounds,
     )

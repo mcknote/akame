@@ -6,7 +6,7 @@ from akame.comparison.core import ComparerType
 from akame.extraction.core import ContentExtractorType
 from akame.notification.core import NotifierType
 
-from .caching import TaskCacheManager, get_task_hash
+from .caching import CacheManagerType
 from .core import MonitoredContent
 
 logging.basicConfig(level=logging.INFO)
@@ -63,15 +63,19 @@ def loop_task(*ignore, seconds: int, max_rounds: int) -> Callable:
     return decorator
 
 
-# TODO: parameterize `cache_manager`
 class SingleMonitorTask:
     """Class that organizes single monitoring task
 
     Args:
         task_name (str): Name of the task
         content_extractor (ContentExtractorType): Content extractor
+            that extracts the monitored content
         comparer (ComparerType): Comparer
+            that compares the monitored content
         notifiers (List[NotifierType]): List of notifiers
+            that push notifications on comparison results
+        cache_manager (CacheManagerType): Cache manager
+            that archives and loads all monitored content
         loop_seconds (int): Interval in seconds between all rounds
         loop_max_rounds (int): Maximum number of rounds to monitor
     """
@@ -82,6 +86,7 @@ class SingleMonitorTask:
         content_extractor: ContentExtractorType,
         comparer: ComparerType,
         notifiers: List[NotifierType],
+        cache_manager: CacheManagerType,
         loop_seconds: int,
         loop_max_rounds: int,
     ) -> None:
@@ -89,14 +94,12 @@ class SingleMonitorTask:
         logger.info(f"Starting the monitoring task: '{task_name}'")
 
         self.task_name = str(task_name)
-        self.task_hash = get_task_hash(self.task_name)
         self.content_extractor = content_extractor
         self.comparer = comparer
         self.notifiers = notifiers
+        self.cache_manager = cache_manager
         self.loop_seconds = loop_seconds
         self.loop_max_rounds = loop_max_rounds
-
-        self.cache_manager = TaskCacheManager(task_hash=self.task_hash)
 
     def get_monitored_content(self) -> MonitoredContent:
         content = self.content_extractor.main()
