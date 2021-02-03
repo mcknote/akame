@@ -46,7 +46,7 @@ def main() -> None:
         exset_name="basic",
         loop_seconds=30,
         loop_max_rounds=86400,
-        notify_creds=pushover_creds,
+        notifier_creds=pushover_creds,
     )
 
 
@@ -62,7 +62,7 @@ Parameters for `akame.run_task`:
 - `exset_name`: Name of the extraction set, which handles both the URL and content extraction. Default to `basic`. See [Extraction Sets Available](#extraction-sets-available) for more details.
 - `loop_seconds`: Interval in seconds between all monitoring rounds. Default to `30` seconds.
 - `loop_max_rounds`: Maximum number of rounds to monitor. Default to `86400` rounds (so with 30 seceonds, this would make a one-month monitoring task).
-- `notify_creds`: Crentials to be used in the notifier, which is default to Pushover and requires two attributes: `token` and `user_key`.
+- `notifier_creds`: Crentials to be used in the notifier, which is default to Pushover and requires two attributes: `token` and `user_key`.
 
 ## Extraction Sets Available
 

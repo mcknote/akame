@@ -1,7 +1,7 @@
 from concurrent.futures import ThreadPoolExecutor
 
 from akame import init
-from examples import worldtimeapi, exchangeratesapi
+from examples import exchangeratesapi, worldtimeapi
 
 
 # https://stackoverflow.com/questions/7207309/how-to-run-functions-in-parallel

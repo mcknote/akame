@@ -26,7 +26,7 @@ def run_task(
     exset_name: str,
     loop_seconds: int,
     loop_max_rounds: int,
-    notify_creds: Dict[str, Any],
+    notifier_creds: Dict[str, Any],
 ) -> None:
     """Function that runs the monitoring task
 
@@ -36,7 +36,7 @@ def run_task(
         exset_name (str): Name of the extraction set from `extraction.sets`
         loop_seconds (int): Interval in seconds between all rounds
         loop_max_rounds (int): Maximum number of rounds to monitor
-        notify_creds (Dict[str, Any]): Credential for notification programs
+        notifier_creds (Dict[str, Any]): Credential for notification programs
     """
     logger.info(f"Setting up the monitoring task: '{task_name}'")
     URLExtractor, ContentExtractor = get_extraction_set(exset_name)
@@ -47,7 +47,7 @@ def run_task(
     comparer = PushoverComparer(target_url=target_url)
     notifiers = [
         BasicNotifier(task_name),
-        PushoverNotifier(task_name, notify_creds=notify_creds),
+        PushoverNotifier(task_name, notifier_creds=notifier_creds),
     ]
 
     monitor_task = SingleMonitorTask(

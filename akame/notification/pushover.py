@@ -16,14 +16,14 @@ class PushoverNotifier(NotifierBase):
 
     Args:
         task_name (str): Task name
-        notify_creds (Dict[str, Any]): Pushover credentials
+        notifier_creds (Dict[str, Any]): Pushover credentials
             Requires two keys: `token` and `user_key`
     """
 
-    def __init__(self, task_name: str, notify_creds: Dict[str, Any]) -> None:
-        super().__init__(task_name)
-        self.token = notify_creds["token"]
-        self.user_key = notify_creds["user_key"]
+    def __init__(self, task_name: str, notifier_creds: Dict[str, Any]) -> None:
+        super().__init__(task_name, notifier_creds)
+        self.token = notifier_creds["token"]
+        self.user_key = notifier_creds["user_key"]
 
     def send_notification(self, message: str) -> None:
         logger.info("Sending out notification through Pushover")
@@ -42,7 +42,10 @@ class PushoverNotifier(NotifierBase):
             urlencode(headers),
             {"Content-type": "application/x-www-form-urlencoded"},
         )
-        conn.getresponse()
+        try:
+            conn.getresponse()
+        except Exception as e:
+            logger.error(f"Failed to send the message: {e}")
 
     def main(self, comparer: ComparerType) -> None:
         if comparer.status_code == 1:

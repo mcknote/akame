@@ -16,7 +16,7 @@ def main() -> None:
         exset_name="basic",
         loop_seconds=300,
         loop_max_rounds=8640,
-        notify_creds=pushover_creds,
+        notifier_creds=pushover_creds,
     )
 
 
