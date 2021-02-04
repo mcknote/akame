@@ -23,8 +23,8 @@ def main() -> None:
     # define the task
     TASK_NAME = "How's the weather in Taipei?"
     TARGET_URL = r"https://www.metaweather.com/api/location/2487956/"
-    LOOP_SECONDS = 60 * 60 * 1  # every two hours
-    LOOP_MAX_ROUNDS = int(24 / 1)  # for a day
+    LOOP_SECONDS = 60 * 60 * 2  # every two hours
+    LOOP_MAX_ROUNDS = int(24 / 2)  # for a day
 
     # initiate extractor
     extractor = BasicExtractor(TARGET_URL)
