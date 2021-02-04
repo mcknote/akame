@@ -154,7 +154,7 @@ Under the hood the monitors above are all constructed using `akame.tasks.SingleM
 
 Notes:
 
-1. Site-specific extractors can be imported from and recommended to be defined in `akame.extraction.sets.{site_name}`
+1. Site-specific extractors can be imported from and are recommended to be defined in `akame.extraction.sets.{site_name}`
 2. Additional setups may be required by the notification program
 
 ### Example
