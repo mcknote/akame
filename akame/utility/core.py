@@ -1,6 +1,6 @@
 import logging
 from datetime import datetime
-from typing import Any, Optional, Hashable
+from typing import Any, Hashable, Optional
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
