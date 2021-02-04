@@ -1,4 +1,3 @@
-"""isort:skip_file"""
 from os import environ
 
 from akame import init

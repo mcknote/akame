@@ -6,6 +6,7 @@ from akame import init, monitor_with_pushover
 def main() -> None:
     """Function that runs the example"""
 
+    # load pushover credentials
     pushover_token = environ["PUSHOVER_TOKEN"]
     pushover_user_key = environ["PUSHOVER_USER_KEY"]
 
