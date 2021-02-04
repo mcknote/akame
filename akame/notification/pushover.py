@@ -22,10 +22,8 @@ class PushoverNotifier(NotifierBase):
         pushover_user_key (str): Pushover user key
     """
 
-    def __init__(
-        self, task_name: str, pushover_token: str, pushover_user_key: str
-    ) -> None:
-        super().__init__(task_name)
+    def __init__(self, pushover_token: str, pushover_user_key: str) -> None:
+        super().__init__()
         self.pushover_token = pushover_token
         self.pushover_user_key = pushover_user_key
 

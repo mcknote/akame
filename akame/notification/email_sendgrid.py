@@ -26,12 +26,11 @@ class SendGridNotifier(NotifierBase):
 
     def __init__(
         self,
-        task_name: str,
         sendgrid_api_key: str,
         from_email: str,
         to_email: str,
     ) -> None:
-        super().__init__(task_name)
+        super().__init__()
         self.sendgrid_api_key = sendgrid_api_key
         self.from_email = from_email
         self.to_email = to_email

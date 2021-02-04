@@ -41,7 +41,7 @@ def monitor_in_console(
     # initiate comparer
     comparer = BasicComparer()
     # initiate notifiers
-    notifiers = [BasicNotifier(task_name)]
+    notifiers = [BasicNotifier()]
     # initiate notifiers
     cache_manager = TaskCacheManager(task_name=task_name)
 
@@ -84,9 +84,8 @@ def monitor_with_pushover(
     comparer = BasicComparer()
     # initiate notifiers
     notifiers = [
-        BasicNotifier(task_name=task_name),
+        BasicNotifier(),
         PushoverNotifier(
-            task_name=task_name,
             pushover_token=pushover_token,
             pushover_user_key=pushover_user_key,
         ),
@@ -135,9 +134,8 @@ def monitor_with_sendgrid(
     comparer = BasicComparer()
     # initiate notifiers
     notifiers = [
-        BasicNotifier(task_name=task_name),
+        BasicNotifier(),
         SendGridNotifier(
-            task_name=task_name,
             sendgrid_api_key=sendgrid_api_key,
             from_email=from_email,
             to_email=to_email,

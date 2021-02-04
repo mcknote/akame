@@ -17,8 +17,12 @@ class BasicNotifier(NotifierBase):
         task_name (str): Task name
     """
 
-    def __init__(self, task_name: str) -> None:
-        super().__init__(task_name)
+    def __init__(self) -> None:
+        super().__init__()
+
+    def load_task_info(self, task_name: str, target_url: str) -> None:
+        self.task_name = task_name
+        self.target_url = target_url
 
     def send_notification(self, message: str) -> None:
         logger.info(message)

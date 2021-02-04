@@ -112,6 +112,7 @@ class SingleMonitorTask:
         self.extractor = extractor
         self.comparer = comparer
         self.notifiers = notifiers
+        self.initiate_notifiers()
         self.loop_seconds = loop_seconds
         self.loop_max_rounds = loop_max_rounds
 
@@ -119,6 +120,15 @@ class SingleMonitorTask:
             self.cache_manager = cache_manager
         else:
             self.cache_manager = TaskCacheManager(task_name=task_name)
+
+    def initiate_notifiers(self) -> None:
+        _ = [
+            notifier.load_task_info(
+                task_name=self.task_name,
+                target_url=self.extractor.urls.target_url,
+            )
+            for notifier in self.notifiers
+        ]
 
     def extract_monitored_content(self) -> MonitoredContent:
         content = self.extractor.main()

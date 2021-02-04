@@ -41,14 +41,12 @@ def main() -> None:
     sendgrid_api_key = environ["SENDGRID_API_KEY"]
 
     notifiers = [
-        BasicNotifier(task_name),
+        BasicNotifier(),
         PushoverNotifier(
-            task_name,
             pushover_token=pushover_token,
             pushover_user_key=pushover_user_key,
         ),
         SendGridNotifier(
-            task_name,
             sendgrid_api_key=sendgrid_api_key,
             from_email="from@foobar.baz",
             to_email="to@foobar.baz",
