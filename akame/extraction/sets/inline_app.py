@@ -33,7 +33,7 @@ class URLManager(URLManagerBase):
         )
 
 
-class ContentExtractor(ExtractorBase):
+class Extractor(ExtractorBase):
     def __init__(
         self, target_url: str, url_manager: Type[URLManagerBase] = URLManager
     ) -> None:

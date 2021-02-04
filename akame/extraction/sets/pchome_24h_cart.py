@@ -10,7 +10,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
-class URLExtractor(URLManagerBase):
+class URLManager(URLManagerBase):
     def __init__(self, target_url: str):
         super().__init__(target_url)
 
@@ -35,9 +35,9 @@ class URLExtractor(URLManagerBase):
         )
 
 
-class ContentExtractor(StaticExtractor):
+class Extractor(StaticExtractor):
     def __init__(
-        self, target_url: str, url_manager: Type[URLManagerBase]
+        self, target_url: str, url_manager: Type[URLManagerBase] = URLManager
     ) -> None:
         super().__init__(target_url, url_manager)
 

@@ -21,10 +21,13 @@ from akame.notification.email_sendgrid import SendGridNotifier
 def main() -> None:
     """Function that runs the example"""
 
-    # Where On Earth ID of Taipei
+    # define the task
     task_name = "How's the weather in Taipei?"
-    WOEID_TAIPEI = "2487956"
+    WOEID_TAIPEI = "2487956"  # Where On Earth ID of Taipei
     target_url = f"https://www.metaweather.com/api/location/{WOEID_TAIPEI}/"
+
+    LOOP_SECONDS = 60 * 60 * 1  # every two hours
+    LOOP_MAX_ROUNDS = int(24 / 1)  # for a day
 
     # initiate extractor
     extractor = BasicExtractor(target_url)
@@ -58,8 +61,8 @@ def main() -> None:
         extractor=extractor,
         comparer=comparer,
         notifiers=notifiers,
-        loop_seconds=60 * 60 * 1,  # every two hours
-        loop_max_rounds=int(24 / 1),  # for a day
+        loop_seconds=LOOP_SECONDS,
+        loop_max_rounds=LOOP_MAX_ROUNDS,
     )
 
     task.main()
