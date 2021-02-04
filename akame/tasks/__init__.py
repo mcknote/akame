@@ -63,8 +63,9 @@ def loop_task(*ignore, seconds: float, max_rounds: int) -> Callable:
     return decorator
 
 
+# slightly modified from
 # https://stackoverflow.com/questions/7207309/how-to-run-functions-in-parallel
-def run_io_tasks_in_parallel(tasks: List[Callable]):
+def run_tasks_in_parallel(tasks: List[Callable]):
     """Function that runs multiple monitoring tasks in parallel
 
     Args:

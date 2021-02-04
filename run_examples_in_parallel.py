@@ -1,5 +1,5 @@
 from akame import init
-from akame.tasks import run_io_tasks_in_parallel
+from akame.tasks import run_tasks_in_parallel
 from examples import check_time_in_taipei, check_usd_exchange_rate
 
 
@@ -9,7 +9,7 @@ def main():
         getattr(example, "main")
         for example in (check_time_in_taipei, check_usd_exchange_rate)
     ]
-    run_io_tasks_in_parallel(tasks)
+    run_tasks_in_parallel(tasks)
 
 
 if __name__ == "__main__":
