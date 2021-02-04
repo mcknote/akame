@@ -14,8 +14,6 @@ class BasicComparer(ComparerBase):
     def __init__(self) -> None:
         logging.info(f"Initializing comparer: {self.__class__.__name__}")
 
-        self.content_0: Any = None
-        self.content_1: Any = None
         self.comparison_status: Union[bool, None] = None
         self.status_code: int = -1
         self.message: str = ""

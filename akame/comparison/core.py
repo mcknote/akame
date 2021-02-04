@@ -24,4 +24,13 @@ class ComparerBase:
         pass
 
     def main(self, content_0: Any, content_1: Any):
+        """Function that loads the content to compare
+
+        Args:
+            content_0 (Any): Archived monitored content or predefined
+                constants to be compared against
+            content_1 (Any): Current mnoitored content
+        """
+        self.content_0 = content_0
+        self.content_1 = content_1
         pass

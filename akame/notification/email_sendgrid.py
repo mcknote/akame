@@ -41,8 +41,8 @@ class SendGridNotifier(NotifierBase):
         message = Mail(
             from_email=self.from_email,
             to_emails=self.to_email,
-            subject="Sending with Twilio SendGrid is Fun",
-            html_content="<strong>and easy to do anywhere, even with Python</strong>",
+            subject=f"Monitoring Task: {self.task_name}",
+            html_content=message,
         )
         try:
             client.send(message)

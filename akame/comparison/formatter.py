@@ -1,8 +1,9 @@
 import logging
 from difflib import SequenceMatcher
 from textwrap import dedent
-from termcolor import colored
 from typing import Dict, List, Tuple
+
+from termcolor import colored
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
