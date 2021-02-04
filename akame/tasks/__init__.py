@@ -92,7 +92,7 @@ class SingleMonitorTask:
         loop_max_rounds (int): Maximum number of rounds to monitor
         cache_manager (CacheManagerType): Cache manager
             that archives and loads all monitored content.
-            Defaults to None; predefined manager will be initiated
+            Defaults to None: predefined manager will be initiated
     """
 
     def __init__(
@@ -112,7 +112,7 @@ class SingleMonitorTask:
         self.extractor = extractor
         self.comparer = comparer
         self.notifiers = notifiers
-        self.initiate_notifiers()
+        self.contextualize_notifiers()
         self.loop_seconds = loop_seconds
         self.loop_max_rounds = loop_max_rounds
 
@@ -121,7 +121,8 @@ class SingleMonitorTask:
         else:
             self.cache_manager = TaskCacheManager(task_name=task_name)
 
-    def initiate_notifiers(self) -> None:
+    def contextualize_notifiers(self) -> None:
+        """Function that contextualizes notifiers with task info"""
         _ = [
             notifier.load_task_info(
                 task_name=self.task_name,
@@ -131,10 +132,20 @@ class SingleMonitorTask:
         ]
 
     def extract_monitored_content(self) -> MonitoredContent:
+        """Function that extracts monitored content
+
+        Returns:
+            MonitoredContent: Monitored content
+        """
         content = self.extractor.main()
         return MonitoredContent(content)
 
     def compare_monitored_content(self, mc_1: MonitoredContent) -> None:
+        """Function that compares monitored content
+
+        Args:
+            mc_1 (MonitoredContent): Monitored content to compare
+        """
         mc_0 = self.cache_manager.get_newest_cache()
         self.cache_manager.cache_task_mc(mc_1)
         content_0 = mc_0.content if mc_0 else None
@@ -142,10 +153,15 @@ class SingleMonitorTask:
         self.comparer.main(content_0=content_0, content_1=content_1)
 
     def notify_comparison_results(self) -> None:
+        """Function that notifies of comparison results. The notification logic
+        is defined in each notifier
+        """
         for notifier in self.notifiers:
             notifier.main(self.comparer)
 
     def main(self) -> None:
+        """Function that performs the monitoring tasks on a loop"""
+
         def task():
             monitored_content = self.extract_monitored_content()
             self.compare_monitored_content(monitored_content)
