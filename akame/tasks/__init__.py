@@ -148,7 +148,7 @@ class SingleMonitorTask:
         """
         mc_0 = self.cache_manager.get_newest_cache()
         self.cache_manager.cache_task_mc(mc_1)
-        content_0 = mc_0.content if mc_0 else None
+        content_0 = mc_0.content
         content_1 = mc_1.content
         self.comparer.main(content_0=content_0, content_1=content_1)
 

@@ -108,18 +108,18 @@ def reset_cached_folder(
         reset_folder(path_cache_folder)
 
 
-def get_cached_mc(path_cache) -> Union[MonitoredContent, None]:
+def get_cached_mc(path_cache) -> MonitoredContent:
     """Function that returns the cached Monitored Content
 
     Args:
         path_cache (Path, optional): Path to the cache file.
 
     Returns:
-        Union[MonitoredContent, None]: Fetched MonitoredContent or nothing
+        MonitoredContent: Fetched MonitoredContent
     """
     if not path_cache.exists():
         logger.info("Caching Monitored Content for the first run")
-        mc_0: Union[MonitoredContent, None] = None
+        mc_0 = MonitoredContent()
     else:
         logger.info("Comparing the old and new Monitored Content")
         with open(path_cache, "rb") as f:
@@ -238,7 +238,7 @@ class TaskCacheManager(CacheManagerBase):
 
         cache_mc(mc, self.get_path_cache(self.cache_newest_version))
 
-    def get_newest_cache(self) -> Union[MonitoredContent, None]:
+    def get_newest_cache(self) -> MonitoredContent:
         """Function that gets the newest cache"""
         path_cache = self.get_path_cache(self.cache_newest_version)
         return get_cached_mc(path_cache)
