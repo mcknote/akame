@@ -148,9 +148,9 @@ Under the hood the monitors above are all constructed using `akame.tasks.SingleM
 
 | Component | What does it do | Where can it be found | How to get started |
 | --- | --- | --- | --- |
-| **Extractor** | Extracts the content to monitor from the target url | `akame.extraction` (*1) | `akame.extraction.BasicExtractor`
-| **Comparer** | Compares the monitored content against its previous version or a specified value | `akame.comparison` | `akame.comparison.BasicComparer` |
-| **Notifier** | Notifies of the comparison results (e.g. changes detected) (*2) | `akame.notification` | `akame.notification.BasicNotifier` |
+| **Extractor** | Extracts the content to monitor from the target url | `akame.extraction` (*1) | `BasicExtractor`
+| **Comparer** | Compares the monitored content against its previous version or a specified value | `akame.comparison` | `BasicComparer` |
+| **Notifier** | Notifies of the comparison results (e.g. changes detected) (*2) | `akame.notification` | `BasicNotifier` |
 
 Notes:
 
@@ -186,8 +186,7 @@ def main() -> None:
 
     # define the task
     TASK_NAME = "How's the weather in Taipei?"
-    WOEID_TAIPEI = "2487956"  # Where On Earth ID of Taipei
-    TARGET_URL = rf"https://www.metaweather.com/api/location/{WOEID_TAIPEI}/"
+    TARGET_URL = r"https://www.metaweather.com/api/location/2487956/"
     LOOP_SECONDS = 60 * 60 * 1  # every two hours
     LOOP_MAX_ROUNDS = int(24 / 1)  # for a day
 

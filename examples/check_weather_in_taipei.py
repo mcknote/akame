@@ -22,8 +22,7 @@ def main() -> None:
 
     # define the task
     TASK_NAME = "How's the weather in Taipei?"
-    WOEID_TAIPEI = "2487956"  # Where On Earth ID of Taipei
-    TARGET_URL = rf"https://www.metaweather.com/api/location/{WOEID_TAIPEI}/"
+    TARGET_URL = r"https://www.metaweather.com/api/location/2487956/"
     LOOP_SECONDS = 60 * 60 * 1  # every two hours
     LOOP_MAX_ROUNDS = int(24 / 1)  # for a day
 
