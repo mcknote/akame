@@ -65,7 +65,8 @@ class ExtractorBase:
     # TODO: return MonitoredContent here
     def main(self) -> Any:
         """Function that extracts the target content"""
-        response = self.load_request_headers()
+        self.load_request_headers()
+        response = self.get_response()
         content = response.text
         return content
 
