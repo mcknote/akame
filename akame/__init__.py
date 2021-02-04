@@ -47,7 +47,7 @@ def monitor_in_console(
 
     monitor_task = SingleMonitorTask(
         task_name=task_name,
-        content_extractor=extractor,
+        extractor=extractor,
         comparer=comparer,
         notifiers=notifiers,
         cache_manager=cache_manager,
@@ -96,7 +96,7 @@ def monitor_with_pushover(
 
     monitor_task = SingleMonitorTask(
         task_name=task_name,
-        content_extractor=extractor,
+        extractor=extractor,
         comparer=comparer,
         notifiers=notifiers,
         cache_manager=cache_manager,
@@ -148,7 +148,7 @@ def monitor_with_sendgrid(
 
     monitor_task = SingleMonitorTask(
         task_name=task_name,
-        content_extractor=extractor,
+        extractor=extractor,
         comparer=comparer,
         notifiers=notifiers,
         cache_manager=cache_manager,

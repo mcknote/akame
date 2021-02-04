@@ -1,5 +1,5 @@
 import logging
-from typing import Any, Dict, List, TypeVar, Union
+from typing import TypeVar
 
 from akame.comparison.core import ComparerType
 

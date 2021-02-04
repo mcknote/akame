@@ -7,8 +7,8 @@ def main() -> None:
     monitor_in_console(
         task_name="Does Time Flow in Taipei?",
         target_url=(r"http://worldtimeapi.org/api/timezone/Asia/Taipei"),
-        loop_seconds=30,
-        loop_max_rounds=86400,
+        loop_seconds=60,  # every 1 minute
+        loop_max_rounds=43200,  # for a month
     )
 
 
