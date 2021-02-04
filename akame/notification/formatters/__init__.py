@@ -1,4 +1,5 @@
 import logging
+from textwrap import dedent
 
 from akame.comparison.delta.core import DeltaType
 
@@ -66,9 +67,80 @@ class FormatPushoverHTML(FormatterBase):
 
         self.formatted_message = "".join(formatted_strings)
 
-    def main(self) -> str:
+    def main(self, comparer_message: str, target_url: str) -> str:
         self.format_delta_parts()
-        return self.formatted_message
+
+        html_template = """
+        <b>{comp_msg}</b>
+        <a href="{target_url}">{target_url}</a>
+
+        {fmt_msg}
+        """
+        html_template = html_template[1:]
+
+        fmt_kwargs = {
+            "fmt_msg": self.formatted_message,
+            "target_url": target_url,
+            "comp_msg": comparer_message,
+        }
+
+        return dedent(html_template).format(**fmt_kwargs)
+
+
+class FormatEmailHTML(FormatterBase):
+    def __init__(self, delta: DeltaType) -> None:
+        super().__init__(delta)
+
+    def format_delta_parts(self):
+        template_matched = "{part_matched}"
+        template_all = (
+            template_matched + '<span style="text-decoration:none;'
+            'background-color:#cfc">{part_changed_b}</span>'
+            '<span style="text-decoration:line-through;'
+            'background-color:#fec8c8;color:#999">{part_changed_a}</span>'
+        )
+
+        formatted_strings = [
+            template_all.format(
+                part_matched=pm, part_changed_a=pc_a, part_changed_b=pc_b
+            )
+            for pm, pc_a, pc_b in zip(
+                self.parts_matched[:-1],
+                self.parts_changed_a,
+                self.parts_changed_b,
+            )
+        ] + [template_matched.format(part_matched=self.parts_matched[-1])]
+
+        self.formatted_message = "<p>" + "".join(formatted_strings) + "</p>"
+
+    def main(
+        self, task_name: str, comparer_message: str, target_url: str
+    ) -> str:
+        self.format_delta_parts()
+
+        html_template = """
+        <!DOCTYPE html>
+        <html>
+        <head>
+        </head>
+        <body>
+        <h1>{comp_msg}</h1>
+
+        <p><strong>Task name</strong> {task_name}</p>
+        <p><strong>URL</strong> <a href="{target_url}">{target_url}</a></p>
+        <p>{fmt_msg}</p>
+        </body>
+        </html>
+        """
+
+        fmt_kwargs = {
+            "fmt_msg": self.formatted_message,
+            "task_name": task_name,
+            "target_url": target_url,
+            "comp_msg": comparer_message,
+        }
+
+        return dedent(html_template).format(**fmt_kwargs)
 
 
 class FormatColoredTerminalText(FormatterBase):

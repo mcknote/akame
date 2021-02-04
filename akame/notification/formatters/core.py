@@ -1,5 +1,6 @@
-from typing import List
 import logging
+from typing import List
+
 from akame.comparison.delta.core import DeltaType
 
 logging.basicConfig(level=logging.INFO)
@@ -17,6 +18,3 @@ class FormatterBase:
         self.parts_matched = delta.parts_matched
         self.parts_changed_a = delta.parts_changed_a
         self.parts_changed_b = delta.parts_changed_b
-
-    def main(self) -> str:
-        pass

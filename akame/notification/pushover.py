@@ -1,12 +1,11 @@
 import logging
 from http.client import HTTPSConnection
-from typing import Any, Dict
 from urllib.parse import urlencode
 
 from akame.comparison.core import ComparerType
+from akame.comparison.delta import StringDelta
 
 from .core import NotifierBase
-from akame.comparison.delta import StringDelta
 from .formatters import FormatPushoverHTML
 
 logging.basicConfig(level=logging.INFO)
@@ -17,7 +16,6 @@ class PushoverNotifier(NotifierBase):
     """Class that handles notification through Pushover
 
     Args:
-        task_name (str): Task name
         pushover_token (str): Pushover API token
         pushover_user_key (str): Pushover user key
     """
@@ -52,7 +50,11 @@ class PushoverNotifier(NotifierBase):
     def get_formatted_message(self, comparer: ComparerType) -> str:
 
         delta = StringDelta(a=comparer.content_0, b=comparer.content_1)
-        return FormatPushoverHTML(delta).main()
+        formatter = FormatPushoverHTML(delta)
+
+        return formatter.main(
+            comparer_message=comparer.message, target_url=self.target_url
+        )
 
     def main(self, comparer: ComparerType) -> None:
         if comparer.status_code == 1:

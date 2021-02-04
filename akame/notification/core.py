@@ -13,10 +13,12 @@ NotifierType = TypeVar("NotifierType", bound="NotifierBase")
 class NotifierBase:
     """Class that defines the base notifier"""
 
+    task_name: str
+    target_url: str
+
     def __init__(self) -> None:
         """Function that loads notifier configurations (e.g. credentials)"""
         logging.info(f"Initializing notifier: {self.__class__.__name__}")
-        pass
 
     def load_task_info(self, task_name: str, target_url: str) -> None:
         """Function that loads task configurations (e.g. task name)
@@ -27,6 +29,9 @@ class NotifierBase:
         """
         self.task_name = task_name
         self.target_url = target_url
+
+    def get_formatted_message(self, comparer: ComparerType) -> str:
+        pass
 
     def main(self, comparer: ComparerType) -> None:
         """Funtion that notifies based on comparer's info
