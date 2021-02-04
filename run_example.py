@@ -1,6 +1,8 @@
 from akame import init
-from examples import worldtimeapi
+from examples import check_time_in_taipei
 
 if __name__ == "__main__":
+    # initialize akame
     init()
-    worldtimeapi.main()
+    # run the example
+    check_time_in_taipei.main()

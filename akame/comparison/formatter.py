@@ -1,5 +1,7 @@
 import logging
-from difflib import Match, SequenceMatcher
+from difflib import SequenceMatcher
+from textwrap import dedent
+from termcolor import colored
 from typing import Dict, List, Tuple
 
 logging.basicConfig(level=logging.INFO)
@@ -79,6 +81,48 @@ class StringDelta:
     def get_delta_parts(self) -> Tuple[List[str], List[str], List[str]]:
         logger.info("Returning all delta parts in lists")
         return (self.parts_matched, self.parts_changed_a, self.parts_changed_b)
+
+    def get_delta_in_plain_text(self) -> str:
+        template_changes = """
+        Change #{i}
+        ---
+        Added:   '{part_changed_b}'
+        Removed: '{part_changed_a}'
+        """
+
+        formatted_strings = [
+            dedent(template_changes).format(
+                i=i, part_changed_a=pc[0], part_changed_b=pc[1]
+            )
+            for i, pc in enumerate(
+                zip(
+                    self.parts_changed_a,
+                    self.parts_changed_b,
+                ),
+                start=1,
+            )
+        ]
+
+        return "\n".join(formatted_strings)
+
+    def get_delta_in_colored_terminal_text(self) -> str:
+        template_matched = "{part_matched}"
+        template_all = template_matched + "{part_changed_b}{part_changed_a}"
+
+        formatted_strings = [
+            template_all.format(
+                part_matched=colored(pm, "white"),
+                part_changed_a=colored(pc_a, "grey"),
+                part_changed_b=colored(pc_b, "green"),
+            )
+            for pm, pc_a, pc_b in zip(
+                self.parts_matched[:-1],
+                self.parts_changed_a,
+                self.parts_changed_b,
+            )
+        ] + [template_matched.format(part_matched=self.parts_matched[-1])]
+
+        return "".join(formatted_strings)
 
     def get_delta_in_pushover_html(self) -> str:
         logger.info("Formatting delta in HTML")

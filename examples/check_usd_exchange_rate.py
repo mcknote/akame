@@ -1,4 +1,4 @@
-from akame import monitor_in_console
+from akame import init, monitor_in_console
 
 
 def main() -> None:
@@ -13,4 +13,7 @@ def main() -> None:
 
 
 if __name__ == "__main__":
+    # initialize akame
+    init()
+    # run the example
     main()

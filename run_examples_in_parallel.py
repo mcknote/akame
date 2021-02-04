@@ -13,7 +13,7 @@ def run_io_tasks_in_parallel(tasks):
 
 
 def main():
-    init()
+    """Function that gets and runs multiple examples"""
     tasks = [
         getattr(example, "main")
         for example in (check_time_in_taipei, check_usd_exchange_rate)
@@ -22,4 +22,7 @@ def main():
 
 
 if __name__ == "__main__":
+    # initialize akame
+    init()
+    # run multiple examples
     main()
