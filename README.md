@@ -20,7 +20,7 @@ Akame Monitor can **monitor a web change every X seconds for Y rounds**. Specifi
 
 ```bash
 # switch to the download folder as necessary
-$ git clone https://github.com/mcknote/AkameMonitor.git
+$ git clone https://github.com/mcknote/akame.git
 ```
 
 ## Usage
