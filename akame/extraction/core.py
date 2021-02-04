@@ -62,9 +62,12 @@ class ExtractorBase:
             self.urls.url_to_request, headers=self.request_headers
         )
 
+    # TODO: return MonitoredContent here
     def main(self) -> Any:
         """Function that extracts the target content"""
-        pass
+        response = self.load_request_headers()
+        content = response.text
+        return content
 
 
 class StaticExtractor(ExtractorBase):

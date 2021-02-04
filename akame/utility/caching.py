@@ -142,6 +142,15 @@ def cache_mc(mc: MonitoredContent, path_cache: Path) -> None:
 class CacheManagerBase:
     """Class that defines the base cache manager"""
 
+    def __init__(self, task_name: str) -> None:
+        self.task_name = task_name
+        self.task_hash = get_task_hash(task_name)
+
+        logger.info(
+            f"Initializing cache manager for task: '{self.task_name}'; "
+            f"its task hash starts with '{self.task_hash[:5]}...'"
+        )
+
     def cache_task_mc(self, mc: MonitoredContent) -> None:
         pass
 
@@ -169,9 +178,7 @@ class TaskCacheManager(CacheManagerBase):
         path_cache_folder: Path = path_cache_folder,
         reset_task_cache: bool = True,
     ) -> None:
-        super().__init__()
-        self.task_name = task_name
-        self.task_hash = get_task_hash(task_name)
+        super().__init__(task_name)
         self.n_versions = int(n_versions)
         self.check_n_versions()
         self.path_cache_folder = path_cache_folder

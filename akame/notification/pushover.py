@@ -6,6 +6,8 @@ from urllib.parse import urlencode
 from akame.comparison.core import ComparerType
 
 from .core import NotifierBase
+from akame.comparison.delta import StringDelta
+from .formatters import FormatPushoverHTML
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -49,6 +51,13 @@ class PushoverNotifier(NotifierBase):
         except Exception as e:
             logger.error(f"Failed to send the message: {e}")
 
+    def get_formatted_message(self, comparer: ComparerType) -> str:
+        logger.info("Formatting delta for Pushover")
+
+        delta = StringDelta(a=comparer.content_0, b=comparer.content_1)
+        return FormatPushoverHTML(delta).main()
+
     def main(self, comparer: ComparerType) -> None:
         if comparer.status_code == 1:
-            self.send_notification(comparer.message)
+            message = self.get_formatted_message(comparer)
+            self.send_notification(message)
