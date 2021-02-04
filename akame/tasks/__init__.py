@@ -30,17 +30,22 @@ def check_loop_seconds(seconds: float) -> None:
         )
 
 
-def loop_task(*ignore, seconds: float, max_rounds: int) -> Callable:
+def loop_task(
+    *ignore, seconds: float, max_rounds: int, task_name: Optional[str] = None
+) -> Callable:
     """Function that decorates the function with looping
 
     Args:
         seconds (float): Interval in seconds
         max_rounds (int): Maximum rounds to run
+        task_name (Optional[str]): Name of the task.
+            Defaults to None
 
     Returns:
         Callable: Decorated function to be executed
     """
     check_loop_seconds(seconds)
+    task_name = f": {task_name}" if task_name else ""
 
     logger.info(
         f"Looping the task every {seconds} seconds "
@@ -53,7 +58,7 @@ def loop_task(*ignore, seconds: float, max_rounds: int) -> Callable:
             while round < max_rounds:
                 start_time = time.time()
                 round += 1
-                logger.info(f"Going round {round}")
+                logger.info(f"Going round {round}{task_name}")
                 function(*args, **kwargs)
                 used_interval = (time.time() - start_time) % seconds
                 time.sleep(seconds - used_interval)
@@ -168,6 +173,8 @@ class SingleMonitorTask:
             self.notify_comparison_results()
 
         looper = loop_task(
-            seconds=self.loop_seconds, max_rounds=self.loop_max_rounds
+            seconds=self.loop_seconds,
+            max_rounds=self.loop_max_rounds,
+            task_name=self.task_name,
         )(task)
         looper()

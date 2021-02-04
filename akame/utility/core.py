@@ -17,7 +17,11 @@ class MonitoredContent:
     def __init__(self, content: Optional[Any] = None):
         self.content = content
         self.timestamp = datetime.now()
-        logger.info(f"Initiated {self.__class__.__name__} at {self.timestamp}")
+
+        str_empty = "" if content else "an empty "
+        logger.info(
+            f"Initiated {str_empty}{self.__class__.__name__} at {self.timestamp}"
+        )
 
     def __repr__(self) -> str:
         return (

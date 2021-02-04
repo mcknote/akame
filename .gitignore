@@ -1,10 +1,10 @@
 # Local cache
 .DS_Store
 .vscode/
-.akame_cache/
-examples/_*
 .isort.cfg
-_run*
+.akame_cache/
+examples/_*.py
+_run*.py
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
