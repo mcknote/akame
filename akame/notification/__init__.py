@@ -24,7 +24,6 @@ class BasicNotifier(NotifierBase):
         logger.info(message)
 
     def get_formatted_message(self, comparer: ComparerType) -> str:
-        logger.info("Formatting delta for Pushover")
 
         delta = StringDelta(a=comparer.content_0, b=comparer.content_1)
         try:

@@ -52,7 +52,6 @@ class PushoverNotifier(NotifierBase):
             logger.error(f"Failed to send the message: {e}")
 
     def get_formatted_message(self, comparer: ComparerType) -> str:
-        logger.info("Formatting delta for Pushover")
 
         delta = StringDelta(a=comparer.content_0, b=comparer.content_1)
         return FormatPushoverHTML(delta).main()

@@ -6,7 +6,7 @@ from typing import Callable, List, Optional
 from akame.comparison.core import ComparerType
 from akame.extraction.core import ExtractorType
 from akame.notification.core import NotifierType
-from akame.utility.caching import CacheManagerType, TaskCacheManager
+from akame.utility.caching import TaskCacheManager
 from akame.utility.core import MonitoredContent
 
 logging.basicConfig(level=logging.INFO)
@@ -103,7 +103,7 @@ class SingleMonitorTask:
         notifiers: List[NotifierType],
         loop_seconds: float,
         loop_max_rounds: int,
-        cache_manager: Optional[CacheManagerType] = None,
+        cache_manager: Optional[TaskCacheManager] = None,
     ) -> None:
 
         logger.info(f"Starting the monitoring task: '{task_name}'")
@@ -115,10 +115,12 @@ class SingleMonitorTask:
         self.loop_seconds = loop_seconds
         self.loop_max_rounds = loop_max_rounds
 
-        if not cache_manager:
+        if cache_manager:
+            self.cache_manager = cache_manager
+        else:
             self.cache_manager = TaskCacheManager(task_name=task_name)
 
-    def get_monitored_content(self) -> MonitoredContent:
+    def extract_monitored_content(self) -> MonitoredContent:
         content = self.extractor.main()
         return MonitoredContent(content)
 
@@ -135,7 +137,7 @@ class SingleMonitorTask:
 
     def main(self) -> None:
         def task():
-            monitored_content = self.get_monitored_content()
+            monitored_content = self.extract_monitored_content()
             self.compare_monitored_content(monitored_content)
             self.notify_comparison_results()
 
