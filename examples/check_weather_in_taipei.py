@@ -22,15 +22,14 @@ def main() -> None:
     """Function that runs the example"""
 
     # define the task
-    task_name = "How's the weather in Taipei?"
+    TASK_NAME = "How's the weather in Taipei?"
     WOEID_TAIPEI = "2487956"  # Where On Earth ID of Taipei
-    target_url = rf"https://www.metaweather.com/api/location/{WOEID_TAIPEI}/"
-
+    TARGET_URL = rf"https://www.metaweather.com/api/location/{WOEID_TAIPEI}/"
     LOOP_SECONDS = 60 * 60 * 1  # every two hours
     LOOP_MAX_ROUNDS = int(24 / 1)  # for a day
 
     # initiate extractor
-    extractor = BasicExtractor(target_url)
+    extractor = BasicExtractor(TARGET_URL)
 
     # initiate comparer
     comparer = BasicComparer()
@@ -55,7 +54,7 @@ def main() -> None:
 
     # construct the monitoring task
     task = SingleMonitorTask(
-        task_name=task_name,
+        task_name=TASK_NAME,
         extractor=extractor,
         comparer=comparer,
         notifiers=notifiers,
