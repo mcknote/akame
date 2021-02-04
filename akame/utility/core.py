@@ -26,6 +26,7 @@ class MonitoredContent:
             f"content={self.content.__repr__()})"
         )
 
+    # TODO: improve key design
     def __key(self) -> Hashable:
         """Function that defines the key of a monitored content
 
@@ -56,7 +57,5 @@ class MonitoredContent:
     def __hash__(self):
         return hash(self.__key)
 
-    def __eq__(self, other):
-        if isinstance(other, MonitoredContent):
-            return self.__key() == other.__key()
-        return NotImplemented
+    def __eq__(x, y):
+        return isinstance(y, x.__class__) and x.__key() == y.__key()
