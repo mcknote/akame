@@ -1,6 +1,7 @@
 import logging
 import re
-from typing import Type, Any
+from typing import Any, Type
+
 from akame.extraction.core import StaticExtractor, URLManagerBase
 
 logging.basicConfig(level=logging.INFO)

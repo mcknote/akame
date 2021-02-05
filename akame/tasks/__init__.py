@@ -3,10 +3,12 @@ import time
 from concurrent.futures import ThreadPoolExecutor
 from typing import Callable, List, Optional
 
-from akame.comparison import BasicComparer, ComparerBase
+from akame.comparison import BasicComparer
+from akame.comparison.core import ComparerBase
 from akame.extraction import BasicExtractor
 from akame.extraction.core import ExtractorBase
-from akame.notification import BasicNotifier, NotifierBase
+from akame.notification import BasicNotifier
+from akame.notification.core import NotifierBase
 from akame.utility.caching import TaskCacheManager
 from akame.utility.core import MonitoredContent
 
