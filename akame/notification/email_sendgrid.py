@@ -62,8 +62,8 @@ class SendGridNotifier(NotifierBase):
 
         return formatter.main(
             task_name=task_name,
-            comparer_message=target_url,
-            target_url=comparer_message,
+            comparer_message=comparer_message,
+            target_url=target_url,
         )
 
     def get_formatted_subject(self) -> str:
