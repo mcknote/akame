@@ -3,7 +3,7 @@
 .vscode/
 .isort.cfg
 .akame_cache/
-examples/_*.py
+examples/_*
 _run*.py
 
 # Byte-compiled / optimized / DLL files

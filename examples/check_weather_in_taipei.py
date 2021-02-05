@@ -1,9 +1,6 @@
 from os import environ
 
-from akame import init
-
-# container for the monitoring tasks
-from akame.tasks import SingleMonitorTask
+from akame import init, Monitor
 
 # to extract the content
 from akame.extraction import BasicExtractor
@@ -12,7 +9,6 @@ from akame.extraction import BasicExtractor
 from akame.comparison import BasicComparer
 
 # to push notifications if the content changes
-from akame.notification import BasicNotifier
 from akame.notification.pushover import PushoverNotifier
 from akame.notification.email_sendgrid import SendGridNotifier
 
@@ -38,7 +34,6 @@ def main() -> None:
     sendgrid_api_key = environ["SENDGRID_API_KEY"]
 
     notifiers = [
-        BasicNotifier(),
         PushoverNotifier(
             pushover_token=pushover_token,
             pushover_user_key=pushover_user_key,
@@ -50,8 +45,8 @@ def main() -> None:
         ),
     ]
 
-    # construct the monitoring task
-    task = SingleMonitorTask(
+    # construct the monitor
+    monitor = Monitor(
         target_url=TARGET_URL,
         task_name=TASK_NAME,
         extractor=extractor,
@@ -61,7 +56,8 @@ def main() -> None:
         loop_max_rounds=LOOP_MAX_ROUNDS,
     )
 
-    task.main()
+    monitor.add_notifiers(notifiers)
+    monitor.main()
 
 
 if __name__ == "__main__":

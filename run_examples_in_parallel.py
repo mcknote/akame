@@ -1,5 +1,5 @@
 from akame import init
-from akame.tasks import run_tasks_in_parallel
+from akame.utility.tasking import run_tasks_in_parallel
 from examples import check_time_in_taipei, check_usd_exchange_rate
 
 
