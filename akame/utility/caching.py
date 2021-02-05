@@ -4,7 +4,7 @@ import sys
 from hashlib import sha1
 from pathlib import Path
 from shutil import rmtree
-from typing import TypeVar, Union
+from typing import Union
 
 from .core import MonitoredContent
 
@@ -12,7 +12,6 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 path_cache_folder = Path(sys.path[0]) / "akame" / ".akame_cache"
-CacheManagerType = TypeVar("CacheManagerType", bound="CacheManagerBase")
 
 
 def get_task_hash(task_name: str) -> str:

@@ -1,13 +1,9 @@
 import logging
-from typing import TypeVar
 
 from akame.comparison.core import ComparerBase
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
-
-# define types
-NotifierType = TypeVar("NotifierType", bound="NotifierBase")
 
 
 class NotifierBase:

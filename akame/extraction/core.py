@@ -1,14 +1,10 @@
 import logging
-from typing import Any, Type, TypeVar
+from typing import Any, Type
 
 import requests
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
-
-# define types
-URLManagerType = TypeVar("URLManagerType", bound="URLManagerBase")
-ExtractorType = TypeVar("ExtractorType", bound="ExtractorBase")
 
 
 class URLManagerBase:
@@ -94,7 +90,7 @@ class StaticExtractor(ExtractorBase):
     """Class that defines the content extractor for static content
 
     Args:
-        url_extractor (URLExtractorType): URL extractor
+        url_extractor (Type[URLManagerBase]): URL extractor
     """
 
     def __init__(self, url_manager: Type[URLManagerBase]) -> None:
@@ -105,7 +101,7 @@ class DynamicExtractor(ExtractorBase):
     """Class that defines the content extractor for dynamic content
 
     Args:
-        url_extractor (URLExtractorType): URL extractor
+        url_extractor (Type[URLManagerBase]): URL extractor
     """
 
     def __init__(self, url_manager: Type[URLManagerBase]) -> None:

@@ -1,7 +1,7 @@
 import logging
 from textwrap import dedent
 
-from akame.comparison.delta.core import DeltaType
+from akame.comparison.delta.core import DeltaBase
 
 from .core import FormatterBase
 
@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 
 
 class FormatPlainText(FormatterBase):
-    def __init__(self, delta: DeltaType) -> None:
+    def __init__(self, delta: DeltaBase) -> None:
         super().__init__(delta)
 
     def format_delta_parts(self):
@@ -44,7 +44,7 @@ class FormatPlainText(FormatterBase):
 
 
 class FormatPushoverHTML(FormatterBase):
-    def __init__(self, delta: DeltaType) -> None:
+    def __init__(self, delta: DeltaBase) -> None:
         super().__init__(delta)
 
     def format_delta_parts(self):
@@ -88,7 +88,7 @@ class FormatPushoverHTML(FormatterBase):
 
 
 class FormatEmailHTML(FormatterBase):
-    def __init__(self, delta: DeltaType) -> None:
+    def __init__(self, delta: DeltaBase) -> None:
         super().__init__(delta)
 
     def format_delta_parts(self):
@@ -144,7 +144,7 @@ class FormatEmailHTML(FormatterBase):
 
 
 class FormatColoredTerminalText(FormatterBase):
-    def __init__(self, delta: DeltaType) -> None:
+    def __init__(self, delta: DeltaBase) -> None:
         super().__init__(delta)
 
     def format_delta_parts(self):

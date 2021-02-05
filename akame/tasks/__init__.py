@@ -12,8 +12,15 @@ from akame.notification.core import NotifierBase
 from akame.utility.caching import TaskCacheManager
 from akame.utility.core import MonitoredContent
 
+from urllib.parse import urlparse
+
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+
+
+def get_random_task_name(target_url: str) -> str:
+    domain = urlparse(target_url).netloc
+    return f"Monitor @ {domain}"
 
 
 def check_loop_seconds(seconds: float) -> None:
@@ -88,14 +95,15 @@ class SingleMonitorTask:
     Args:
         target_url (str):
             URL to monitor.
-        task_name (str):
+        task_name (Optional[str]):
             Name of the task.
+            Defaults to None.
         loop_seconds (float, optional):
             Interval in seconds between all rounds.
             Defaults to 300.
         loop_max_rounds (int, optional):
             Maximum number of rounds to monitor.
-            Defaults to 288.
+            Defaults to 12.
         extractor (Optional[ExtractorBase], optional):
             Content extractor that extracts the monitored content.
             Defaults to None.
@@ -113,18 +121,20 @@ class SingleMonitorTask:
     def __init__(
         self,
         target_url: str,
-        task_name: str,
+        task_name: Optional[str] = None,
         loop_seconds: float = 300,
-        loop_max_rounds: int = 288,
+        loop_max_rounds: int = 12,
         extractor: Optional[ExtractorBase] = None,
         comparer: Optional[ComparerBase] = None,
         notifiers: Optional[List[NotifierBase]] = None,
         cache_manager: Optional[TaskCacheManager] = None,
     ) -> None:
 
-        logger.info(f"Starting the monitoring task: '{task_name}'")
         self.target_url = target_url
-        self.task_name = str(task_name)
+        self.task_name = (
+            str(task_name) if task_name else get_random_task_name(target_url)
+        )
+        logger.info(f"Starting the monitoring task: '{self.task_name}'")
         self.loop_seconds = loop_seconds
         self.loop_max_rounds = loop_max_rounds
 
@@ -135,7 +145,7 @@ class SingleMonitorTask:
         self.cache_manager = (
             cache_manager
             if cache_manager
-            else TaskCacheManager(task_name=task_name)
+            else TaskCacheManager(task_name=self.task_name)
         )
 
     def extract_monitored_content(self) -> MonitoredContent:

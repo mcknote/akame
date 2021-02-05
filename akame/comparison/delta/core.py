@@ -1,10 +1,8 @@
 import logging
-from typing import Any, List, TypeVar
+from typing import Any, List
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
-
-DeltaType = TypeVar("DeltaType", bound="DeltaBase")
 
 
 class DeltaBase:

@@ -1,4 +1,5 @@
 import logging
+from typing import Optional
 
 from .core import ComparerBase
 
@@ -9,8 +10,9 @@ logger = logging.getLogger(__name__)
 class BasicComparer(ComparerBase):
     """Class that defines the basic comparer"""
 
-    def __init__(self) -> None:
+    def __init__(self, matches_expression: Optional[str] = None) -> None:
         super().__init__()
+        self.matches_expression = matches_expression
 
     def load_comparison_status(self) -> None:
         if self.mc_0.content is None:
