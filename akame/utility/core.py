@@ -10,13 +10,24 @@ class MonitoredContent:
     """Class that structures monitored content
 
     Args:
-        content (Union[Any, None], optional):
-            Any monitored content. Defaults to None.
+        content (Optional[Any], optional):
+            Content fetched through extractor. Defaults to None.
+        task_name (Optional[str], optional):
+            Name of the task. Defaults to None.
+        target_url (Optional[str], optional):
+            Target URL. Defaults to None.
     """
 
-    def __init__(self, content: Optional[Any] = None):
-        self.content = content
+    def __init__(
+        self,
+        content: Optional[Any] = None,
+        task_name: Optional[str] = None,
+        target_url: Optional[str] = None,
+    ):
         self.timestamp = datetime.now()
+        self.content = content
+        self.task_name = task_name if task_name else ""
+        self.target_url = target_url if target_url else ""
 
         str_empty = "" if content else "an empty "
         logger.info(
@@ -26,37 +37,18 @@ class MonitoredContent:
     def __repr__(self) -> str:
         return (
             f"{self.__class__.__name__}"
-            f"(timestamp={self.timestamp.__repr__()}, "
-            f"content={self.content.__repr__()})"
+            "("
+            f"timestamp={self.timestamp.__repr__()}, "
+            f"content={self.content.__repr__()}, "
+            f"task_name={self.task_name.__repr__()}, "
+            f"target_url={self.target_url.__repr__()}"
+            ")"
         )
 
-    # TODO: improve key design
     def __key(self) -> Hashable:
-        """Function that defines the key of a monitored content
-
-        Returns:
-            Hashable: Hashable object
-        """
-        if isinstance(self.content, Hashable):
-            content_key = self.content
-        else:
-            content_type = type(self.content)
-            try:
-                logger.warning(
-                    f"Content type {content_type} is not hashable. "
-                    "Trying to convert it to tuple"
-                )
-                content_key = tuple(self.content)
-            except TypeError:
-                logger.warning(
-                    f"Content type {content_type} cannot be converted "
-                    "to tuple. Trying to use the content's __repr__. "
-                    "Consider changing the monitored content as "
-                    "this may result in falsy comparison"
-                )
-                content_key = repr(self.content)
-
-        return content_key
+        return tuple(
+            v for k, v in sorted(self.__dict__.items()) if k != "timestamp"
+        )
 
     def __hash__(self):
         return hash(self.__key())

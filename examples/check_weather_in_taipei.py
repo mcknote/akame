@@ -27,7 +27,7 @@ def main() -> None:
     LOOP_MAX_ROUNDS = int(24 / 2)  # for a day
 
     # initiate extractor
-    extractor = BasicExtractor(TARGET_URL)
+    extractor = BasicExtractor()
 
     # initiate comparer
     comparer = BasicComparer()
@@ -52,6 +52,7 @@ def main() -> None:
 
     # construct the monitoring task
     task = SingleMonitorTask(
+        target_url=TARGET_URL,
         task_name=TASK_NAME,
         extractor=extractor,
         comparer=comparer,

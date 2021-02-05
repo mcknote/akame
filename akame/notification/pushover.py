@@ -25,14 +25,16 @@ class PushoverNotifier(NotifierBase):
         self.pushover_token = pushover_token
         self.pushover_user_key = pushover_user_key
 
-    def send_notification(self, message: str) -> None:
+    def notify_condition_met(self) -> None:
         logger.info("Sending out notification through Pushover")
+
+        message = self.get_formatted_message()
 
         conn = HTTPSConnection("api.pushover.net:443")
         headers = {
             "token": self.pushover_token,
             "user": self.pushover_user_key,
-            "title": self.task_name,
+            "title": self.comparer.task_name,
             "message": message,
             "html": 1,
         }
@@ -47,16 +49,15 @@ class PushoverNotifier(NotifierBase):
         except Exception as e:
             logger.error(f"Failed to send the message: {e}")
 
-    def get_formatted_message(self, comparer: ComparerType) -> str:
+    def get_formatted_message(self) -> str:
+        content_0 = self.comparer.content_0
+        content_1 = self.comparer.content_1
+        target_url = self.comparer.target_url
+        comparer_message = self.comparer.message
 
-        delta = StringDelta(a=comparer.content_0, b=comparer.content_1)
+        delta = StringDelta(a=content_0, b=content_1)
         formatter = FormatPushoverHTML(delta)
 
         return formatter.main(
-            comparer_message=comparer.message, target_url=self.target_url
+            comparer_message=comparer_message, target_url=target_url
         )
-
-    def main(self, comparer: ComparerType) -> None:
-        if comparer.status_code == 1:
-            message = self.get_formatted_message(comparer)
-            self.send_notification(message)

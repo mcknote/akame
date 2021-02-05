@@ -1,5 +1,4 @@
 import logging
-from typing import Any, Union
 
 from .core import ComparerBase
 
@@ -11,19 +10,15 @@ class BasicComparer(ComparerBase):
     """Class that defines the basic comparer"""
 
     def __init__(self) -> None:
-        logging.info(f"Initializing comparer: {self.__class__.__name__}")
-
-        self.comparison_status: Union[bool, None] = None
-        self.status_code: int = -1
-        self.message: str = ""
+        super().__init__()
 
     def load_comparison_status(self) -> None:
-        if self.content_0 is None:
+        if self.mc_0.content is None:
             self.comparison_status = None
         else:
-            self.comparison_status = self.content_0 != self.content_1
+            self.comparison_status = self.mc_0.content != self.mc_1.content
 
-    def express_comparison_results(self) -> None:
+    def compose_comparison_results(self) -> None:
         if self.comparison_status is None:
             self.status_code = -1
             self.message = "INITIATED"
@@ -33,9 +28,3 @@ class BasicComparer(ComparerBase):
         else:
             self.status_code = 1
             self.message = "CHANGES DETECTED"
-
-    def main(self, content_0: Any, content_1: Any) -> None:
-        self.content_0 = content_0
-        self.content_1 = content_1
-        self.load_comparison_status()
-        self.express_comparison_results()

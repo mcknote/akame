@@ -11,12 +11,8 @@ logger = logging.getLogger(__name__)
 
 
 class URLManager(URLManagerBase):
-    def __init__(self, target_url: str):
-        super().__init__(target_url)
-
-        self.parse_target_url()
-        self.load_url_referrer()
-        self.load_url_to_request()
+    def __init__(self) -> None:
+        super().__init__()
 
     def parse_target_url(self):
         pattern = r"https://24h.pchome.com.tw/prod/([^\?]+)"
@@ -36,10 +32,8 @@ class URLManager(URLManagerBase):
 
 
 class Extractor(StaticExtractor):
-    def __init__(
-        self, target_url: str, url_manager: Type[URLManagerBase] = URLManager
-    ) -> None:
-        super().__init__(target_url, url_manager)
+    def __init__(self, url_manager: Type[URLManagerBase] = URLManager) -> None:
+        super().__init__(url_manager)
 
     def load_request_headers(self):
         self.request_headers = {
@@ -56,13 +50,3 @@ class Extractor(StaticExtractor):
             "referer": self.urls.url_referrer,
             "accept-language": "en,zh-TW;q=0.9,zh-CN;q=0.8,zh;q=0.7,ja;q=0.6",
         }
-
-    def get_response(self) -> requests.Response:
-        return requests.get(
-            self.urls.url_to_request, headers=self.request_headers
-        )
-
-    def main(self) -> str:
-        self.load_request_headers()
-        response = self.get_response()
-        return response.text

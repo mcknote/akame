@@ -86,6 +86,7 @@ class SingleMonitorTask:
     """Class that organizes single monitoring task
 
     Args:
+        target_url (str): URL to monitor
         task_name (str): Name of the task
         extractor (ExtractorType): Content extractor
             that extracts the monitored content
@@ -102,6 +103,7 @@ class SingleMonitorTask:
 
     def __init__(
         self,
+        target_url: str,
         task_name: str,
         extractor: ExtractorType,
         comparer: ComparerType,
@@ -112,12 +114,11 @@ class SingleMonitorTask:
     ) -> None:
 
         logger.info(f"Starting the monitoring task: '{task_name}'")
-
+        self.target_url = target_url
         self.task_name = str(task_name)
         self.extractor = extractor
         self.comparer = comparer
         self.notifiers = notifiers
-        self.contextualize_notifiers()
         self.loop_seconds = loop_seconds
         self.loop_max_rounds = loop_max_rounds
 
@@ -126,24 +127,18 @@ class SingleMonitorTask:
         else:
             self.cache_manager = TaskCacheManager(task_name=task_name)
 
-    def contextualize_notifiers(self) -> None:
-        """Function that contextualizes notifiers with task info"""
-        _ = [
-            notifier.load_task_info(
-                task_name=self.task_name,
-                target_url=self.extractor.urls.target_url,
-            )
-            for notifier in self.notifiers
-        ]
-
     def extract_monitored_content(self) -> MonitoredContent:
         """Function that extracts monitored content
 
         Returns:
             MonitoredContent: Monitored content
         """
-        content = self.extractor.main()
-        return MonitoredContent(content)
+        content = self.extractor.main(target_url=self.target_url)
+        return MonitoredContent(
+            task_name=self.task_name,
+            target_url=self.target_url,
+            content=content,
+        )
 
     def compare_monitored_content(self, mc_1: MonitoredContent) -> None:
         """Function that compares monitored content
@@ -153,9 +148,7 @@ class SingleMonitorTask:
         """
         mc_0 = self.cache_manager.get_newest_cache()
         self.cache_manager.cache_task_mc(mc_1)
-        content_0 = mc_0.content
-        content_1 = mc_1.content
-        self.comparer.main(content_0=content_0, content_1=content_1)
+        self.comparer.main(mc_0=mc_0, mc_1=mc_1)
 
     def notify_comparison_results(self) -> None:
         """Function that notifies of comparison results. The notification logic

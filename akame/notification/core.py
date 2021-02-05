@@ -1,7 +1,7 @@
 import logging
 from typing import TypeVar
 
-from akame.comparison.core import ComparerType
+from akame.comparison.core import ComparerBase
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -13,30 +13,29 @@ NotifierType = TypeVar("NotifierType", bound="NotifierBase")
 class NotifierBase:
     """Class that defines the base notifier"""
 
-    task_name: str
-    target_url: str
+    comparer: ComparerBase
 
     def __init__(self) -> None:
         """Function that loads notifier configurations (e.g. credentials)"""
         logging.info(f"Initializing notifier: {self.__class__.__name__}")
 
-    def load_task_info(self, task_name: str, target_url: str) -> None:
-        """Function that loads task configurations (e.g. task name)
+    def get_formatted_message(self) -> str:
+        return ""
 
-        Args:
-            task_name (str): Name of the task
-            target_url (str): Target URL
-        """
-        self.task_name = task_name
-        self.target_url = target_url
+    def notify_condition_met(self) -> None:
+        message = self.get_formatted_message()
 
-    def get_formatted_message(self, comparer: ComparerType) -> str:
+    def notify_condition_notmet(self) -> None:
         pass
 
-    def main(self, comparer: ComparerType) -> None:
+    def main(self, comparer: ComparerBase) -> None:
         """Funtion that notifies based on comparer's info
 
         Args:
-            comparer (ComparerType): Comparer
+            comparer (ComparerBase): Comparer
         """
-        pass
+        self.comparer = comparer
+        if self.comparer.status_code == 1:
+            self.notify_condition_met()
+        else:
+            self.notify_condition_notmet()

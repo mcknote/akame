@@ -37,7 +37,7 @@ def monitor_in_console(
     logger.info(f"Setting up the monitoring task: '{task_name}'")
 
     # initiate extractor
-    extractor = BasicExtractor(target_url=target_url)
+    extractor = BasicExtractor()
     # initiate comparer
     comparer = BasicComparer()
     # initiate notifiers
@@ -46,6 +46,7 @@ def monitor_in_console(
     cache_manager = TaskCacheManager(task_name=task_name)
 
     monitor_task = SingleMonitorTask(
+        target_url=target_url,
         task_name=task_name,
         extractor=extractor,
         comparer=comparer,
@@ -79,7 +80,7 @@ def monitor_with_pushover(
     logger.info(f"Setting up the monitoring task: '{task_name}'")
 
     # initiate extractor
-    extractor = BasicExtractor(target_url=target_url)
+    extractor = BasicExtractor()
     # initiate comparer
     comparer = BasicComparer()
     # initiate notifiers
@@ -94,6 +95,7 @@ def monitor_with_pushover(
     cache_manager = TaskCacheManager(task_name=task_name)
 
     monitor_task = SingleMonitorTask(
+        target_url=target_url,
         task_name=task_name,
         extractor=extractor,
         comparer=comparer,
@@ -129,7 +131,7 @@ def monitor_with_sendgrid(
     logger.info(f"Setting up the monitoring task: '{task_name}'")
 
     # initiate extractor
-    extractor = BasicExtractor(target_url=target_url)
+    extractor = BasicExtractor()
     # initiate comparer
     comparer = BasicComparer()
     # initiate notifiers
@@ -145,6 +147,7 @@ def monitor_with_sendgrid(
     cache_manager = TaskCacheManager(task_name=task_name)
 
     monitor_task = SingleMonitorTask(
+        target_url=target_url,
         task_name=task_name,
         extractor=extractor,
         comparer=comparer,

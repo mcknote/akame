@@ -18,34 +18,40 @@ class URLManagerBase:
         target_url (str): Target URL to monitor
     """
 
-    def __init__(self, target_url: str) -> None:
-        logger.info(f"Loading target url: '{target_url}'")
-        self.target_url = target_url
-        self.url_to_request = target_url
-        self.url_referrer = target_url
+    def __init__(self) -> None:
+        pass
 
     def parse_target_url(self):
         pass
 
     def load_url_referrer(self):
-        pass
+
+        self.url_referrer = self.target_url
 
     def load_url_to_request(self):
-        pass
+        self.url_to_request = self.target_url
+
+    def main(self, target_url: str) -> None:
+        logger.info(f"Loading target url: '{target_url}'")
+        self.target_url = target_url
+
+        self.parse_target_url()
+        self.load_url_referrer()
+        self.load_url_to_request()
 
 
 class ExtractorBase:
     """Class that defines the base content extractor
 
     Args:
-        target_url (str): Target URL to monitor
         url_manager (Type[URLManagerBase]): URL manager
     """
 
-    def __init__(
-        self, target_url: str, url_manager: Type[URLManagerBase]
-    ) -> None:
-        self.urls = url_manager(target_url)
+    def __init__(self, url_manager: Type[URLManagerBase]) -> None:
+        self.urls = url_manager()
+
+    def update_target_url(self, target_url: str) -> None:
+        self.urls.main(target_url=target_url)
 
     def load_request_headers(self):
         self.request_headers = {
@@ -62,13 +68,26 @@ class ExtractorBase:
             self.urls.url_to_request, headers=self.request_headers
         )
 
+    def get_parsed_content(self, content: Any) -> Any:
+        return content
+
     # TODO: return MonitoredContent here
-    def main(self) -> Any:
-        """Function that extracts the target content"""
+    def main(self, target_url: str) -> Any:
+        """Function that extracts the content from the target URL
+
+        Args:
+            target_url (str): Target URL
+
+        Returns:
+            Any: Fetched content
+        """
+        self.update_target_url(target_url=target_url)
         self.load_request_headers()
         response = self.get_response()
         content = response.text
-        return content
+        parsed_content = self.get_parsed_content(content)
+
+        return parsed_content
 
 
 class StaticExtractor(ExtractorBase):
@@ -78,10 +97,8 @@ class StaticExtractor(ExtractorBase):
         url_extractor (URLExtractorType): URL extractor
     """
 
-    def __init__(
-        self, target_url: str, url_manager: Type[URLManagerBase]
-    ) -> None:
-        super().__init__(target_url, url_manager)
+    def __init__(self, url_manager: Type[URLManagerBase]) -> None:
+        super().__init__(url_manager)
 
 
 class DynamicExtractor(ExtractorBase):
@@ -91,7 +108,5 @@ class DynamicExtractor(ExtractorBase):
         url_extractor (URLExtractorType): URL extractor
     """
 
-    def __init__(
-        self, target_url: str, url_manager: Type[URLManagerBase]
-    ) -> None:
-        super().__init__(target_url, url_manager)
+    def __init__(self, url_manager: Type[URLManagerBase]) -> None:
+        super().__init__(url_manager)

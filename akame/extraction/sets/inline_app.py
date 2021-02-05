@@ -9,11 +9,8 @@ logger = logging.getLogger(__name__)
 
 
 class URLManager(URLManagerBase):
-    def __init__(self, target_url: str):
-        super().__init__(target_url)
-
-        self.parse_target_url()
-        self.load_url_to_request()
+    def __init__(self) -> None:
+        super().__init__()
 
     def parse_target_url(self):
         pattern = (
@@ -34,7 +31,5 @@ class URLManager(URLManagerBase):
 
 
 class Extractor(ExtractorBase):
-    def __init__(
-        self, target_url: str, url_manager: Type[URLManagerBase] = URLManager
-    ) -> None:
-        super().__init__(target_url, url_manager)
+    def __init__(self, url_manager: Type[URLManagerBase] = URLManager) -> None:
+        super().__init__(url_manager)

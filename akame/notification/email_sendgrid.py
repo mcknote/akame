@@ -33,8 +33,11 @@ class SendGridNotifier(NotifierBase):
         self.from_email = from_email
         self.to_email = to_email
 
-    def send_notification(self, subject: str, message: str) -> None:
+    def notify_condition_met(self) -> None:
         logger.info("Sending out notification through SendGrid")
+
+        message = self.get_formatted_message()
+        subject = self.get_formatted_subject()
 
         client = SendGridAPIClient(self.sendgrid_api_key)
         message = Mail(
@@ -48,18 +51,23 @@ class SendGridNotifier(NotifierBase):
         except Exception as e:
             logger.error(f"Failed to send the message: {e}")
 
-    def get_formatted_message(self, comparer: ComparerType) -> str:
-        delta = StringDelta(a=comparer.content_0, b=comparer.content_1)
+    def get_formatted_message(self) -> str:
+        content_0 = self.comparer.content_0
+        content_1 = self.comparer.content_1
+        task_name = self.comparer.task_name
+        target_url = self.comparer.target_url
+        comparer_message = self.comparer.message
+
+        delta = StringDelta(a=content_0, b=content_1)
         formatter = FormatEmailHTML(delta)
 
         return formatter.main(
-            task_name=self.task_name,
-            comparer_message=comparer.message,
-            target_url=self.target_url,
+            task_name=task_name,
+            comparer_message=target_url,
+            target_url=comparer_message,
         )
 
-    def main(self, comparer: ComparerType) -> None:
-        if comparer.status_code == 1:
-            message = self.get_formatted_message(comparer)
-            subject = f"[{comparer.message}] {self.task_name}"
-            self.send_notification(subject, message)
+    def get_formatted_subject(self) -> str:
+        task_name = self.comparer.task_name
+        comparer_message = self.comparer.message
+        return f"[{comparer_message}] {task_name}"

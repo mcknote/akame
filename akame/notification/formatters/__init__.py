@@ -128,7 +128,7 @@ class FormatEmailHTML(FormatterBase):
 
         <p><strong>Task name</strong> {task_name}</p>
         <p><strong>URL</strong> <a href="{target_url}">{target_url}</a></p>
-        <p>{fmt_msg}</p>
+        <p><strong>Changes</strong><br>{fmt_msg}</p>
         </body>
         </html>
         """
