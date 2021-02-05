@@ -29,7 +29,7 @@ class Monitor:
             URL to monitor.
         task_name (Optional[str]):
             Name of the task.
-            Defaults to None.
+            Defaults to None; task name will be derived from URL.
         loop_seconds (float, optional):
             Interval in seconds between all rounds.
             Defaults to 300.
@@ -38,16 +38,16 @@ class Monitor:
             Defaults to 12.
         extractor (Optional[ExtractorBase], optional):
             Content extractor that extracts the monitored content.
-            Defaults to None.
+            Defaults to None; BasicExtractor will be initiated.
         comparer (Optional[ComparerBase], optional):
             Comparer that compares the monitored content.
-            Defaults to None.
+            Defaults to None; BasicComparer will be initiated.
         notifiers (Optional[Sequence[NotifierBase]], optional):
             List of notifiers that push notifications on comparison results.
-            Defaults to None.
+            Defaults to None; BasicNotifier will be initiated.
         cache_manager (Optional[TaskCacheManager], optional):
             Cache manager that archives and loads all monitored content.
-            Defaults to None.
+            Defaults to None; TaskCacheManager will be initiated.
     """
 
     def __init__(
