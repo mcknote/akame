@@ -59,7 +59,7 @@ class MonitoredContent:
         return content_key
 
     def __hash__(self):
-        return hash(self.__key)
+        return hash(self.__key())
 
     def __eq__(x, y):
         return isinstance(y, x.__class__) and x.__key() == y.__key()
