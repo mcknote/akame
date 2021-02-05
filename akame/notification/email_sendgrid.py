@@ -3,7 +3,6 @@ import logging
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
 
-from akame.comparison.core import ComparerType
 from akame.comparison.delta import StringDelta
 
 from .core import NotifierBase

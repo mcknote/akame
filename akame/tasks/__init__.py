@@ -3,9 +3,10 @@ import time
 from concurrent.futures import ThreadPoolExecutor
 from typing import Callable, List, Optional
 
-from akame.comparison.core import ComparerType
-from akame.extraction.core import ExtractorType
-from akame.notification.core import NotifierType
+from akame.comparison import BasicComparer, ComparerBase
+from akame.extraction import BasicExtractor
+from akame.extraction.core import ExtractorBase
+from akame.notification import BasicNotifier, NotifierBase
 from akame.utility.caching import TaskCacheManager
 from akame.utility.core import MonitoredContent
 
@@ -105,27 +106,29 @@ class SingleMonitorTask:
         self,
         target_url: str,
         task_name: str,
-        extractor: ExtractorType,
-        comparer: ComparerType,
-        notifiers: List[NotifierType],
-        loop_seconds: float,
-        loop_max_rounds: int,
+        loop_seconds: float = 300,
+        loop_max_rounds: int = 288,
+        extractor: Optional[ExtractorBase] = None,
+        comparer: Optional[ComparerBase] = None,
+        notifiers: Optional[List[NotifierBase]] = None,
         cache_manager: Optional[TaskCacheManager] = None,
     ) -> None:
 
         logger.info(f"Starting the monitoring task: '{task_name}'")
         self.target_url = target_url
         self.task_name = str(task_name)
-        self.extractor = extractor
-        self.comparer = comparer
-        self.notifiers = notifiers
         self.loop_seconds = loop_seconds
         self.loop_max_rounds = loop_max_rounds
 
-        if cache_manager:
-            self.cache_manager = cache_manager
-        else:
-            self.cache_manager = TaskCacheManager(task_name=task_name)
+        self.extractor = extractor if extractor else BasicExtractor()
+        self.comparer = comparer if comparer else BasicComparer()
+        self.notifiers = notifiers if notifiers else [BasicNotifier()]
+
+        self.cache_manager = (
+            cache_manager
+            if cache_manager
+            else TaskCacheManager(task_name=task_name)
+        )
 
     def extract_monitored_content(self) -> MonitoredContent:
         """Function that extracts monitored content

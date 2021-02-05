@@ -2,7 +2,6 @@ import logging
 from http.client import HTTPSConnection
 from urllib.parse import urlencode
 
-from akame.comparison.core import ComparerType
 from akame.comparison.delta import StringDelta
 
 from .core import NotifierBase

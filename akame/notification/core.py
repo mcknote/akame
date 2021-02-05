@@ -1,7 +1,7 @@
 import logging
 from typing import TypeVar
 
-from akame.comparison.core import ComparerBase
+from akame.comparison import ComparerBase
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)

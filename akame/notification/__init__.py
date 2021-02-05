@@ -1,6 +1,5 @@
 import logging
 
-from akame.comparison.core import ComparerType
 from akame.comparison.delta import StringDelta
 
 from .core import NotifierBase
