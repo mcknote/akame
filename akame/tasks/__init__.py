@@ -33,9 +33,7 @@ def check_loop_seconds(seconds: float) -> None:
         )
 
 
-def loop_task(
-    *ignore, seconds: float, max_rounds: int, task_name: Optional[str] = None
-) -> Callable:
+def loop_task(*ignore, seconds: float, max_rounds: int) -> Callable:
     """Function that decorates the function with looping
 
     Args:
@@ -48,7 +46,6 @@ def loop_task(
         Callable: Decorated function to be executed
     """
     check_loop_seconds(seconds)
-    task_name = f": {task_name}" if task_name else ""
 
     logger.info(
         f"Looping the task every {seconds} seconds "
@@ -61,7 +58,7 @@ def loop_task(
             while round < max_rounds:
                 start_time = time.time()
                 round += 1
-                logger.info(f"Going round {round}{task_name}")
+                logger.info(f"Going round {round}")
                 function(*args, **kwargs)
                 used_interval = (time.time() - start_time) % seconds
                 time.sleep(seconds - used_interval)
@@ -86,22 +83,31 @@ def run_tasks_in_parallel(tasks: List[Callable]):
 
 
 class SingleMonitorTask:
-    """Class that organizes single monitoring task
+    """Class that organizes the monitoring task
 
     Args:
-        target_url (str): URL to monitor
-        task_name (str): Name of the task
-        extractor (ExtractorType): Content extractor
-            that extracts the monitored content
-        comparer (ComparerType): Comparer
-            that compares the monitored content
-        notifiers (List[NotifierType]): List of notifiers
-            that push notifications on comparison results
-        loop_seconds (float): Interval in seconds between all rounds
-        loop_max_rounds (int): Maximum number of rounds to monitor
-        cache_manager (CacheManagerType): Cache manager
-            that archives and loads all monitored content.
-            Defaults to None: predefined manager will be initiated
+        target_url (str):
+            URL to monitor.
+        task_name (str):
+            Name of the task.
+        loop_seconds (float, optional):
+            Interval in seconds between all rounds.
+            Defaults to 300.
+        loop_max_rounds (int, optional):
+            Maximum number of rounds to monitor.
+            Defaults to 288.
+        extractor (Optional[ExtractorBase], optional):
+            Content extractor that extracts the monitored content.
+            Defaults to None.
+        comparer (Optional[ComparerBase], optional):
+            Comparer that compares the monitored content.
+            Defaults to None.
+        notifiers (Optional[List[NotifierBase]], optional):
+            List of notifiers that push notifications on comparison results.
+            Defaults to None.
+        cache_manager (Optional[TaskCacheManager], optional):
+            Cache manager that archives and loads all monitored content.
+            Defaults to None.
     """
 
     def __init__(
@@ -173,6 +179,5 @@ class SingleMonitorTask:
         looper = loop_task(
             seconds=self.loop_seconds,
             max_rounds=self.loop_max_rounds,
-            task_name=self.task_name,
         )(task)
         looper()
