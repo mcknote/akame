@@ -1,6 +1,6 @@
 # Akame Monitor
 
-Akame Monitor is a collection of tools to constantly monitor web changes every X seconds for Y rounds. It contains a couple of modules such as extraction, comparison, and notification and allows users to design their own units and flexibly construct the monitoring workflow.
+Akame Monitor is a modulized tool to constantly monitor web changes every X seconds for Y rounds. It contains a couple of modules such as extraction, comparison, and notification and allows users to design their own units and flexibly construct the monitoring workflow.
 
 - [Akame Monitor](#akame-monitor)
   - [Installation](#installation)
