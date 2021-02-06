@@ -32,6 +32,13 @@ class URLManager(URLManagerBase):
 
 
 class Extractor(StaticExtractor):
+    """Class that extracts shopping cart info from pchome.com.tw
+
+    Args:
+        url_manager (Type[URLManagerBase], optional):
+            URL Manager to parse the URL. Defaults to URLManager.
+    """
+
     def __init__(self, url_manager: Type[URLManagerBase] = URLManager) -> None:
         super().__init__(url_manager)
 

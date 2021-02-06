@@ -31,5 +31,12 @@ class URLManager(URLManagerBase):
 
 
 class Extractor(ExtractorBase):
+    """Class that extracts restaurant availability from inline.app
+
+    Args:
+        url_manager (Type[URLManagerBase], optional):
+            URL Manager to parse the URL. Defaults to URLManager.
+    """
+
     def __init__(self, url_manager: Type[URLManagerBase] = URLManager) -> None:
         super().__init__(url_manager)

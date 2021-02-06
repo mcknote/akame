@@ -30,6 +30,13 @@ class URLManager(URLManagerBase):
 
 
 class Extractor(StaticExtractor):
+    """Class that extracts shopping cart info from books.com.tw
+
+    Args:
+        url_manager (Type[URLManagerBase], optional):
+            URL Manager to parse the URL. Defaults to URLManager.
+    """
+
     def __init__(self, url_manager: Type[URLManagerBase] = URLManager) -> None:
         super().__init__(url_manager)
 
@@ -51,6 +58,3 @@ class Extractor(StaticExtractor):
             "Accept-Encoding": "gzip, deflate, br",
             "Accept-Language": "en,zh-TW;q=0.9,zh-CN;q=0.8,zh;q=0.7,ja;q=0.6",
         }
-
-    def get_parsed_content(self, content: Any) -> Any:
-        return super().get_parsed_content(content)
