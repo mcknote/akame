@@ -5,11 +5,7 @@ Akame Monitor is a collection of tools to constantly monitor web changes every X
 - [Akame Monitor](#akame-monitor)
   - [Installation](#installation)
   - [Usage](#usage)
-    - [Monitor in Console](#monitor-in-console)
-    - [Monitor with Pushover](#monitor-with-pushover)
-    - [Monitor with SendGrid](#monitor-with-sendgrid)
   - [Build Your Own Monitor](#build-your-own-monitor)
-    - [Example](#example)
 
 ## Installation
 
@@ -20,24 +16,24 @@ $ git clone https://github.com/mcknote/akame.git
 
 ## Usage
 
-### Monitor in Console
-
 Example from `examples/check_time_in_taipei.py`.
 
 ```python
-from akame import init, monitor_in_console
+from akame import Monitor, init
 
 
 def main() -> None:
     """Function that runs the example"""
 
-    monitor_in_console(
+    monitor = Monitor(
         task_name="Does Time Flow in Taipei?",
         target_url=(r"http://worldtimeapi.org/api/timezone/Asia/Taipei"),
         loop_seconds=60,  # every 1 minute
         loop_max_rounds=43200,  # for a month
     )
 
+    monitor.main()
+
 
 if __name__ == "__main__":
     # initialize akame
@@ -47,136 +43,44 @@ if __name__ == "__main__":
 
 ```
 
-Parameters for `akame.monitor_in_console`:
+At a bare minimum `akame.Monitor` takes four parameters:
 
 - `task_name`: Name of the monitoring task; this will appear in the console logs and notification programs.
 - `target_url`: URL to be monitored, e.g. an API endpoint or a webpage.
-- `loop_seconds`: Interval in seconds between all monitoring rounds. Default to `30` seconds.
-- `loop_max_rounds`: Maximum number of rounds to monitor. Default to `86400` rounds (so with 30 seceonds, this would make a one-month monitoring task).
+- `loop_seconds`: Interval in seconds between all monitoring rounds. Default to `300` seconds.
+- `loop_max_rounds`: Maximum number of rounds to monitor. Default to `12` rounds (so with 300 seceonds, this would make a one-hour monitoring task).
 
-### Monitor with Pushover
-
-Example from `examples/check_usd_exchange_rate.py`.
-
-```python
-from os import environ
-
-from akame import init, monitor_with_pushover
-
-
-def main() -> None:
-    """Function that runs the example"""
-
-    # load pushover credentials
-    pushover_token = environ["PUSHOVER_TOKEN"]
-    pushover_user_key = environ["PUSHOVER_USER_KEY"]
-
-    monitor_with_pushover(
-        task_name="USD based exchange rates",
-        target_url=(r"https://api.exchangeratesapi.io/latest?base=USD"),
-        loop_seconds=300,  # every 5 minutes
-        loop_max_rounds=8640,  # for a month
-        pushover_token=pushover_token,
-        pushover_user_key=pushover_user_key,
-    )
-
-
-if __name__ == "__main__":
-    # initialize akame
-    init()
-    # run the example
-    main()
-
-```
-
-Parameters for `akame.monitor_with_pushover` include those from `akame.monitor_in_console` and the following:
-
-- `pushover_token`: Pushover token
-- `pushover_user_key`: Pushover user key
-
-Read more about the Pushover API [here](https://pushover.net/api).
-
-### Monitor with SendGrid
-
-Example from `examples/check_weather_on_mars.py`.
-
-```python
-from os import environ
-
-from akame import init, monitor_with_sendgrid
-
-
-def main() -> None:
-    """Function that runs the example"""
-
-    # load sendgrid credentials
-    sendgrid_api_key = environ["SENDGRID_API_KEY"]
-
-    monitor_with_sendgrid(
-        task_name="USD based exchange rates",
-        target_url=(
-            r"https://api.nasa.gov/insight_weather/"
-            r"?api_key=DEMO_KEY&feedtype=json&ver=1.0"
-        ),
-        loop_seconds=60 * 60 * 1,  # every 1 hour
-        loop_max_rounds=24,  # for a day
-        sendgrid_api_key=sendgrid_api_key,
-        from_email="from@foobar.baz",
-        to_email="to@foobar.baz",
-    )
-
-
-if __name__ == "__main__":
-    # initialize akame
-    init()
-    # run the example
-    main()
-
-```
-
-Parameters for `akame.monitor_with_sendgrid` include those from `akame.monitor_in_console` and the following:
-
-- `sendgrid_api_key`: SendGrid API key
-- `from_email`: Email to be sent from
-- `to_email`: Email to be sent to
-
-Read more about the Pushover API [here](https://sendgrid.com/docs/api-reference/).
+With these four parameters specified, `Monitor` will constantly monitor any changes at the URL given and report the difference through console.
 
 ## Build Your Own Monitor
 
-Under the hood the monitors above are all constructed using `akame.tasks.SingleMonitorTask`, which requires three main components:
+Under the hood `Monitor` takes three more parameters that allow greater flexibility:
 
-| Component | What does it do | Where can it be found | How to get started |
+| Parameter | What does it do | Where can it be found | How to get started |
 | --- | --- | --- | --- |
-| **Extractor** | Extracts the content to monitor from the target url | `akame.extraction` (*1) | `BasicExtractor`
-| **Comparer** | Compares the monitored content against its previous version or a specified value | `akame.comparison` | `BasicComparer` |
-| **Notifier** | Notifies of the comparison results (e.g. changes detected) (*2) | `akame.notification` | `BasicNotifier` |
+| `extractor` | Extracts the content to monitor from the target url | `akame.extraction` (*1) | `BasicExtractor`
+| `comparer` | Compares the monitored content against its previous version or a specified value | `akame.comparison` | `BasicComparer` |
+| `notifiers` | Notifies of the comparison results (e.g. changes detected) (*2) | `akame.notification` | `BasicNotifier` |
 
 Notes:
 
 1. Site-specific extractors can be imported from and are recommended to be defined in `akame.extraction.sets.{site_name}`
 2. Additional setups may be required by the notification program
 
-### Example
-
-Below is an example from `examples/check_weather_in_taipei.py` that uses all the basic components from the table above, plus two notifiers from Pushover and Sendgrid. Using `SingleMonitorTask` allows us to flexibly add in multiple notifiers.
+All these components can be designed and initialized separately. Below is an example from `examples/check_weather_in_taipei.py` that use Pushover and Sendgrid notifiers on top of the console outputs.
 
 ```python
 from os import environ
 
-from akame import init
+from akame import init, Monitor
 
-# container for the monitoring tasks
-from akame.tasks import SingleMonitorTask
-
-# to extract the content
+# to extract the content (this is the default extractor)
 from akame.extraction import BasicExtractor
 
-# to compare the content
+# to compare the content (this is the default comparer)
 from akame.comparison import BasicComparer
 
 # to push notifications if the content changes
-from akame.notification import BasicNotifier
 from akame.notification.pushover import PushoverNotifier
 from akame.notification.email_sendgrid import SendGridNotifier
 
@@ -191,7 +95,7 @@ def main() -> None:
     LOOP_MAX_ROUNDS = int(24 / 2)  # for a day
 
     # initiate extractor
-    extractor = BasicExtractor(TARGET_URL)
+    extractor = BasicExtractor()
 
     # initiate comparer
     comparer = BasicComparer()
@@ -202,7 +106,6 @@ def main() -> None:
     sendgrid_api_key = environ["SENDGRID_API_KEY"]
 
     notifiers = [
-        BasicNotifier(),
         PushoverNotifier(
             pushover_token=pushover_token,
             pushover_user_key=pushover_user_key,
@@ -214,17 +117,22 @@ def main() -> None:
         ),
     ]
 
-    # construct the monitoring task
-    task = SingleMonitorTask(
+    # construct the monitor
+    monitor = Monitor(
+        target_url=TARGET_URL,
         task_name=TASK_NAME,
         extractor=extractor,
         comparer=comparer,
-        notifiers=notifiers,
+        # notifiers can also be defined here
         loop_seconds=LOOP_SECONDS,
         loop_max_rounds=LOOP_MAX_ROUNDS,
     )
 
-    task.main()
+    # add additional notifiers
+    monitor.add_notifiers(notifiers)
+
+    # execute the monitor
+    monitor.main()
 
 
 if __name__ == "__main__":

@@ -2,10 +2,10 @@ from os import environ
 
 from akame import init, Monitor
 
-# to extract the content
+# to extract the content (this is the default extractor)
 from akame.extraction import BasicExtractor
 
-# to compare the content
+# to compare the content (this is the default comparer)
 from akame.comparison import BasicComparer
 
 # to push notifications if the content changes
@@ -51,12 +51,15 @@ def main() -> None:
         task_name=TASK_NAME,
         extractor=extractor,
         comparer=comparer,
-        notifiers=notifiers,
+        # notifiers can also be defined here
         loop_seconds=LOOP_SECONDS,
         loop_max_rounds=LOOP_MAX_ROUNDS,
     )
 
+    # add additional notifiers
     monitor.add_notifiers(notifiers)
+
+    # execute the monitor
     monitor.main()
 
 
