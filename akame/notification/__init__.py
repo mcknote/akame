@@ -24,8 +24,8 @@ class BasicNotifier(NotifierBase):
         logger.info(message)
 
     def get_formatted_message(self) -> str:
-        content_0 = self.comparer.content_0
-        content_1 = self.comparer.content_1
+        content_0 = str(self.comparer.content_0)
+        content_1 = str(self.comparer.content_1)
         comparer_message = self.comparer.message
         task_name = self.comparer.task_name
 

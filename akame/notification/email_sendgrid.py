@@ -51,8 +51,8 @@ class SendGridNotifier(NotifierBase):
             logger.error(f"Failed to send the message: {e}")
 
     def get_formatted_message(self) -> str:
-        content_0 = self.comparer.content_0
-        content_1 = self.comparer.content_1
+        content_0 = str(self.comparer.content_0)
+        content_1 = str(self.comparer.content_1)
         task_name = self.comparer.task_name
         target_url = self.comparer.target_url
         comparer_message = self.comparer.message
