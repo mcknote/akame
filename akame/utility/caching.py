@@ -6,7 +6,7 @@ from pathlib import Path
 from shutil import rmtree
 from typing import Union
 
-from .core import MonitoredContent
+from akame.utility.core import MonitoredContent
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)

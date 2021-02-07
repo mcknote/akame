@@ -2,8 +2,7 @@ import logging
 from textwrap import dedent
 
 from akame.comparison.delta.core import DeltaBase
-
-from .core import FormatterBase
+from akame.notification.formatters.core import FormatterBase
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)

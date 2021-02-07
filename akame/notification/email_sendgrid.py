@@ -4,9 +4,8 @@ from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
 
 from akame.comparison.delta import StringDelta
-
-from .core import NotifierBase
-from .formatters import FormatEmailHTML
+from akame.notification.core import NotifierBase
+from akame.notification.formatters import FormatEmailHTML
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)

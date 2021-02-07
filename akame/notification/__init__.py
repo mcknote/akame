@@ -1,9 +1,11 @@
 import logging
 
 from akame.comparison.delta import StringDelta
-
-from .core import NotifierBase
-from .formatters import FormatColoredTerminalText, FormatPlainText
+from akame.notification.core import NotifierBase
+from akame.notification.formatters import (
+    FormatColoredTerminalText,
+    FormatPlainText,
+)
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)

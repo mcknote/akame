@@ -2,7 +2,7 @@ import logging
 from difflib import SequenceMatcher
 from typing import Dict, List, Tuple
 
-from .core import DeltaBase
+from akame.comparison.delta.core import DeltaBase
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)

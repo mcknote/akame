@@ -3,9 +3,8 @@ from http.client import HTTPSConnection
 from urllib.parse import urlencode
 
 from akame.comparison.delta import StringDelta
-
-from .core import NotifierBase
-from .formatters import FormatPushoverHTML
+from akame.notification.core import NotifierBase
+from akame.notification.formatters import FormatPushoverHTML
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
