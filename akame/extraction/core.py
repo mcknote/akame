@@ -7,6 +7,10 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
+class ExtractionError(Exception):
+    """Raised when extraction failed"""
+
+
 class URLManagerBase:
     """Class that derives and manages all URLs for an extractor"""
 

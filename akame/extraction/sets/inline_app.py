@@ -1,8 +1,14 @@
+import json
+from json.decoder import JSONDecodeError
 import logging
 import re
 from typing import Type
 
-from akame.extraction.core import ExtractorBase, URLManagerBase
+from akame.extraction.core import (
+    ExtractorBase,
+    URLManagerBase,
+    ExtractionError,
+)
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -40,3 +46,23 @@ class Extractor(ExtractorBase):
 
     def __init__(self, url_manager: Type[URLManagerBase] = URLManager) -> None:
         super().__init__(url_manager)
+
+    def get_parsed_content(self, response) -> str:
+        response_text = response.text
+        report = ""
+
+        try:
+            response_dict = json.loads(response_text)
+            dates_open = response_dict["default"]
+            dates_available = {
+                date: seats for date, seats in dates_open.items() if seats
+            }
+            report = f"Available dates: '{dates_available}'"
+
+        except JSONDecodeError as e:
+            logger.error(e)
+
+        except Exception as e:
+            logger.error(e)
+
+        return report
