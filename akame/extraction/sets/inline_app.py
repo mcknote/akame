@@ -5,9 +5,8 @@ import re
 from typing import Type
 
 from akame.extraction.core import (
-    ExtractorBase,
+    StaticExtractor,
     URLManagerBase,
-    ExtractionError,
 )
 
 logging.basicConfig(level=logging.INFO)
@@ -36,7 +35,7 @@ class URLManager(URLManagerBase):
         )
 
 
-class Extractor(ExtractorBase):
+class Extractor(StaticExtractor):
     """Class that extracts restaurant availability from inline.app
 
     Args:

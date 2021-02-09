@@ -1,6 +1,6 @@
 import logging
 import re
-from typing import Any, Type
+from typing import Type
 
 from akame.extraction.core import StaticExtractor, URLManagerBase
 
