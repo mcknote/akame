@@ -9,6 +9,7 @@ from akame.extraction import BasicExtractor
 from akame.comparison import BasicComparer
 
 # to push notifications if the content changes
+from akame.notification import BasicNotifier
 from akame.notification.pushover import PushoverNotifier
 from akame.notification.email_sendgrid import SendGridNotifier
 
@@ -34,6 +35,7 @@ def main() -> None:
     sendgrid_api_key = environ["SENDGRID_API_KEY"]
 
     notifiers = [
+        BasicNotifier(),
         PushoverNotifier(
             pushover_token=pushover_token,
             pushover_user_key=pushover_user_key,
@@ -51,13 +53,10 @@ def main() -> None:
         task_name=TASK_NAME,
         extractor=extractor,
         comparer=comparer,
-        # notifiers can also be defined here
+        notifiers=notifiers,
         loop_seconds=LOOP_SECONDS,
         loop_max_rounds=LOOP_MAX_ROUNDS,
     )
-
-    # add additional notifiers
-    monitor.add_notifiers(notifiers)
 
     # execute the monitor
     monitor.main()
