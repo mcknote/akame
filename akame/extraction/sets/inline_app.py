@@ -53,11 +53,11 @@ class Extractor(StaticExtractor):
         try:
             response_dict = json.loads(response_text)
             dates_open = response_dict["default"]
-            dates_available = {
+            seats_open = {
                 date: seats for date, seats in dates_open.items() if seats
             }
             report = (
-                f"Dates with open seats: '{dates_available}';\n"
+                f"Dates with open seats: '{seats_open}';\n"
                 f"Dates open: '{dates_open}';"
             )
 
