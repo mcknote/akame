@@ -57,8 +57,8 @@ class Extractor(StaticExtractor):
                 date: seats for date, seats in dates_open.items() if seats
             }
             report = (
-                f"Dates open: '{dates_open}'; \n"
-                f"Dates with open seats: '{dates_available}'"
+                f"Dates with open seats: '{dates_available}';\n"
+                f"Dates open: '{dates_open}';"
             )
 
         except JSONDecodeError as e:
