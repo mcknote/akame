@@ -110,33 +110,42 @@ class InlineReservationHelper(NotifierBase):
         avail_parsed: Dict[str, Dict[str, List[int]]] = literal_eval(avail_raw)
 
         # TODO: use dataclass to improve type checking here
-        avail_list: List[Dict] = [
-            {
-                "date": dt,
-                "time": tm,
-                "size": min(max(seats), self.desired_group_size),
-            }
-            for dt, info in avail_parsed.items()
-            for tm, seats in info.items()
-        ]
+        avail_list: List[Dict] = []
 
-        # sort by group size
-        avail_list = sorted(avail_list, key=lambda x: x["size"], reverse=True)
-
-        # filter group size
-        if reserve_all_or_none:
+        if avail_parsed:
             avail_list = [
-                x for x in avail_list if x["size"] >= self.desired_group_size
+                {
+                    "date": dt,
+                    "time": tm,
+                    "size": min(max(seats), self.desired_group_size),
+                }
+                for dt, info in avail_parsed.items()
+                for tm, seats in info.items()
             ]
 
-        # filter desired dates
-        avail_list = [x for x in avail_list if x["date"] in self.desired_dates]
+            # sort by group size
+            avail_list = sorted(
+                avail_list, key=lambda x: x["size"], reverse=True
+            )
 
-        # filter desired times
-        if self.desired_times:
+            # filter group size
+            if reserve_all_or_none:
+                avail_list = [
+                    x
+                    for x in avail_list
+                    if x["size"] >= self.desired_group_size
+                ]
+
+            # filter desired dates
             avail_list = [
-                x for x in avail_list if x["time"] in self.desired_times
+                x for x in avail_list if x["date"] in self.desired_dates
             ]
+
+            # filter desired times
+            if self.desired_times:
+                avail_list = [
+                    x for x in avail_list if x["time"] in self.desired_times
+                ]
 
         self.available_dates = avail_list
 
