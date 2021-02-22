@@ -1,13 +1,10 @@
 import json
-from json.decoder import JSONDecodeError
 import logging
 import re
+from json.decoder import JSONDecodeError
 from typing import Type
 
-from akame.extraction.core import (
-    StaticExtractor,
-    URLManagerBase,
-)
+from akame.extraction.core import StaticExtractor, URLManagerBase
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)

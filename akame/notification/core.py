@@ -25,7 +25,7 @@ class NotifierBase:
         pass
 
     def main(self, comparer: ComparerBase) -> None:
-        """Funtion that notifies based on comparer's info
+        """Function that notifies based on comparer's info
 
         Args:
             comparer (ComparerBase): Comparer
